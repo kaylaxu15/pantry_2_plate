@@ -1,6 +1,7 @@
 import datetime
 import time
 import warnings
+import os
 
 import numpy as np
 import pandas as pd
@@ -10,8 +11,8 @@ from bs4 import BeautifulSoup
 warnings.filterwarnings('ignore')
 
 
-def range_of_numbers(n):
-    return list(range(1, n + 1))
+def range_of_numbers(i, n):
+    return list(range(i, n + 1))
 
 
 def extract(pages, sleep_timer):
@@ -133,12 +134,11 @@ def extract(pages, sleep_timer):
                 i = i + 1
 
             print(f'Loaded recipe: {recipe_title}')
-            recipes_df = recipes_df.append(
-                {'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
-                 'reviews': number_of_review, 'vegetarian': vegetarian, 'vegan': vegan, 'keto': keto,
-                 'dairy_free': dairy_free, 'gluten_free': gluten_free, 'prep_time': prep_time, 'cook_time': cook_time,
-                 'ingredient': ingredient_list}, ignore_index=True)
-
+            new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
+                       'reviews': number_of_review, 'vegetarian': vegetarian, 'vegan': vegan, 'keto': keto,
+                       'dairy_free': dairy_free, 'gluten_free': gluten_free, 'prep_time': prep_time, 'cook_time': cook_time,
+                       'ingredient': ingredient_list}])
+            recipes_df = pd.concat([recipes_df, new_row], ignore_index=True)
         recipes_df = recipes_df.join(urls_df)
 
         return recipes_df
@@ -150,12 +150,17 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(95)
+    pages = range_of_numbers(1, 95)
     # here you can change the amount of time between each request to scrape data
-    sleep_timer = 1
+    sleep_timer = 0
     week = datetime.datetime.now().strftime("%Y-%m-%d")
 
     print(f'Scraping {pages} pages from BBC good food')
     recipes_df = extract(pages, sleep_timer)
-    recipes_df.to_csv(f'output/recipes_data_{week}.csv', index=False)
+    
+    output_dir = 'output'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    recipes_df.to_csv(f'{output_dir}/recipes_data_{week}.csv', index=False)
     print('Complete')
