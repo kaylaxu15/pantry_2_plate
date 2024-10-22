@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import pandas as pd
 
 class DatabaseClient:
     
@@ -95,5 +96,16 @@ if __name__ == "__main__":
     db.update_user_password("Niru", "Mahaniru1234")
     print(db.get_user("Niru"))
     db.delete_user("Niru")
+    
+    # inserting the recipes into the database
+    df = pd.read_csv("output/recipes_data_2024-10-19.csv")
+    
+    for row in df.iterrows():
+        db.insert_recipe(row["title"], row["difficulty"], row["serves"], row["vegetarian"], row["vegan"], row["dairy_free"], 
+                         row["keto"], row["gluten_free"], row["prep_time"], row["cook_time"], row["ingredients"], row["picture_url"])
+        
+    
+        
+    
 
     
