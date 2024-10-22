@@ -94,21 +94,25 @@ class DatabaseClient:
         col.insert_one(dict)
         return 0
     
+    def delete_all_recipes(self):
+        col = self.db["Recipes"]
+        col.delete_many({})
+        return 0
+    
     
 if __name__ == "__main__":
     db = DatabaseClient()
-    print(db.check_username_taken("Niru"))
-    db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
-    db.update_user_password("Niru", "Mahaniru1234")
-    print(db.get_user("Niru"))
-    db.delete_user("Niru")
+    # db.delete_all_recipes()
+    # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
+    # db.update_user_password("Niru", "Mahaniru1234")
+    # print(db.get_user("Niru"))
+    # db.delete_user("Niru")
     
     # inserting the recipes into the database
-    df = pd.read_csv("output/recipes_data_2024-10-19.csv")
+    df = pd.read_csv("webscraping/output/recipes_data_2024-10-22.csv")
     
     for row in df.iterrows():
-        db.insert_recipe(row["title"], row["difficulty"], row["serves"], row["vegetarian"], row["vegan"], row["dairy_free"], 
-                         row["keto"], row["gluten_free"], row["prep_time"], row["cook_time"], row["ingredients"], row["picture_url"])
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["serves"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], row[1]["ingredients"], row[1]["picture_url"])
         
     
         
