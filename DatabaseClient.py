@@ -71,8 +71,14 @@ class DatabaseClient:
             return "Password incorrect"
         return user
     
+    def check_recipe_taken(self, title):
+        col = self.db["Recipes"]
+        return col.find_one({"title": title}) != None
+    
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredient, picture_url):
         col = self.db["Recipes"]
+        if self.check_recipe_taken(title):
+            return 1
         restrictions = []
         if vegetarian:
             restrictions.append("vegetarian")
