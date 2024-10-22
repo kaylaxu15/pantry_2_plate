@@ -39,3 +39,7 @@ class User:
     def get_all_satisfied_recipes(self):
         pass
     
+    def reset_password(self, new_password):
+        self.db.update_user_password(self.username, new_password)
+        return 0
+    
