@@ -32,8 +32,6 @@ def extract(pages, sleep_timer):
 
         for page in pages:
             time.sleep(sleep_timer)
-            # THE LINKS ARE NOT WORKING AS EXPECTED
-            # Plan: scrape the breakfast recipes then do the rest. I am scraping all the recipes for now
             url = f'https://www.bbcgoodfood.com/search?page={page}'
             html = requests.get(url)
             soup = BeautifulSoup(html.text, 'html.parser')
@@ -48,7 +46,7 @@ def extract(pages, sleep_timer):
         urls_df['recipe_urls'] = 'https://www.bbcgoodfood.com' + urls_df['recipe_urls'].astype(str)
         recipes_df = pd.DataFrame(
             columns=['title', 'difficulty', 'serves', 'rating', 'reviews', 'vegetarian', 'vegan', 'dairy_free', 'keto',
-                     'gluten_free', 'prep_time', 'cook_time', 'ingredients'])
+                     'gluten_free', 'prep_time', 'cook_time', 'ingredients', 'picture_url'])
         list_urls = urls_df['recipe_urls'].to_list()
         return list_urls, urls_df, recipes_df
 
@@ -85,9 +83,15 @@ def extract(pages, sleep_timer):
             except:
                 prep_time = np.nan
             try:
-                cook_time = soup.find_all('li', {'class': 'body-copy-small list-item'})[1].text
+                cook_time = soup.find_all('li', {'class': 'body-copy-small list-item'})[2].text
             except:
                 cook_time = np.nan
+                
+            try: 
+                picture_url = soup.find_all('img', {'class':'image__img'})[2].get('src')
+                print(picture_url)
+            except:
+                picture_url = np.nan
             try:
                 categories = soup.find_all('ul', {
                     'class': 'terms-icons-list d-flex post-header__term-icons-list mt-sm hidden-print list list--horizontal'})[
@@ -119,15 +123,16 @@ def extract(pages, sleep_timer):
                 dairy_free = False
                 gluten_free = False
 
+            
             i = 0
             ingredient_list = []
-            ingredient = soup.find_all('li', {'class': 'pb-xxs pt-xxs list-item list-item--separator'})
-            while i < len(ingredient):
+            ingredients = soup.find_all('li', {'class': 'pb-xxs pt-xxs list-item list-item--separator'})
+            while i < len(ingredients):
                 try:
-                    ingredient_string = ''.join(str(ingredient[i]).split('<!-- -->')[1])
+                    ingredient_string = ''.join(str(ingredients[i]).split('<!-- -->')[1])
                 except Exception as e:
                     # print(e)
-                    ingredient_string = ''.join(ingredient[i].text)
+                    ingredient_string = ''.join(ingredients[i].text)
                     pass
                 ingredient_list.append(ingredient_string)
                 ingredient_list = [l.replace('</li>', '') for l in ingredient_list]
@@ -137,7 +142,7 @@ def extract(pages, sleep_timer):
             new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
                        'reviews': number_of_review, 'vegetarian': vegetarian, 'vegan': vegan, 'keto': keto,
                        'dairy_free': dairy_free, 'gluten_free': gluten_free, 'prep_time': prep_time, 'cook_time': cook_time,
-                       'ingredient': ingredient_list}])
+                       'ingredients': ingredient_list, 'picture_url':picture_url}])
             recipes_df = pd.concat([recipes_df, new_row], ignore_index=True)
         recipes_df = recipes_df.join(urls_df)
 
@@ -150,11 +155,12 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(1, 95)
+    pages = range_of_numbers(1, 2)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
     week = datetime.datetime.now().strftime("%Y-%m-%d")
 
+    # SCRAPE FOR THE REST OF THE PAGES
     print(f'Scraping {pages} pages from BBC good food')
     recipes_df = extract(pages, sleep_timer)
     
