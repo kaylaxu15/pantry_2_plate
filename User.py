@@ -2,16 +2,19 @@ from DatabaseClient import DatabaseClient
 
 class User:
     
-    def __init__(self, username, password):
+    def __init__(self, emailId, password):
         self.db = DatabaseClient()
-        user = self.db.user_login_valid(username, password)
-        if user == "Username not found":
-            raise Exception("Username not found")
+        user = self.db.user_login_valid(emailId, password)
+        if user == "EmailId not found":
+            raise Exception("EmailId not found")
         elif user == "Password incorrect":
             raise Exception("Password incorrect")
         else:
-            self.username = username
+            self.emailId = emailId
             self.user = user
+            
+    def get_details(self):
+        return self.user
         
     def add_to_inventory(self, ingredientId):
         pass
@@ -29,17 +32,17 @@ class User:
         pass
     
     def update_restrictions(self, restrictions):
-        self.db.update_user_restrictions(self.username, restrictions)
+        self.db.update_user_restrictions(self.emailId, restrictions)
         return 0
     
     def update_picture(self, picture):
-        self.db.update_user_pic(self.username, picture)
+        self.db.update_user_pic(self.emailId, picture)
         return 0
     
     def get_all_satisfied_recipes(self):
         pass
     
     def reset_password(self, new_password):
-        self.db.update_user_password(self.username, new_password)
+        self.db.update_user_password(self.emailId, new_password)
         return 0
     
