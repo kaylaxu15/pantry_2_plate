@@ -9,6 +9,7 @@ class Client:
         self.islogin = False
         
     def is_valid_email(self, emailId):
+        # Found from https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/#
         valid = re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', emailId)
         return valid
                 
@@ -31,8 +32,17 @@ class Client:
         self.islogin = True
         print("Login Successful")
         
+    def logout(self):
+        if self.islogin == False:
+            print("Not logged in")
+            return 1
+        self.user = None
+        self.islogin = False
+        print("Logout Successful")
+        
     def delete_account(self):
         if self.islogin == False:
+            print("Not logged in")
             return 1
         emailId = self.user.get_details()["emailId"]
         self.db.delete_user(emailId)
@@ -43,7 +53,10 @@ if __name__ == "__main__":
     c = Client()
     c.create_account("Hello@gmail.com", "World")
     print(c.user.get_details())
-    c.delete_account()
+    # c.logout()
+    # c.logout()
+    # c.delete_account()
+    # c.login()
         
         
     

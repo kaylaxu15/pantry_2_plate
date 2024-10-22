@@ -70,8 +70,14 @@ class DatabaseClient:
             return "Password incorrect"
         return user
     
+    def check_recipe_taken(self, title):
+        col = self.db["Recipes"]
+        return col.find_one({"title": title}) != None
+    
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredient, picture_url):
         col = self.db["Recipes"]
+        if self.check_recipe_taken(title):
+            return 1
         restrictions = []
         if vegetarian:
             restrictions.append("vegetarian")
@@ -90,10 +96,9 @@ class DatabaseClient:
     
 if __name__ == "__main__":
     db = DatabaseClient()
-    print(db.check_username_taken("Niru"))
-    db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
-    db.update_user_password("Niru", "Mahaniru1234")
-    print(db.get_user("Niru"))
-    db.delete_user("Niru")
+    db.insert_user("hello@gmail.com", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
+    db.update_user_password("hello@gmail.com", "Basketball")
+    print(db.get_user("hello@gmail.com"))
+    db.delete_user("hello@gmail.com")
 
     
