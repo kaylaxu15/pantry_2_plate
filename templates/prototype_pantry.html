@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <title> Pantry </title>
+    </head>
+    <body>
+    <h1> Pantry </h1>
+    <input type="text" id="search_ingredients" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
+
+    <ul id="Ingredients">
+        <li><a href="#">Apples</a></li>
+        {% for recipe in recipes %}
+            {% set list = recipe.ingredients.split(',') %}
+            {% for ingredient in list %}
+                <li><a href="#">{{ingredient}}</a></li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    </body>
+
+    <script>
+        function filterOut() {
+          // Declare variables
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("search_ingredients");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("Ingredients");
+          li = ul.getElementsByTagName("li");
+        
+          // Loop through all list items, and hide those who don't match the search query
+          for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+    </script>
+</html>
