@@ -12,7 +12,7 @@
     </div>
     <ul id="Ingredients">
         {% for ingredient in ingredients %}
-            <li><a href="#"> {{ingredient}}</a></li>
+            <li><a href="#" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
         {% endfor %}
     </ul>
     <section class = "pantry-list">
@@ -64,7 +64,7 @@
           const rows = pantryTable.getElementsbyTagName("tr");
           for (let i = 1; i < rows.length; i++) {  
                 if (rows[i].cells[0].textContent === item) {
-                    alert(`${item} is already in the pantry list.`);
+                    alert(`${item} is already in pantry list.`);
                     return;
                 }
             }
