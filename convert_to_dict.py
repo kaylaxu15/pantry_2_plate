@@ -32,7 +32,7 @@ def ingredients_to_dict(list):
         dict[main_str] = measurement
     return dict
 
-df = pd.read_csv('input.csv')
+df = pd.read_csv('webscraping/output/recipes_data_2024-10-22.csv')
 df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
 df['ingredients_dict'] = df['ingredients'].apply(ingredients_to_dict)
-df.to_csv('output.csv', index=False)
+df.to_csv('webscraping/output/processed_recipes_data_2024-10-22.csv', index=False)

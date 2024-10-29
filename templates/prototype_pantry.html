@@ -1,28 +1,42 @@
 <!doctype html>
 <html>
     <head>
-        <title> Pantry </title>
+    <link rel="stylesheet" href="templates/myCSS/styles.css">
     </head>
+    <title> Pantry </title>
     <body>
     <h1> Pantry </h1>
-    <input type="text" id="search_ingredients" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
-
+    <p> Add what you have in your pantry and fridge! </p>
+    <div class = "search">
+    <input type="text" id="SearchBox" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
+    </div>
     <ul id="Ingredients">
-        <li><a href="#">Apples</a></li>
-        {% for recipe in recipes %}
-            {% set list = recipe.ingredients.split(',') %}
-            {% for ingredient in list %}
-                <li><a href="#">{{ingredient}}</a></li>
-            {% endfor %}
+        {% for ingredient in ingredients %}
+            <li><a href="#"> {{ingredient}}</a></li>
         {% endfor %}
     </ul>
+    <section class = "pantry-list">
+      <h3> List of pantry items </h3>
+      <table id = "pantry-table" border="1">
+        <tr>
+          <th>Item </th>
+        </tr>
+      </table>
+      <button id = "recommend-button">RECOMMEND</button>
+      <button id = "all-recipes-button">ALL RECIPES </button>
+    </section>
+
     </body>
 
     <script>
+        'use strict';
+        document.getElementById("recommend-button").addEventListener("click", recommendRecipes);
+        document.getElementById("all-recipes-button").addEventListener("click", viewAllRecipes);
+        
         function filterOut() {
           // Declare variables
           var input, filter, ul, li, a, i;
-          input = document.getElementById("search_ingredients");
+          input = document.getElementById("SearchBox");
           filter = input.value.toUpperCase();
           ul = document.getElementById("Ingredients");
           li = ul.getElementsByTagName("li");
@@ -37,6 +51,39 @@
               li[i].style.display = "none";
             }
           }
+        }
+        document.getElementById("Ingredients").addEventListener("click", function(event) {
+          if (event.target.tagName === "A") {
+            const item = event.target.getAttribute("data-ingredient");
+            addToPantry(item);
+          }
+
+        });
+        function addToPantry(item) {
+          const pantryTable = document.getElementById("pantry-table");
+          const rows = pantryTable.getElementsbyTagName("tr");
+          for (let i = 1; i < rows.length; i++) {  
+                if (rows[i].cells[0].textContent === item) {
+                    alert(`${item} is already in the pantry list.`);
+                    return;
+                }
+            }
+            const row = document.createElement("tr");
+
+            // Item name cell
+            const itemCell = document.createElement("td");
+            itemCell.textContent = item;
+            row.appendChild(itemCell);
+
+            pantryTable.appendChild(row);
+        }
+        
+        function recommendRecipes() {
+          alert("Recommended recipes will be shown based on selected items.");
+        }
+
+        function viewAllRecipes() {
+          alert("All available recipes will be displayed.");
         }
     </script>
 </html>
