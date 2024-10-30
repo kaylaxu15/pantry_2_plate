@@ -16,6 +16,7 @@ def pantry_page():
         all_keys.update(eval(ingredient_dict).keys())
     ingredients = sorted(list(all_keys))
 
+    ingredients = ["Apples", "Eggs", "Milk", "Chicken", "Beef", "Sesame Oil", "Olive Oil", "Butter"]
     return render_template('prototype_pantry.html', ingredients=ingredients)
 
 
