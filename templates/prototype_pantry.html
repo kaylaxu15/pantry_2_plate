@@ -1,34 +1,40 @@
 <!doctype html>
 <html>
     <head>
-    <link rel="stylesheet" href="templates/myCSS/styles.css">
+    <link rel="stylesheet" href="/myCSS/styles.css">
     </head>
     <title> Pantry </title>
     <body>
     <h1> Pantry </h1>
     <p> Add what you have in your pantry and fridge! </p>
-    <div class = "search">
-    <input type="text" id="SearchBox" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
-    </div>
-    <ul id="Ingredients">
-        {% for ingredient in ingredients %}
+    <div class = "main-container">
+      <div class = "left-container">
+        <div class = "search">
+          <input type="text" id="SearchBox" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
+        </div>
+        <ul id="Ingredients">
+          {% for ingredient in ingredients %}
             <li><a href="javascript:void(0);" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
-        {% endfor %}
-    </ul>
-    <section class = "pantry-list">
-      <h3> List of pantry items </h3>
-      <table id = "pantry-table" border="1">
-        <thead>
-          <tr>
-            <th>Item </th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-      <button id = "recommend-button">RECOMMEND</button>
-      <button id = "all-recipes-button">ALL RECIPES </button>
-    </section>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class = "right-container">
+        <section class = "pantry-list">
+          <h3> List of pantry items </h3>
+          <table id = "pantry-table" border="1">
+            <thead>
+              <tr>
+                <th>Item </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <button id = "recommend-button">RECOMMEND</button>
+          <button id = "all-recipes-button">ALL RECIPES </button>
+        </section>
+      </div>
+    </div>
 
     </body>
 

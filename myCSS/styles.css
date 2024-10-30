@@ -1,7 +1,7 @@
-body {
+/* body {
     background-color: #C1C265;
-  }
-  
+}
+
 h1 {
     color: #315E26;
     margin-left: 20px;
@@ -13,18 +13,32 @@ h1 {
     padding: 11px;
     border: 1px solid #35c182;
 }
-  
-/* Style the navigation menu */
+
 #Ingredients {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-/* Style the navigation links */
 #Ingredients li a {
     padding: 12px;
     text-decoration: none;
     color: rgb(231, 26, 26);
     display: block
+} */
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap; 
+}
+
+.left-container {
+    flex: 1; 
+    margin-right: 20px; 
+    min-width: 300px; 
+}
+
+.right-container {
+    flex: 1;
+    min-width: 300px;
 }
