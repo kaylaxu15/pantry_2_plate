@@ -1,4 +1,4 @@
-/* body {
+body {
     background-color: #C1C265;
 }
 
@@ -12,19 +12,22 @@ h1 {
     font-size: 18px;
     padding: 11px;
     border: 1px solid #35c182;
+    margin-left: 20px;
 }
 
 #Ingredients {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    margin-left: 20px;
 }
 
 #Ingredients li a {
     padding: 12px;
     text-decoration: none;
     color: rgb(231, 26, 26);
-    display: block
+    display: list
+    margin-left: 20px;
 } */
 
 .main-container {

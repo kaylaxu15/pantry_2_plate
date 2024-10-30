@@ -1,9 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
-    <link rel="stylesheet" href="/myCSS/styles.css">
+      <title> Pantry </title>
+      <style>
+        body {
+            background-color: #c1c265;
+        }
+
+        h1 {
+            font-size: 50px;
+            color: #315E26;
+            margin-left: 30px;
+        }
+
+        table {
+          margin-left: 50px;
+          border: 30px
+        }
+
+        p {
+          font-size: 25px;
+          margin-left: 20px;
+        }
+
+        #SearchBox {
+            width: 80%;
+            font-size: 18px;
+            padding: 11px;
+            border: 3px solid black;
+            margin-left: 20px;
+            margin-bottom: 30px
+        }
+
+        #Ingredients {
+            list-style-type: none;
+            font-size: 20px;
+            padding: 0;
+            margin-left: 20px;
+        }
+
+        #Ingredients li a {
+            padding: 12px;
+            text-decoration: none;
+            color: #315E26;
+            display: list-item;
+            margin-left: 20px;
+        } */
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap; 
+            margin-left: 20px;
+        }
+
+        .left-container {
+            flex: 1; 
+            margin-right: 20px; 
+            min-width: 300px; 
+        }
+
+        .right-container {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        div.scroll {
+            margin: 4px, 4px;
+            margin-left: 20px;
+            padding: 4px;
+            background-color: #e0e27aa2;
+            width: 500px;
+            height: 500px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: justify;
+        }
+
+        button {
+            background-color: #FBDFC9; 
+            border: none;
+            color: #A15B20;
+            padding: 15px 32px;
+            margin-right: 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+      </style>
     </head>
-    <title> Pantry </title>
     <body>
     <h1> Pantry </h1>
     <p> Add what you have in your pantry and fridge! </p>
@@ -12,19 +99,22 @@
         <div class = "search">
           <input type="text" id="SearchBox" onkeyup="filterOut()" placeholder="Search for ingredients" title="Type in a category">
         </div>
-        <ul id="Ingredients">
-          {% for ingredient in ingredients %}
-            <li><a href="javascript:void(0);" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
-          {% endfor %}
-        </ul>
+        
+        <div class = "scroll">
+          <ul id="Ingredients">
+            {% for ingredient in ingredients %}
+              <li><a href="javascript:void(0);" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
       <div class = "right-container">
         <section class = "pantry-list">
-          <h3> List of pantry items </h3>
+          <p> List of pantry items </p>
           <table id = "pantry-table" border="1">
             <thead>
               <tr>
-                <th>Item </th>
+                <th> Item </th>
               </tr>
             </thead>
             <tbody>
@@ -50,7 +140,7 @@
           filter = input.value.toUpperCase();
           ul = document.getElementById("Ingredients");
           li = ul.getElementsByTagName("li");
-        
+
           // Loop through all list items, and hide those who don't match the search query
           for (i = 0; i < li.length; i++) {
             a = li[i].getElementsByTagName("a")[0];

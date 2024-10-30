@@ -4,8 +4,7 @@ import requests
 import pandas as pd
 
 all_ingredients = []
-#alphabet = "abcdefghijklmnopqrstuvwxyz"
-alphabet = "ab"
+alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 for letter in alphabet:
     page_num = 0
@@ -13,7 +12,7 @@ for letter in alphabet:
         page_num += 1
         url = f"https://www.bbc.co.uk/food/ingredients/a-z/{letter}/{page_num}#featured-content"
         page = requests.get(url, allow_redirects=False)  # use `url` here, not `base_url`
-        if 400 <= page.status_code < 600:  # client errors or server errors
+        if page.status_code == 301 or page.status_code == 302:
             break
         if url == "https://www.bbc.co.uk/food/ingredients#featured-content":
             break
@@ -28,10 +27,7 @@ for letter in alphabet:
         matches = re.findall(pattern, data)
         for match in matches[1:]:
             all_ingredients.append(match[8:-2])
-            
 
-        print(all_ingredients[-3:])
-
-#df = pd.DataFrame(all_ingredients)
-#df.to_csv('webscraping/output/ingredients_list.csv', index=False)
+df = pd.DataFrame(all_ingredients)
+df.to_csv('webscraping/output/ingredients_list.csv', index=False)
 
