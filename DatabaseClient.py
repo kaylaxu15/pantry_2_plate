@@ -132,7 +132,7 @@ class DatabaseClient:
         return col.find_one({"ingredient": ingredient}) != None
     
     def insert_ingredient(self, ingredient):
-        if self.check_ingredient_taken(ingredient) == False:
+        if self.check_ingredient_taken(ingredient) == True:
             return 1
         col = self.db["Ingredients"]
         dict = {"ingredient":ingredient}
@@ -147,10 +147,11 @@ class DatabaseClient:
     
 if __name__ == "__main__":
     db = DatabaseClient()
+    # db.delete_all_ingredients()
     # db.delete_all_recipes()
     recipes = db.get_recipes_ingredients(['cocoa powder'])
-    print("Recipes")
-    print(recipes[0])
+    for recipe in recipes:
+        print(recipe["title"])
     # db.delete_all_recipes()
     # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")

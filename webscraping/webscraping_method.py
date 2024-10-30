@@ -1,9 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://www.cnn.com/data/ocs/section/index.html:homepage1-zone-1/views/zones/common/zone-manager.izl"
-response = requests.get(URL).json()["html"]
-soup = BeautifulSoup(response, "html.parser")
+url = "https://www.bbc.co.uk/food/recipes/tumbet_98868"
+html = requests.get(url)
+soup = BeautifulSoup(html.text, 'html.parser')
+instructions = []
+for tag in soup.find_all('p', {'class': "recipe-method__list-item-text"}):
+    instructions.append(tag.text)
 
-for tag in soup.find_all(class_="recipe-method__list-item-text"):
-    print(tag.text)

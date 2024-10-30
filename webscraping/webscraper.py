@@ -92,6 +92,14 @@ def extract(pages, sleep_timer):
                 print(picture_url)
             except:
                 picture_url = np.nan
+
+            # add methods for recipes
+            try: 
+                methods = []
+                for tag in soup.find_all('p', {'class': "recipe-method__list-item-text"}):
+                    methods.append(tag.text)
+            except:
+                methods = np.nan
             try:
                 categories = soup.find_all('ul', {
                     'class': 'terms-icons-list d-flex post-header__term-icons-list mt-sm hidden-print list list--horizontal'})[
@@ -142,7 +150,7 @@ def extract(pages, sleep_timer):
             new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
                        'reviews': number_of_review, 'vegetarian': vegetarian, 'vegan': vegan, 'keto': keto,
                        'dairy_free': dairy_free, 'gluten_free': gluten_free, 'prep_time': prep_time, 'cook_time': cook_time,
-                       'ingredients': ingredient_list, 'picture_url':picture_url}])
+                       'ingredients': ingredient_list, 'picture_url':picture_url, 'methods': methods}])
             recipes_df = pd.concat([recipes_df, new_row], ignore_index=True)
         recipes_df = recipes_df.join(urls_df)
 

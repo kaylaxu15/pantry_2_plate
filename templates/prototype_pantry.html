@@ -17,6 +17,7 @@
           margin-left: 50px;
           margin-bottom: 30px;
           font-size: 20px;
+          color: #315E26;
         }
         th {
           padding-left: 100px;
@@ -26,8 +27,9 @@
         p {
           font-size: 25px;
           margin-left: 20px;
+          color: #315E26;
         }
-
+      
         #SearchBox {
             width: 80%;
             font-size: 18px;
@@ -36,6 +38,18 @@
             margin-left: 20px;
             margin-bottom: 30px;
             border-radius: 30px;
+        }
+
+        .pantry-list button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .pantry-list button:hover {
+            background-color: #ff1a1a;
         }
 
         #Ingredients {
@@ -117,17 +131,18 @@
           <table id = "pantry-table" border="2">
             <thead>
               <tr>
-                <th>     Item</th>
+                <th>Item</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
           <form action="/recommended_recipes"> 
-            <button id = "recommend-button" href="/recipe_results">RECOMMEND</button>
+            <button id = "recommend-button" href="prototype_recipes.html">RECOMMEND</button>
           </form>
           <form action="/all_recipes"> 
-            <button id = "all-recipes-button" href = >ALL RECIPES </button>
+            <button id = "all-recipes-button" href = "prototype_all_recipes.html">ALL RECIPES </button>
           </form>
           
         </section>
@@ -181,9 +196,27 @@
             itemCell.textContent = item;
             row.appendChild(itemCell);
 
+            const removeCell = document.createElement("td");
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", function() {
+              removeFromPantry(row);
+            });
+            removeCell.appendChild(removeButton);
+            row.appendChild(removeCell);
+
+
             pantryTable.appendChild(row);
         }
-        
+
+        function removeFromPantry(row) {
+          const item = row.cells[0].textContent;
+          if (confirm(`Are you sure you want to remove "${item}" from your pantry?`)) {
+            const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+            pantryTable.removeChild(row);
+          }
+        }
+
         function recommendRecipes() {
           alert("Recommended recipes will be shown based on selected items.");
         }
