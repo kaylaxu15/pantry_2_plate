@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import pandas as pd
+import ast
 
 class DatabaseClient:
     
@@ -147,22 +148,21 @@ class DatabaseClient:
 if __name__ == "__main__":
     db = DatabaseClient()
     # db.delete_all_recipes()
+    recipes = db.get_recipes_ingredients(['cocoa powder'])
+    print("Recipes")
+    print(recipes[0])
+    # db.delete_all_recipes()
     # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
     # print(db.get_user("Niru"))
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/recipes_data_2024-10-22.csv")
+    # df = pd.read_csv("webscraping/output/recipes_data_2024-10-22.csv")
 
-    for row in df.iterrows():
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["serves"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], row[1]["ingredients"], row[1]["picture_url"])
-        for ingredient_list in row[1]["ingredients"]:
-            ingredients = ingredient_list.split(',')
-
-            for ingredient in ingredients:
-                db.insert_ingredient(ingredient)
-
+    # for row in df.iterrows():
+    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["serves"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], converted_ingredients, row[1]["picture_url"])
         
     
 

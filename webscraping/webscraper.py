@@ -46,7 +46,7 @@ def extract(pages, sleep_timer):
         urls_df['recipe_urls'] = 'https://www.bbcgoodfood.com' + urls_df['recipe_urls'].astype(str)
         recipes_df = pd.DataFrame(
             columns=['title', 'difficulty', 'serves', 'rating', 'reviews', 'vegetarian', 'vegan', 'dairy_free', 'keto',
-                     'gluten_free', 'prep_time', 'cook_time', 'ingredients', 'picture_url'])
+                     'gluten_free', 'prep_time', 'cook_time', 'ingredients', 'picture_url', 'methods'])
         list_urls = urls_df['recipe_urls'].to_list()
         return list_urls, urls_df, recipes_df
 
