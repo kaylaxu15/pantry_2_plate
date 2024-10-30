@@ -12,15 +12,19 @@
     </div>
     <ul id="Ingredients">
         {% for ingredient in ingredients %}
-            <li><a href="#" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
+            <li><a href="javascript:void(0);" data-ingredient = "{{ingredient}}">{{ingredient}}</a></li>
         {% endfor %}
     </ul>
     <section class = "pantry-list">
       <h3> List of pantry items </h3>
       <table id = "pantry-table" border="1">
-        <tr>
-          <th>Item </th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Item </th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
       </table>
       <button id = "recommend-button">RECOMMEND</button>
       <button id = "all-recipes-button">ALL RECIPES </button>
@@ -60,8 +64,8 @@
 
         });
         function addToPantry(item) {
-          const pantryTable = document.getElementById("pantry-table");
-          const rows = pantryTable.getElementsbyTagName("tr");
+          const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+          const rows = pantryTable.getElementsByTagName("tr");
           for (let i = 1; i < rows.length; i++) {  
                 if (rows[i].cells[0].textContent === item) {
                     alert(`${item} is already in pantry list.`);
