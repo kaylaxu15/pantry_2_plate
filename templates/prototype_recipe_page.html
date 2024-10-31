@@ -22,12 +22,20 @@
             color: #315E26;
             margin-left: 30px;
         }
+
+        h2 {
+            font-size: 20px;
+            color: #315E26;
+            margin-left: 30px;
+        }
     </style>
     <body>
         <h1 style="color: green;">{{recipe.title}}</h1>
+        <img src="{{recipe.picture_url}}" width="800" height="600">
         <br></br>
-        Number of Servings: {{recipe.servings}}
-        <br></br>
+        <h2>Number of Servings: {{recipe.servings}}</h2>
+        <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+
         
     </body>
 
