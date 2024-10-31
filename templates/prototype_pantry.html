@@ -41,15 +41,11 @@
         }
 
         .pantry-list button {
-            background-color: #ff4d4d;
-            color: white;
+            background-color: #dca9a9;
+            color: #315E26;
             border: none;
             padding: 5px 10px;
             cursor: pointer;
-        }
-
-        .pantry-list button:hover {
-            background-color: #ff1a1a;
         }
 
         #Ingredients {
@@ -139,10 +135,16 @@
             </tbody>
           </table>
           <form action="/recommended_recipes"> 
-            <button id = "recommend-button" href="prototype_recipes.html">RECOMMEND</button>
+            <input type="hidden" id="ing" name="ingredients" value="{{result}}">
+            <script>
+              const items = getPantryItems();
+              document.getElementById("ing").value = items
+            </script>
+            <button type="submit" id="recommend-button">RECOMMEND</button>
+
           </form>
           <form action="/all_recipes"> 
-            <button id = "all-recipes-button" href = "prototype_all_recipes.html">ALL RECIPES </button>
+            <button id="all-recipes-button">ALL RECIPES </button>
           </form>
           
         </section>
@@ -205,18 +207,39 @@
             removeCell.appendChild(removeButton);
             row.appendChild(removeCell);
 
-
             pantryTable.appendChild(row);
+
+           
+            savePantryItems();
         }
 
         function removeFromPantry(row) {
           const item = row.cells[0].textContent;
-          if (confirm(`Are you sure you want to remove "${item}" from your pantry?`)) {
+          if (confirm(`Are you sure you want to remove ${item} from your pantry?`)) {
             const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
             pantryTable.removeChild(row);
+            savePantryItems();
           }
         }
 
+        // get pantry items from the table
+        function getPantryItems() {
+          let pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+          let rows = pantryTable.getElementsByTagName("tr");
+          let items = [];
+
+          for (let i = 0; i < rows.length; i++) {
+            let item = rows[i].cells[0].textContent;
+            items.push(item);
+          }
+          console.log("Items")
+          console.log(items)
+          return items
+        }
+
+
+
+        
         function recommendRecipes() {
           alert("Recommended recipes will be shown based on selected items.");
         }

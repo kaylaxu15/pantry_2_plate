@@ -32,7 +32,30 @@ def ingredients_to_dict(list):
         dict[main_str] = measurement
     return dict
 
-df = pd.read_csv('webscraping/output/recipes_data_2024-10-22.csv')
+def match(dict, ingredient_list):
+    ret_dict = {}
+    for key, value in dict.items():
+        matches = []
+        for ingredient in ingredient_list:
+            if ingredient in key:
+                matches.append(ingredient)
+        if matches:
+            longest = max(matches, key=len) 
+            ret_dict[longest] = value 
+        else:
+            continue
+    return ret_dict
+
+df_ingredient_list = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/ingredients_list.csv')
+col_name = df_ingredient_list.columns.tolist()
+concat_df = pd.DataFrame(col_name, columns=['ingredients'])
+df_ingredient_list.columns = ['ingredients']
+df_ingredient_list = pd.concat([concat_df, df_ingredient_list], ignore_index=True)
+ingredient_list = df_ingredient_list['ingredients'].tolist()
+ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
+
+df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/recipes_data_2024-10-22.csv')
 df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
 df['ingredients_dict'] = df['ingredients'].apply(ingredients_to_dict)
-df.to_csv('webscraping/output/processed_recipes_data_2024-10-22.csv', index=False)
+df['standardized_ingredients_dict'] = df['ingredients_dict'].apply(match, args=([ingredient_list]))
+df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/final_recipes_data_2024-10-30.csv', index=False)

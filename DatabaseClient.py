@@ -80,7 +80,7 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"title": title}) != None
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url):
+    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients):
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
             return 1
@@ -95,7 +95,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url}
+        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -147,11 +147,11 @@ class DatabaseClient:
     
 if __name__ == "__main__":
     db = DatabaseClient()
-    # db.delete_all_ingredients()
-    # db.delete_all_recipes()
-    recipes = db.get_recipes_ingredients(['cocoa powder'])
-    for recipe in recipes:
-        print(recipe["title"])
+    db.delete_all_ingredients()
+    db.delete_all_recipes()
+    # recipes = db.get_recipes_ingredients(['cocoa powder'])
+    #for recipe in recipes:
+    #    print(recipe["title"])
     # db.delete_all_recipes()
     # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
@@ -159,12 +159,16 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    # df = pd.read_csv("webscraping/output/recipes_data_2024-10-22.csv")
+    df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/finalfinal_recipes_data_2024-10-30.csv")
 
-    # for row in df.iterrows():
-    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["serves"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], converted_ingredients, row[1]["picture_url"])
-        
-    
+    for row in df.iterrows():
+        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+        # print(converted_standardized_ingredients_dict)
+        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-    
+        try:
+            servings = converted_servings_dict['serves']
+        except:
+            servings = ''
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients)

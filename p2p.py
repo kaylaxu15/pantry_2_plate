@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, render_template
 import DatabaseClient
 import pandas as pd
@@ -17,18 +18,32 @@ def pantry_page():
 
 @app.route('/recommended_recipes', methods=['GET'])
 def results_page():
+    #recipe_title = flask.request.args.get('ingredient_list')
+
+    # dummy for now
+    ingredient_list = flask.request.args('ingredients')
+    print("Ingredient_list", ingredient_list)
+
+    ingredient_list = JSON.parse(ingredient_list)
+    #ingredient_list = ["dark chocolate", 'pretzels', 'cookies', 'chocolate']
+    recipes = db.get_recipes_ingredients(ingredient_list)
+    print("Recipes", recipes)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes)
+
+@app.route('/all_recipes', methods=['GET'])
+def all_recipes():
+    #flask.request.args(ingredient_list)
+    recipes = db.get_recipes_ingredients([])
+    return render_template('prototype_recommended_recipes.html', recipes=recipes)
+
+@app.route('/recipe_page', methods=['GET'])
+def recipe_page():
     # blah
-    ingredients = ['150g salted butter, plus 2 tbsp ', 'marmalade ', 
-                   'black tea bags ', '3 eggs', '150g golden caster sugar', 
-                   '1 tbsp honey ', '160g self-raising flour ', 'madeleine tins']
-    
-    return render_template('prototype_recipes.html')
+    recipe_title = flask.request.args.get('recipe')
+    # get recipe with recipe title
+    # recipe = 
+    return render_template('prototype_recipe_page.html', recipe=recipe)
 
-
-# @app.route('/all_recipes', methods=['GET'])
-# def results_page():
-#     # blah
-#     return render_template('prototype_all_recipes.html')
 
 
 

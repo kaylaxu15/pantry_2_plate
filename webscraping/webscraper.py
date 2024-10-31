@@ -96,8 +96,15 @@ def extract(pages, sleep_timer):
             # add methods for recipes
             try: 
                 methods = []
-                for tag in soup.find_all('p', {'class': "recipe-method__list-item-text"}):
-                    methods.append(tag.text)
+                li_tags = soup.find_all('li', {'class':'pb-xs pt-xs list-item'})
+                # print("THE LI_TAGS ARE", li_tags)
+                for li in li_tags:
+                    p_tags = li.find_all('p')
+                    for p in p_tags:
+                        # print("THE P IS !!!!!!!!!!!!!!!!!!!!", p.text)
+                        methods.append(p.text)
+
+                print("METHODS IS !!!!!!!!!!!!!!!!!!!!", methods)
             except:
                 methods = np.nan
             try:
@@ -166,7 +173,7 @@ if __name__ == '__main__':
     pages = range_of_numbers(1, 2)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
-    week = datetime.datetime.now().strftime("%Y-%m-%d")
+    #week = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # SCRAPE FOR THE REST OF THE PAGES
     print(f'Scraping {pages} pages from BBC good food')
@@ -176,5 +183,5 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    recipes_df.to_csv(f'{output_dir}/recipes_data_{week}.csv', index=False)
+    recipes_df.to_csv(f'/Users/kaylaxu/princeton_plate_planner/webscraping/{output_dir}/recipes_data_2024-10-30.csv', index=False)
     print('Complete')
