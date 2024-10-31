@@ -170,7 +170,7 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(1, 2)
+    pages = range_of_numbers(1, 95)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
     #week = datetime.datetime.now().strftime("%Y-%m-%d")

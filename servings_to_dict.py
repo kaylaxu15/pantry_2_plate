@@ -1,4 +1,6 @@
 import pandas as pd
+import ast
+import re
 
 # function to extact the servings from the serves column
 def servings_to_dict(string):
@@ -23,6 +25,6 @@ def servings_to_dict(string):
         
     return dict
 
-df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/final_recipes_data_2024-10-30.csv')
+df = pd.read_csv('/Users/alineutetiwabo/Desktop/Fall 2024/COS333/princeton_plate_planner/webscraping/output/recipes_data_2024-10-22.csv')
 df['serves_dict'] = df['serves'].apply(servings_to_dict)
-df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/finalfinal_recipes_data_2024-10-30.csv', index=False)
+df.to_csv('/Users/alineutetiwabo/Desktop/Fall 2024/COS333/princeton_plate_planner/webscraping/output/processedservings_recipes_data_2024-10-30.csv', index=False)
