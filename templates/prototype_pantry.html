@@ -135,7 +135,7 @@
             </tbody>
           </table>
           <form action="/recommended_recipes"> 
-            <input type="hidden" id="ing" name="ingredients" value="">
+            <input type="hidden" id="ing" name="ingredients" value={{ing}}>
             <button type="submit" id="recommend-button">RECOMMEND</button>
           </form>
           <form action="/all_recipes"> 
@@ -227,7 +227,7 @@
 
           for (let i = 0; i < rows.length; i++) {
             let item = rows[i].cells[0].textContent;
-            items.push(item);
+            items.push(String(item));
           }
           return items
         }

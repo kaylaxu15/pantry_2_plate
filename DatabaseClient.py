@@ -80,6 +80,10 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"title": title}) != None
     
+    def return_recipe(self, title):
+        col = self.db["Recipes"]
+        return col.find_one({"title": title})
+    
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients):
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):

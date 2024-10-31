@@ -19,16 +19,11 @@ def pantry_page():
 
 @app.route('/recommended_recipes', methods=['GET'])
 def results_page():
-    #recipe_title = flask.request.args.get('ingredient_list')
-
-    ingredient_list = flask.request.args.get('ingredients')
+    ingredient_list = flask.request.args.get("ingredients")
     ingredient_list = json.loads(ingredient_list) 
-    print("Ingredient_list", ingredient_list)
-
-    
-    #ingredient_list = ["dark chocolate", 'pretzels', 'cookies', 'chocolate']
+    ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
     recipes = db.get_recipes_ingredients(ingredient_list)
-    print("Recipes", recipes)
+    
     return render_template('prototype_recommended_recipes.html', recipes=recipes)
 
 @app.route('/all_recipes', methods=['GET'])
@@ -40,9 +35,10 @@ def all_recipes():
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
     # blah
-    recipe_title = flask.request.args.get('recipe')
+    recipe_title = flask.request.args.get("recipe")
+    print(recipe_title)
     # get recipe with recipe title
-    # recipe = 
+    recipe = db.return_recipe(recipe_title)
     return render_template('prototype_recipe_page.html', recipe=recipe)
 
 
