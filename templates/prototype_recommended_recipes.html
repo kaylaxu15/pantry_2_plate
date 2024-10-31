@@ -27,9 +27,9 @@
 
 <body>
     <h1 style="color: green;">Recommended Recipes</h1>
-    {% for recipe in recipes[:6] %}
+    {% for recipe in recipes[:18] %}
         <span class="inline-box">
-            <a href="/recipe_page?recipe={{recipe.title | urlencode}}">{{recipe.title | safe}}</a>
+            <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
 
             <br></br>
             <img src="{{recipe.picture_url}}" width="150" height="150">

@@ -4,6 +4,7 @@ import DatabaseClient
 import pandas as pd
 import numpy as np
 import json
+from urllib.parse import unquote
 
 app = Flask(__name__)
 db = DatabaseClient.DatabaseClient()
@@ -29,16 +30,17 @@ def results_page():
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
     #flask.request.args(ingredient_list)
-    recipes = db.get_recipes_ingredients([])
+    recipes = db.get_all_recipes()
     return render_template('prototype_recommended_recipes.html', recipes=recipes)
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
     # blah
-    recipe_title = flask.request.args.get("recipe")
-    print(recipe_title)
+    recipe_id = flask.request.args.get("recipe")
+    
+    #recipe_title = unquote(recipe_title)
     # get recipe with recipe title
-    recipe = db.return_recipe(recipe_title)
+    recipe = db.return_recipe(recipe_id)
     return render_template('prototype_recipe_page.html', recipe=recipe)
 
 
