@@ -3,6 +3,7 @@ from flask import Flask, render_template
 import DatabaseClient
 import pandas as pd
 import numpy as np
+import json
 
 app = Flask(__name__)
 db = DatabaseClient.DatabaseClient()
@@ -20,11 +21,11 @@ def pantry_page():
 def results_page():
     #recipe_title = flask.request.args.get('ingredient_list')
 
-    # dummy for now
-    ingredient_list = flask.request.args('ingredients')
+    ingredient_list = flask.request.args.get('ingredients')
+    ingredient_list = json.loads(ingredient_list) 
     print("Ingredient_list", ingredient_list)
 
-    ingredient_list = JSON.parse(ingredient_list)
+    
     #ingredient_list = ["dark chocolate", 'pretzels', 'cookies', 'chocolate']
     recipes = db.get_recipes_ingredients(ingredient_list)
     print("Recipes", recipes)
