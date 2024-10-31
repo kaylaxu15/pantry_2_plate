@@ -28,13 +28,23 @@
             color: #315E26;
             margin-left: 30px;
         }
+
+        h3 {
+            font-size: 15px;
+            color: #315E26;
+            margin-left: 30px;
+        }
     </style>
     <body>
         <h1 style="color: green;">{{recipe.title}}</h1>
-        <img src="{{recipe.picture_url}}" width="800" height="600">
+        <img src="{{recipe.picture_url}}" width="700" height="500">
         <br></br>
         <h2>Number of Servings: {{recipe.servings}}</h2>
         <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+        <h2>Ingredient List</h2>
+        {% for ingredient in recipe.actual_ingredients %}
+        <h3>{{ingredient}}</h3>
+        {% endfor %}
 
         
     </body>
