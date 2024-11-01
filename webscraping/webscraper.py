@@ -170,7 +170,7 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(1, 95)
+    pages = range_of_numbers(1, 2)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
     #week = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -183,5 +183,5 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    recipes_df.to_csv(f'/Users/kaylaxu/princeton_plate_planner/webscraping/{output_dir}/recipes_data_2024-10-30.csv', index=False)
+    recipes_df.to_csv(f'{output_dir}/recipes_data_2024-11-1.csv', index=False)
     print('Complete')
