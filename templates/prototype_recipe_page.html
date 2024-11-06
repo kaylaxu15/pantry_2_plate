@@ -2,52 +2,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        .inline-box {
-            display: inline-block;
-            width: 300px;
-            height: 300px;
-            background-color: rgb(229, 205, 209);
-            border: 2px dashed green;
-            padding: 5px;
-            margin: 5px;
-        }
-
-        body {
-            background-color: #c1c265;
-        }
-
-        h1 {
-            font-size: 50px;
-            color: #315E26;
-            margin-left: 30px;
-        }
-
-        h2 {
-            font-size: 20px;
-            color: #315E26;
-            margin-left: 30px;
-        }
-
-        h3 {
-            font-size: 15px;
-            color: #315E26;
-            margin-left: 30px;
-        }
-    </style>
-    <body>
-        <h1 style="color: green;">{{recipe.title}}</h1>
-        <img src="{{recipe.picture_url}}" width="700" height="500">
-        <br></br>
-        <h2>Number of Servings: {{recipe.servings}}</h2>
-        <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
-        <h2>Ingredient List</h2>
-        {% for ingredient in recipe.actual_ingredients %}
-        <h3>{{ingredient}}</h3>
-        {% endfor %}
-
-        
-    </body>
+    <link rel="stylesheet" href="static/styles.css">
 
 </head>
+<body>
+    <h1 style="color: green;">{{recipe.title}}</h1>
+    <img src="{{recipe.picture_url}}" width="700" height="500">
+    <br></br>
+    <h2>Number of Servings: {{recipe.servings}}</h2>
+    <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+    <h2>Ingredient List</h2>
+    {% for ingredient in recipe.actual_ingredients %}
+    <h3>{{ingredient}}</h3>
+    {% endfor %}
+    <br><br>
+    {% for method in recipe.methods %}
+    <h3>{{method}}</h3>
+    {% endfor %}
+
+    
+</body>
 </html>

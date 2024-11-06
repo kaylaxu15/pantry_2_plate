@@ -1,0 +1,99 @@
+body {
+    background-color: #c1c265;
+}
+
+h1 {
+    font-size: 50px;
+    color: #315E26;
+    margin-left: 30px;
+}
+
+table {
+    margin-left: 50px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    color: #315E26;
+}
+th {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+p {
+    font-size: 25px;
+    margin-left: 20px;
+    color: #315E26;
+}
+
+#SearchBox {
+    width: 80%;
+    font-size: 18px;
+    padding: 11px;
+    border: 3px solid black;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    border-radius: 30px;
+}
+
+.pantry-list button {
+    background-color: #dca9a9;
+    color: #315E26;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#Ingredients {
+    list-style-type: none;
+    font-size: 20px;
+    padding: 0;
+    margin-left: 20px;
+}
+
+#Ingredients li a {
+    padding: 12px;
+    text-decoration: none;
+    color: #315E26;
+    display: list-item;
+    margin-left: 20px;
+} */
+
+    .left-container {
+    float: left;
+    width: 25%; 
+    height: 280px; 
+}
+
+/*.right-container {
+    float: right;
+    width: 25%; 
+    height: 80px;
+} */
+
+div.scroll {
+    margin: 4px, 4px;
+    margin-left: 20px;
+    border-radius: 30px;
+    border: 2px;
+    padding: 4px;
+    background-color: #e0e27aa2;
+    width: 500px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+button {
+    background-color: #FBDFC9; 
+    border: none;
+    color: #A15B20;
+    padding: 15px 32px;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 30px;
+}
