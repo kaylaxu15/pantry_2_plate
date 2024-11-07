@@ -28,7 +28,13 @@ class Client:
         self.login(emailId, password)
         
     def login(self, emailId, password):
-        self.user = User(emailId, password)
+        user = self.db.user_login_valid(emailId, password)
+        if user == "EmailId not found":
+            raise Exception("EmailId not found")
+        elif user == "Password incorrect":
+            raise Exception("Password incorrect")
+        else:
+            self.user = user
         self.islogin = True
         print("Login Successful")
         
