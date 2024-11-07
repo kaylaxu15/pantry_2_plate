@@ -22,11 +22,110 @@
             color: #315E26;
             margin-left: 30px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.3);;
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            border: 1px solid #888;
+            margin: auto;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .filter-button {
+            background-color: #4CAF50;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            padding: 10px 0;
+            margin: 20px;
+            border: none;
+            cursor: pointer;
+            width: 125px;
+            border-radius: 5px;
+            display: inline-block; 
+            text-decoration: none; 
+            text-align: center;
+            font-size: 16px;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 200px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            margin: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 125px;
+            display: inline-block; 
+            text-decoration: none; 
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .filter-button:hover {
+            background-color: #45a049;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 
 <body>
     <h1 style="color: green;">Recommended Recipes</h1>
+
+    <a href="/" class="back-button">Pantry</a>
+
+    <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
+    
+    <div id="filterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
+            <h2>Filter Options</h2>
+            
+            <form action="/filtered_recipes" method="get">
+                <label for="skill">Skill Level:</label>
+                <select name="skill" id="skill">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+                <br><br>
+
+                <label for="time">Time (minutes):</label>
+                <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
+                <br><br>
+
+                <button type="submit" class="filter-button">Apply Filters</button>
+            </form>
+        </div>
+    </div>
+
     {% for recipe in recipes[:18] %}
         <span class="inline-box">
             <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
@@ -40,6 +139,8 @@
         </span>
     {% endfor %}
 
+    <script>
+    </script>
 
 </body>
 
