@@ -10,7 +10,7 @@ class DatabaseClient:
         self.client = MongoClient(self.uri)
         self.db = self.client["PPP"]
 
-    def insert_user(self, emailId, password, picture, restrictions, inventory, favRecipes, wishList, completed):
+    def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[]):
         if self.check_emailId_taken(emailId):
             return 1
         col = self.db["Users"]
