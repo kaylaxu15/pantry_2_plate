@@ -99,7 +99,7 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"_id": ObjectId(recipe_id)})
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_url):
+    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls):
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
             return 1
@@ -114,7 +114,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_url":recipe_url}
+        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/final_recipes_data_2024-11-01.csv")
+    df = pd.read_csv("/Users/chaeyounglee/Desktop/Fall 2024/COS 333/princeton_plate_planner/webscraping/output/final_recipes_servings_data_2024-11-01.csv")
 
     for row in df.iterrows():
         converted_ingredients = ast.literal_eval(row[1]["ingredients"])
