@@ -33,6 +33,7 @@ def extract(pages, sleep_timer):
         for page in pages:
             time.sleep(sleep_timer)
             url = f'https://www.bbcgoodfood.com/search?page={page}'
+            print(f"THE URL IS ############################################ {url}")
             html = requests.get(url)
             soup = BeautifulSoup(html.text, 'html.parser')
             recipe_urls = pd.Series([a.get("href") for a in soup.find_all("a")])
@@ -55,7 +56,10 @@ def extract(pages, sleep_timer):
         for i in range(len(list_urls)):
             time.sleep(sleep_timer)
             url = list_urls[i]
+            print(f"THE ACTUAL URL FOR THE RECIPE IS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ {url}")
+            
             html = requests.get(url)
+            print(f"THE ACTUAL URL FOR THE RECIPE IS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ {url}")
             soup = BeautifulSoup(html.text, 'html.parser')
 
             try:
@@ -170,7 +174,7 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(1, 2)
+    pages = range_of_numbers(96, 190)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
     #week = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -183,5 +187,5 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    recipes_df.to_csv(f'{output_dir}/recipes_data_2024-11-1.csv', index=False)
+    recipes_df.to_csv(f'{output_dir}/recipes_data_2024-11-8.csv', index=False)
     print('Complete')
