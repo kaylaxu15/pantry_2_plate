@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -35,15 +35,17 @@ def manage_account():
         username = flask.request.args.get('new_username')
         password = flask.request.args.get('new_password')
     
-    print("USERNAME", username)
-    print("PASSWORD", password)
-    print("GETUSER", db.get_user(username))
-    print("VALID", db.user_login_valid(username, password)) # why is INTS not working??
-    print("TEST", db.user_login_valid('kx', 11))
+    # print("USERNAME", username)
+    # print("PASSWORD", password)
+    # print("GETUSER", db.get_user(username))
+    # print("VALID", db.user_login_valid(username, password)) # why is INTS not working??
+    # print("TEST", db.user_login_valid('kx', 11))
 
     if create_login == 'false':
         if db.user_login_valid(username, password) not in ["Password incorrect", "EmailId not found"]:
-            return pantry_page()
+            response = make_response(pantry_page())
+            response.set_cookie('emailId', username)
+            return response
         else:
             # force them to retype if user is wrong
             return input_login()
