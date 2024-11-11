@@ -86,5 +86,5 @@ def recipe_page():
 
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
-    email_id = flask.request.cookies.get("")
+    email_id = flask.request.cookies.get("emailId")
     return render_template('profile_page.html', email_id=email_id)
