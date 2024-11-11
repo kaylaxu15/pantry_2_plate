@@ -169,7 +169,7 @@ class DatabaseClient:
     
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
-        query = {"ingredients" : }
+        #query = {"ingredients" : }
     
     
 if __name__ == "__main__":
@@ -195,8 +195,8 @@ if __name__ == "__main__":
     #     # print(converted_standardized_ingredients_dict)
     #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-        try:
-            servings = converted_servings_dict['serves']
-        except:
-            servings = ''
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"] row[1]["total_time"])
+    #try:
+        #servings = converted_servings_dict['serves']
+    # except:
+    #     servings = ''
+    # db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"] row[1]["total_time"])
