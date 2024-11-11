@@ -178,7 +178,7 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("/Users/chaeyounglee/Desktop/Fall 2024/COS 333/princeton_plate_planner/webscraping/output/final_recipes_servings_data_2024-11-01.csv")
+    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-01.csv")
 
     for row in df.iterrows():
         converted_ingredients = ast.literal_eval(row[1]["ingredients"])
@@ -191,4 +191,4 @@ if __name__ == "__main__":
             servings = converted_servings_dict['serves']
         except:
             servings = ''
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["recipe_urls"])
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"])
