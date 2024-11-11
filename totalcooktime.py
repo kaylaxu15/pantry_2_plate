@@ -28,6 +28,6 @@ def total_time(row):
         
     return prep_time + cook_time
 
-df = pd.read_csv('webscraping/output/recipes_data_2024-10-22.csv')
+df = pd.read_csv('webscraping/output/final_recipes_servings_data_2024-11-11.csv.csv')
 df['total_time'] = df.apply(total_time, axis=1)
-df.to_csv('webscraping/output/totaltime_recipes_data_2024-10-30.csv', index=False)
+df.to_csv('webscraping/output/final_recipes_servings_data_2024-11-11.csv', index=False)

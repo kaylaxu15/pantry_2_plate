@@ -164,11 +164,7 @@ class DatabaseClient:
         return list(results)
     
     def wishlist_ingredients():
-        
-    
-    def get_recipes_missing_ingredients(self, number, ingredients):
-        col = self.db["Recipes"]
-        query = {"ingredients" : }
+        pass
     
     
 if __name__ == "__main__":
@@ -179,23 +175,23 @@ if __name__ == "__main__":
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
     # db.delete_all_recipes()
-    # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
+    db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
     # print(db.get_user("Niru"))
     # db.delete_user("Niru")
 
-    # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-01.csv")
+    # # inserting the recipes into the database
+    # df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
 
-    for row in df.iterrows():
-        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-        converted_methods = ast.literal_eval(row[1]["methods"])
-        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        # print(converted_standardized_ingredients_dict)
-        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
+    # for row in df.iterrows():
+    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+    #     converted_methods = ast.literal_eval(row[1]["methods"])
+    #     converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+    #     # print(converted_standardized_ingredients_dict)
+    #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-        try:
-            servings = converted_servings_dict['serves']
-        except:
-            servings = ''
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"])
+    #     try:
+    #         servings = converted_servings_dict['serves']
+    #     except:
+    #         servings = ''
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"])
