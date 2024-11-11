@@ -99,7 +99,7 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"_id": ObjectId(recipe_id)})
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls):
+    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time):
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
             return 1
@@ -114,7 +114,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls}
+        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -163,8 +163,9 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
-    def wishlist_ingredients():
-        
+    def filter_recipes(self):
+        col = self.db["Recipes"]
+
     
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
@@ -198,4 +199,4 @@ if __name__ == "__main__":
             servings = converted_servings_dict['serves']
         except:
             servings = ''
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"])
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"] row[1]["total_time"])

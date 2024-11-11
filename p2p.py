@@ -34,7 +34,7 @@ def manage_account():
     else: 
         username = flask.request.args.get('new_username')
         password = flask.request.args.get('new_password')
-
+    
     print("USERNAME", username)
     print("PASSWORD", password)
     print("GETUSER", db.get_user(username))
@@ -86,11 +86,5 @@ def recipe_page():
 
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
-    user_id = flask.request.args.get("")
-
-
-
-
-
-
-
+    email_id = flask.request.cookies.get("")
+    return render_template('profile_page.html', email_id=email_id)

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="static/styles.css">
+
+</head>
+
+<body>
+    <h1 style="color: green;">{{recipe.title}}</h1>
+    <img src="{{recipe.picture_url}}" width="700" height="500">
+    <br></br>
+    <h2>Number of Servings: {{recipe.servings}}</h2>
+    <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+    <h2>Ingredient List</h2>
+    {% for ingredient in recipe.actual_ingredients %}
+    <h3>{{ingredient}}</h3>
+    {% endfor %}
+    <br><br>
+    {% for method in recipe.methods %}
+    <h3>{{method}}</h3>
+    {% endfor %}
+
+    <div class="bottom-buttons">
+        <form action="/all_recipes">
+            <button id="all-recipes-button">BACK TO ALL RECIPES </button>
+        </form>
+    </div>
+
+
+</body>
+
+</html>
