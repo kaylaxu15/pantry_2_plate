@@ -8,6 +8,7 @@ def makes_column(string):
     if string is np.nan:
         return ret
     if 'makes' in string.lower():
+        string.replace('makes', '')
         
     string = string.split()
     for element in string:
