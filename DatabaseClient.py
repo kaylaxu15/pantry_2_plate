@@ -163,6 +163,13 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
+    def wishlist_ingredients():
+        
+    
+    def get_recipes_missing_ingredients(self, number, ingredients):
+        col = self.db["Recipes"]
+        query = {"ingredients" : }
+    
     
 if __name__ == "__main__":
     db = DatabaseClient()

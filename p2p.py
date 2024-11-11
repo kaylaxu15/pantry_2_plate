@@ -84,7 +84,9 @@ def recipe_page():
     recipe = db.return_recipe(recipe_id)
     return render_template('prototype_recipe_page.html', recipe=recipe)
 
-
+@app.route('/profile-page', methods=['GET', 'POST'])
+def profile_page():
+    user_id = flask.request.args.get("")
 
 
 
