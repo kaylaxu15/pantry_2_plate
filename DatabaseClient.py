@@ -180,20 +180,20 @@ if __name__ == "__main__":
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
     # db.delete_all_recipes()
-    # db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
+    db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
     # print(db.get_user("Niru"))
     # db.delete_user("Niru")
 
-    # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-01.csv")
+    # # inserting the recipes into the database
+    # df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
 
-    for row in df.iterrows():
-        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-        converted_methods = ast.literal_eval(row[1]["methods"])
-        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        # print(converted_standardized_ingredients_dict)
-        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
+    # for row in df.iterrows():
+    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+    #     converted_methods = ast.literal_eval(row[1]["methods"])
+    #     converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+    #     # print(converted_standardized_ingredients_dict)
+    #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
         try:
             servings = converted_servings_dict['serves']
