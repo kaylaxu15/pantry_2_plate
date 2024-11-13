@@ -88,6 +88,7 @@ def all_recipes():
     username = auth.authenticate()
     #flask.request.args(ingredient_list)
     recipes = db.get_all_recipes()
+    print(recipes[:3])
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/recipe_page', methods=['GET'])
