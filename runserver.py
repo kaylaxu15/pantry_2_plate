@@ -1,30 +1,25 @@
+#!/usr/bin/env python
+
+#-----------------------------------------------------------------------
+# runserver.py
+# Author: Bob Dondero
+#-----------------------------------------------------------------------
+
 import sys
-import argparse
 import p2p
 
-def parse_arguments():
-    reg_ds = 'The registrar application'
-    usage_str = f'{sys.argv[0]} [-h] port'
-    parser = argparse.ArgumentParser(description=reg_ds,
-                                    usage=usage_str)
-    parser.add_argument(
-        'port',
-        type=int,
-        help='the port at which the server should listen')
-
-    args = parser.parse_args()
-    return args
+# Google expects the application to run on port 5000.
+PORT = 5000
 
 def main():
-    args = parse_arguments()
-    if len(sys.argv) != 2:
-        print('Usage: ' + sys.argv[0] + ' port', file=sys.stderr)
+
+    if len(sys.argv) != 1:
+        print('Usage: ' + sys.argv[0], file=sys.stderr)
         sys.exit(1)
 
     try:
-        p2p.app.run(
-            host='0.0.0.0', port=args.port, debug=True
-        )
+        p2p.app.run(host='0.0.0.0', port=PORT,
+            ssl_context=('cert.pem', 'key.pem'))
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)

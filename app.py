@@ -3,7 +3,7 @@ import html
 import dotenv 
 import cloudinary 
 
-app = Flask(__name__)
+from p2p import app
 
 # upload image 
 @app.route('/', methods=['GET', 'POST'])
