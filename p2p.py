@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -100,6 +100,15 @@ def recipe_page():
     methods = json.loads(methods)
     
     return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
+
+@app.route('/filtered_recipes', methods=['GET'])
+def filtered_recipes():
+    skill = flask.request.args.get('skill')
+    max_time = flask.request.args.get('time', type=int)
+    db = DatabaseClient()
+    filtered_recipes = db.filter_recipes(skill=skill, max_time=max_time)
+
+    return jsonify(filtered_recipes)
 
 @app.route('/wishlist', methods=['GET'])
 def wishlist_page():

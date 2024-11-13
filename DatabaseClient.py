@@ -163,9 +163,15 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
-    def filter_recipes(self):
-        col = self.db["Recipes"]
-
+    def filter_recipes(self, skill=None, max_time=None):
+        col = self.db["Recipes"] 
+        query = {}
+        if skill:
+            query["difficulty"] = skill
+        if max_time is not None:
+            query["total_time"] = {"$lte": max_time}
+        results = col.find(query)
+        return list(results)
     
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]

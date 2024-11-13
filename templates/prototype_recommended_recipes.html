@@ -46,10 +46,36 @@
             Number of Servings: {{recipe.servings}}
             <br></br>
             Time needed: {{recipe.prep_time[5:]}}
+            <br></br>
+            <a href="/wishlist" class="wishlist-button">Wishlist</a>
         </span>
     {% endfor %}
 
     <script>
+        document.querySelector(".filter-button").addEventListener("click", function(event) {
+        event.preventDefault(); 
+
+        const skill = document.getElementById("skill").value;
+        const time = document.getElementById("time").value;
+
+        fetch(`/filtered_recipes?skill=${skill}&time=${time}`)
+            .then(response => response.json())
+            .then(data => {
+                const recipesContainer = document.getElementById("recipes-container");
+                recipesContainer.innerHTML = ""; 
+
+                data.forEach(recipe => {
+                    const recipeDiv = document.createElement("div");
+                    recipeDiv.classList.add("recipe");
+                    recipeDiv.innerHTML = `
+                        <h3>${recipe.title}</h3>
+                        <p>Difficulty: ${recipe.difficulty}</p>
+                        <p>Total Time: ${recipe.total_time} minutes</p>
+                    `;
+                    recipesContainer.appendChild(recipeDiv);
+                });
+            })
+    });
     </script>
 
 </body>
