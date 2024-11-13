@@ -77,10 +77,14 @@ def pantry_page():
 def results_page():
     username = auth.authenticate()
     ingredient_list = flask.request.args.get("ingredients")
+    skill = flask.request.args.get('skill')
+    max_time = flask.request.args.get('time', type = int)
     ingredient_list = json.loads(ingredient_list) 
     ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
-    recipes = db.get_recipes_ingredients(ingredient_list)
-    
+    if skill or max_time is not None:
+        recipes = db.filter_recipes(skill = skill, max_time = max_time)
+    else:
+        recipes = db.get_recipes_ingredients(ingredient_list)
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/all_recipes', methods=['GET'])
@@ -101,23 +105,18 @@ def recipe_page():
     
     return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
 
-@app.route('/filtered_recipes', methods=['GET'])
-def filtered_recipes():
-    skill = flask.request.args.get('skill')
-    max_time = flask.request.args.get('time', type=int)
-    db = DatabaseClient()
-    filtered_recipes = db.filter_recipes(skill=skill, max_time=max_time)
+@app.route('/add_to_wishlist', methods=['POST'])
+def add_to_wishlist():
+    recipe_id = flask.request.form.get('recipe_id') 
 
-    return jsonify(filtered_recipes)
-
-@app.route('/wishlist', methods=['GET'])
-def wishlist_page():
     username = auth.authenticate()
-    #email_id = flask.request.args.get("emailId")
-    wish_list = flask.request.args.get("wishList")
-    wishList = db.update_user_wishlist(username, wish_list)
-    return render_template('wishlist.html', wishList=wishList, username=username)
+    user = db.get_user(username)
+    if recipe_id not in user["wishList"]:
+        user["wishList"].append(recipe_id)
+        db.update_user_wishlist(username, user["wishList"])
 
+    wishList = db.get_user(username)["wishList"]
+    return render_template('wishlist.html', wishList=wishList, username=username)
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
