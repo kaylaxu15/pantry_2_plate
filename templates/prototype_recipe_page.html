@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="static/recipe_page.css">
 
 </head>
 <body>
@@ -16,8 +16,9 @@
     <h3>{{ingredient}}</h3>
     {% endfor %}
     <br><br>
-    {% for method in recipe.methods %}
-    <h3>{{method}}</h3>
+    <h2>Methods</h2>
+    {% for method in methods %}
+    <h3>{{loop.index}}: {{method}}</h3>
     {% endfor %}
 
     <div class = "bottom-buttons">

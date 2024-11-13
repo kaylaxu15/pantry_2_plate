@@ -88,7 +88,6 @@ def all_recipes():
     username = auth.authenticate()
     #flask.request.args(ingredient_list)
     recipes = db.get_all_recipes()
-    print(recipes[:3])
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/recipe_page', methods=['GET'])
@@ -97,7 +96,10 @@ def recipe_page():
     recipe_id = flask.request.args.get("recipe")
     
     recipe = db.return_recipe(recipe_id)
-    return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
+    methods = recipe['methods'].replace("\'","\"")
+    methods = json.loads(methods)
+    
+    return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
 
 @app.route('/wishlist', methods=['GET'])
 def wishlist_page():
