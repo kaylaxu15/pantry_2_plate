@@ -111,9 +111,9 @@ def add_to_wishlist():
 
     username = auth.authenticate()
     user = db.get_user(username)
-    if recipe_id not in user["wishList"]:
-        user["wishList"].append(recipe_id)
-        db.update_user_wishlist(username, user["wishList"])
+    if recipe_id not in user['wishList']:
+        user['wishList'].append(recipe_id)
+        db.update_user_wishlist(username, user['wishList'])
 
     wishList = db.get_user(username)["wishList"]
     return render_template('wishlist.html', wishList=wishList, username=username)
