@@ -182,14 +182,14 @@
     .filter-button {
         background-color: #4CAF50;
         position: absolute;
-        top: 20px;
-        right: 30px;
+        top: 12px;
+        right: 10px;
         color: white;
         padding: 10px 0;
         margin: 20px;
         border: none;
         cursor: pointer;
-        width: 125px;
+        width: 100px;
         border-radius: 5px;
         display: inline-block; 
         text-decoration: none; 
@@ -198,8 +198,8 @@
     }
     .back-button {
         position: absolute;
-        top: 20px;
-        right: 200px;
+        top: 12px;
+        right: 135px;
         background-color: #4CAF50;
         color: white;
         padding: 10px 0;
@@ -207,7 +207,25 @@
         border: none;
         cursor: pointer;
         border-radius: 5px;
-        width: 125px;
+        width: 100px;
+        display: inline-block; 
+        text-decoration: none; 
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .wishlist-button {
+        position: absolute;
+        top: 12px;
+        right: 260px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        margin: 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 100px;
         display: inline-block; 
         text-decoration: none; 
         text-align: center;

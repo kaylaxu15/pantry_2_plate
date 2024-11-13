@@ -86,6 +86,13 @@ def recipe_page():
     recipe = db.return_recipe(recipe_id)
     return render_template('prototype_recipe_page.html', recipe=recipe)
 
+@app.route('/wishlist', methods=['GET'])
+def wishlist_page():
+    email_id = flask.request.args.get("emailId")
+    wish_list = flask.request.args.get("wishList")
+    wishList = db.update_user_wishlist( email_id, wish_list)
+    return render_template('wishlist.html', wishList=wishList)
+
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     email_id = flask.request.cookies.get("emailId")
