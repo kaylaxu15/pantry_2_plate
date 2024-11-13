@@ -92,12 +92,9 @@ def all_recipes():
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
-    # blah
     username = auth.authenticate()
     recipe_id = flask.request.args.get("recipe")
     
-    #recipe_title = unquote(recipe_title)
-    # get recipe with recipe title
     recipe = db.return_recipe(recipe_id)
     return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
 
