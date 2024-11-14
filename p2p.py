@@ -77,21 +77,26 @@ def pantry_page():
 def results_page():
     username = auth.authenticate()
     ingredient_list = flask.request.args.get("ingredients")
-    skill = flask.request.args.get('skill')
-    max_time = flask.request.args.get('time', type = int)
+    #skill = flask.request.args.get('skill')
+    #max_time = flask.request.args.get('time', type = int)
     ingredient_list = json.loads(ingredient_list) 
     ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
-    if skill or max_time is not None:
-        recipes = db.filter_recipes(skill = skill, max_time = max_time)
-    else:
-        recipes = db.get_recipes_ingredients(ingredient_list)
+    #if skill or max_time is not None:
+        #recipes = db.filter_recipes(skill = skill, max_time = max_time)
+    #else:
+    recipes = db.get_recipes_ingredients(ingredient_list)
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
     username = auth.authenticate()
+    skill = flask.request.args.get('skill', type = str)
+    max_time = flask.request.args.get('time', type = int)
     #flask.request.args(ingredient_list)
-    recipes = db.get_all_recipes()
+    if skill or max_time is not None:
+        recipes = db.filter_recipes(skill = skill, max_time = max_time)
+    else:
+        recipes = db.get_all_recipes()
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/recipe_page', methods=['GET'])
@@ -109,15 +114,23 @@ def recipe_page():
 
 @app.route('/add_to_wishlist', methods=['POST'])
 def add_to_wishlist():
-    recipe_id = flask.request.args.get('recipe') 
     username = auth.authenticate()
-    user = db.get_user(username)
-    if recipe_id not in user['wishList']:
-        user['wishList'].append(recipe_id)
-        db.update_user_wishlist(username, user['wishList'])
+    wishList = db.get_user_wishlist(username)
+    recipe_id = flask.request.form.get('recipe_id')
+    print("Received recipe_id:", recipe_id)
 
-    wishList = db.get_user(username)["wishList"]
-    return render_template('wishlist.html', wishList=wishList, username=username)
+    if recipe_id not in wishList:
+        wishList.append(recipe_id)
+        db.update_user_wishlist(username, wishList)
+    
+    full_wishList = []
+    for r_id in wishList:
+        recipe = db.return_recipe(r_id)
+        if recipe:  
+            full_wishList.append(recipe)
+    
+    return render_template('wishlist.html', wishList=full_wishList, username=username)
+
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()

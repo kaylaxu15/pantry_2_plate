@@ -74,7 +74,11 @@ class DatabaseClient:
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$pull": {"favRecipes": recipe_id}})
 
-    
+    def get_user_wishlist(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId}, {"wishList": 1})
+        return user["wishList"] if user and "wishList" in user else []
+
     def update_user_wishlist(self, emailId, wishList):
         if self.check_emailId_taken(emailId) == False:
             return 1
@@ -190,10 +194,12 @@ class DatabaseClient:
     def filter_recipes(self, skill=None, max_time=None):
         col = self.db["Recipes"] 
         query = {}
-        if skill:
-            query["difficulty"] = skill
-        if max_time is not None:
-            query["total_time"] = {"$lte": max_time}
+        if skill and max_time is not None:
+            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}}
+        elif skill:
+            query = {"difficulty": {"$eq": skill}}
+        elif max_time is not None:
+            query = {"total_time": {"$lte": max_time}}
         results = col.find(query)
         return list(results)
     
