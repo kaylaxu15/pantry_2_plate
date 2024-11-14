@@ -116,11 +116,14 @@ def recipe_page():
 def add_to_wishlist():
     username = auth.authenticate()
     wishList = db.get_user_wishlist(username)
+    print("Wishlist before adding:", wishList)
+
     recipe_id = flask.request.form.get('recipe_id')
     print("Received recipe_id:", recipe_id)
 
     if recipe_id not in wishList:
         wishList.append(recipe_id)
+        print("Wishlist after adding:", wishList)
         db.update_user_wishlist(username, wishList)
     
     full_wishList = []
