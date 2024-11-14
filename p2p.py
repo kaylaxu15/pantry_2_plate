@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, jsonify
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -31,48 +31,28 @@ def landing_page():
     username = auth.authenticate()
     return render_template('landing_page.html', username=username)
 
-'''
-@app.route('/make_account', methods=['GET'])
-def make_account():
-    username = auth.authenticate()
-    return render_template('user_login.html', username=username, create_account=True)
+@app.route('/add/<item>')
+def add_item(item):
+    if 'items' not in session:
+        session['items'] = []
+    items = json.loads(session.get('items', '[]')) 
+    items.append(item)
+    session['items'] = json.dumps(items)
+    return jsonify(session['items'])
 
-@app.route('/login', methods=['GET'])
-def input_login():
-    username = auth.authenticate()
-    return render_template('user_login.html', username=username, create_account=False)
+@app.route('/remove/<item>')
+def remove_item(item):
+    if 'items' not in session:
+        session['items'] = []
+    items = json.loads(session.get('items', '[]')) 
+    items.remove(item)
+    session['items'] = json.dumps(items)
+    return jsonify(session['items'])
 
-# actually adding the account
-@app.route('/manage_account', methods=['GET'])
-def manage_account():
-    create_login = flask.request.args.get('create')
-
-    if create_login == 'false': 
-        username = flask.request.args.get('username')
-        password = flask.request.args.get('password')
-    else: 
-        username = flask.request.args.get('new_username')
-        password = flask.request.args.get('new_password')
-    
-    # print("USERNAME", username)
-    # print("PASSWORD", password)
-    # print("GETUSER", db.get_user(username))
-    # print("VALID", db.user_login_valid(username, password)) # why is INTS not working??
-    # print("TEST", db.user_login_valid('kx', 11))
-
-    if create_login == 'false':
-        if db.user_login_valid(username, password) not in ["Password incorrect", "EmailId not found"]:
-            response = make_response(pantry_page())
-            response.set_cookie('emailId', username)
-            return response
-        else:
-            # force them to retype if user is wrong
-            return input_login()
-    else:
-        # if we did create a login, we add the user
-        db.insert_user(username, password)
-        return landing_page()
-'''
+@app.route('/getitems')
+def get_items():
+    items = json.loads(session.get('items', '[]'))
+    return jsonify(items)
 
 @app.route('/pantry', methods=['GET'])
 def pantry_page():
@@ -123,13 +103,18 @@ def recipe_page():
 
 @app.route('/add_to_wishlist', methods=['GET', 'POST'])
 def add_to_wishlist():
-    username = auth.authenticate()
-    wishList = db.get_user_wishlist(username)
+    if 'username' not in session:
+        session['username'] = auth.authenticat()
+    username = session['username']
+    if 'wishList' not in session:
+        session['wishList'] = db.get_user_wishlist(username)
+    wishList = session['wishList']
     recipe_id = flask.request.form.get('recipe_id')
 
     if recipe_id not in wishList:
         wishList.append(recipe_id)
         db.update_user_wishlist(username, wishList)
+        session['wishList'] = wishList
     
     full_wishList = []
     for r_id in wishList:

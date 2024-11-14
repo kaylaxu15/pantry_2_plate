@@ -205,16 +205,39 @@ class DatabaseClient:
     
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
-        #query = {"ingredients" : }
+        query = [
+        # Calculate missing_count by filtering ingredients not present in the recipe
+        {
+            "$addFields": {
+                "missing_count": {
+                    "$size": {
+                        "$filter": {
+                            "input": ingredients,
+                            "as": "ingredient",
+                            "cond": {"$not": {"$in": ["$$ingredient", "$ingredients"]}}
+                        }
+                    }
+                }
+            }
+        },
+        
+        # Match recipes with the exact number of missing ingredients
+        {"$match": {"missing_count": number}}]
+        return list(col.aggregate(query))
+
+
     
     
 if __name__ == "__main__":
     db = DatabaseClient()
-    db.delete_all_ingredients()
-    db.delete_all_recipes()
+    # db.delete_all_ingredients()
+    # db.delete_all_recipes()
     # recipes = db.get_recipes_ingredients(['cocoa powder'])
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
+    missing_recipes = db.get_recipes_missing_ingredients(1, ['cocoa powder', 'butter', 'dark chocolate', 'egg', 'sugar'])
+    for recipe in missing_recipes:
+       print(db.return_recipe(recipe["_id"]))
     # db.delete_all_recipes()
     #db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
@@ -222,18 +245,18 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
+    # df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
 
-    for row in df.iterrows():
-        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-        converted_methods = ast.literal_eval(row[1]["methods"])
-        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        # print(converted_standardized_ingredients_dict)
-        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
+    # for row in df.iterrows():
+    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+    #     converted_methods = ast.literal_eval(row[1]["methods"])
+    #     converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+    #     # print(converted_standardized_ingredients_dict)
+    #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-        try:
-            servings = converted_servings_dict['serves']
-        except:
-            servings = ''
+    #     try:
+    #         servings = converted_servings_dict['serves']
+    #     except:
+    #         servings = ''
         
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"], row[1]["total_time"])
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"], row[1]["total_time"])
