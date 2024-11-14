@@ -2,14 +2,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="static/recipe_page.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+          color: #FBDFC9;
+          outline-style: solid;
+          outline-width: 2px
+        }
+    </style>
 
 </head>
 <body>
+    {% include 'header.html' %}
     <h1 style="color: green;">{{recipe.title}}</h1>
     <img src="{{recipe.picture_url}}" width="700" height="500">
     <br></br>
     <h2>Number of Servings: {{recipe.servings}}</h2>
+    <br></br>
+    Rating:
+    <div id="ratings"></div>
+    {% for tag in recipe.restrictions %}
+    <button class="tight-wrap-button">{{tag}}</button>
+    {% endfor %}
     <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
     <h2>Ingredient List</h2>
     {% for ingredient in recipe.actual_ingredients %}
@@ -26,6 +41,24 @@
           <button id="all-recipes-button">BACK TO ALL RECIPES </button>
         </form>
     </div>
+
+    <script>
+    
+    function rating(recipe) {
+        'use strict';
+        let html = ""
+        for (let i = 0; i < 5; i++) {
+            if (i < recipe['rating'][0]) {
+                html += <span class="fa fa-star checked"></span>
+                
+            } else {
+                html += <span class="fa fa-star"></span>
+            }
+        }
+        $('#ratings').html(html);
+    }
+            
+    </script>
 
     
 </body>

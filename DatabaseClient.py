@@ -60,6 +60,21 @@ class DatabaseClient:
         col.update_one({"emailId": emailId}, {"$set": {"favRecipes": favRecipes}})
         return 0
     
+    # return the favRecipes of a user
+    def get_favRecipes(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId})
+        if user:
+            return user["favRecipes"]
+        else:
+            return None
+        
+    # remove a recipe from favorites
+    def remove_favRecipe(self, emailId, recipe_id):
+        col = self.db["Users"]
+        col.update_one({"emailId": emailId}, {"$pull": {"favRecipes": recipe_id}})
+
+    
     def update_user_wishlist(self, emailId, wishList):
         if self.check_emailId_taken(emailId) == False:
             return 1
@@ -73,6 +88,15 @@ class DatabaseClient:
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$set": {"completed": completed}})
         return 0
+
+    # return the completed recipeIDs of a user
+    def get_completed(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId})
+        if user:
+            return user["completed"]
+        else:
+            return None
         
     def check_emailId_taken(self, emailId):
         col = self.db["Users"]
@@ -205,4 +229,5 @@ if __name__ == "__main__":
             servings = converted_servings_dict['serves']
         except:
             servings = ''
+        
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"], row[1]["total_time"])

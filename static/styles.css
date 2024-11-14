@@ -6,236 +6,259 @@
     border: 2px dashed green;
     padding: 5px;
     margin: 5px;
+
+    resize: both;
+    overflow:scroll;
+  
+    align-items: stretch;
 }
 
-    body {
-        background-color: #c1c265;
-        display: flex;
-        min-height: 100vh;
-        margin: 0;
-        flex-direction: column;
+body {
+    background-color: #c1c265;
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 50px;
+    color: #315E26;
+    margin: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 35px;
+    color: #315E26;
+    /*margin: 20px;*/
+    text-align: center;
+}
+
+p {
+    font-size: 25px;
+    color: #315E26;
+    margin: 20px;
+}
+
+#SearchBox {
+    width: 80%;
+    font-size: 18px;
+    padding: 11px;
+    border: 3px solid black;
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+.pantry-list button {
+    background-color: #dca9a9;
+    color: #315E26;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#Ingredients {
+    list-style-type: none;
+    font-size: 20px;
+    padding: 0;
+}
+
+#Ingredients li a {
+    padding: 12px;
+    text-decoration: none;
+    color: #315E26;
+    display: list-item;
+} 
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; 
+    padding: 20px;
+    flex:1;
+}
+
+.left-container {
+    width: 45%; 
+}
+
+.right-container {
+    width: 50%; 
+    padding-left: 20px;
+} 
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    color: #315E26;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+.scroll {
+    /*margin: 4px, 4px;
+    margin-left: 20px;*/
+    border-radius: 30px;
+    border: 2px;
+    padding: 20px;
+    background-color: #e0e27aa2;
+    width: 100%;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.bottom-buttons {
+    bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.col1 {
+    /*For defining the size of the buttons.*/
+    width: 10.5%;
+    height: 60.5%;
+    padding: 10;
+    border: 0;
+    text-align: center;
+    font-size: 16px;
+    margin: 30px;
+
     }
 
-    h1 {
-        font-size: 50px;
-        color: #315E26;
-        margin: 20px;
-        text-align: center;
-    }
+.tight-wrap-button {
 
-    h2 {
-        font-size: 35px;
-        color: #315E26;
-        /*margin: 20px;*/
-        text-align: center;
-    }
-
-    p {
-        font-size: 25px;
-        color: #315E26;
-        margin: 20px;
-    }
+    padding: 5px 10px; /* Adjust padding as needed */
+    background-color: #FBDFC9; 
+    color: #A15B20;
+    width: fit-content; 
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid black;
     
-    #SearchBox {
-        width: 80%;
-        font-size: 18px;
-        padding: 11px;
-        border: 3px solid black;
-        margin-bottom: 20px;
-        border-radius: 30px;
-    }
+    resize: both;
+    overflow:scroll;
+  
+    display: -ms-inline-grid;
+    flex-flow: row wrap;
+    align-items: stretch;
+}
 
-    .pantry-list button {
-        background-color: #dca9a9;
-        color: #315E26;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
+button {
+    background-color: #FBDFC9; 
+    border: none;
+    color: #A15B20;
+    padding: 15px 32px;
+    /*margin-left: 30px;
+    margin-right: 30px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 30px;
+}
 
-    #Ingredients {
-        list-style-type: none;
-        font-size: 20px;
-        padding: 0;
-    }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);;
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    margin: auto;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    padding: 20px;
+}
 
-    #Ingredients li a {
-        padding: 12px;
-        text-decoration: none;
-        color: #315E26;
-        display: list-item;
-    } 
-    .main-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px; 
-        padding: 20px;
-        flex:1;
-    }
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
 
-    .left-container {
-        width: 45%; 
-    }
+.filter-button {
+    background-color: #4CAF50;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 5px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+.back-button {
+    position: absolute;
+    top: 12px;
+    right: 135px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
 
-    .right-container {
-        width: 50%; 
-        padding-left: 20px;
-    } 
-    .table-container {
-        max-height: 500px;
-        overflow-y: auto;
-        border: 1px solid black;
-    }
+.wishlist-button {
+    position: absolute;
+    top: 12px;
+    right: 260px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 18px;
-        color: #315E26;
-    }
-
-    table, th, td {
-        border: 1px solid black;
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    .scroll {
-        /*margin: 4px, 4px;
-        margin-left: 20px;*/
-        border-radius: 30px;
-        border: 2px;
-        padding: 20px;
-        background-color: #e0e27aa2;
-        width: 100%;
-        height: 500px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    .bottom-buttons {
-        bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-    }
-
-    .col1 {
-        /*For defining the size of the buttons.*/
-        width: 10.5%;
-        height: 60.5%;
-        padding: 10;
-        border: 0;
-        text-align: center;
-        font-size: 16px;
-        margin: 30px;
-
-      }
-
-    button {
-        background-color: #FBDFC9; 
-        border: none;
-        color: #A15B20;
-        padding: 15px 32px;
-        /*margin-left: 30px;
-        margin-right: 30px; */
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 30px;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.3);;
-        padding-top: 60px;
-    }
-    .modal-content {
-        background-color: #fefefe;
-        border: 1px solid #888;
-        margin: auto;
-        width: 80%;
-        max-width: 400px;
-        border-radius: 10px;
-        padding: 20px;
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        cursor: pointer;
-    }
-
-    .filter-button {
-        background-color: #4CAF50;
-        position: absolute;
-        top: 12px;
-        right: 10px;
-        color: white;
-        padding: 10px 0;
-        margin: 20px;
-        border: none;
-        cursor: pointer;
-        width: 100px;
-        border-radius: 5px;
-        display: inline-block; 
-        text-decoration: none; 
-        text-align: center;
-        font-size: 16px;
-    }
-    .back-button {
-        position: absolute;
-        top: 12px;
-        right: 135px;
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 0;
-        margin: 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        width: 100px;
-        display: inline-block; 
-        text-decoration: none; 
-        text-align: center;
-        font-size: 16px;
-    }
-
-    .wishlist-button {
-        position: absolute;
-        top: 12px;
-        right: 260px;
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 0;
-        margin: 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        width: 100px;
-        display: inline-block; 
-        text-decoration: none; 
-        text-align: center;
-        font-size: 16px;
-    }
-
-    .filter-button:hover {
-        background-color: #45a049;
-    }
-    .back-button:hover {
-        background-color: #45a049;
-    }
+.filter-button:hover {
+    background-color: #45a049;
+}
+.back-button:hover {
+    background-color: #45a049;
+}
 

@@ -10,8 +10,8 @@
     <h1>{{ username }}'s Wishlist</h1>
 
     <div class="wishlist-container">
-        {% if wishlist %}
-            {% for recipe in wishlist %}
+        {% if wishList %}
+            {% for recipe in wishList %}
                 <span class="inline-box">
                     <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
                     <br><br>

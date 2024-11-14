@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <h1 style="color: green;">Finished Recipes</h1>
+
+    <a href="/finished_recipes" class="wishlist-button">Completed</a>
+    <a href = "/favorite_recipes" class = "wishlist-button">Favorites</a>
+
+    {% for recipe in recipes %}
+        <span class="inline-box">
+            <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
+
+            <br></br>
+            <img src="{{recipe.picture_url}}" width="150" height="150">
+            <br></br>
+            Number of Servings: {{recipe.servings}}
+            <br></br>
+            Time needed: {{recipe.prep_time[5:]}}
+            <form action="/remove_from_favorites" method="post" style="display: inline;">
+                <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
+                <button type="submit" class="wishlist-button">Remove from Favorites</button>
+            </form>
+        </span>
+    {% endfor %}
+
+    <script>
+
+    </script>
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

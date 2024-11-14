@@ -100,25 +100,70 @@ def recipe_page():
     recipe_id = flask.request.args.get("recipe")
     
     recipe = db.return_recipe(recipe_id)
+    print("RECIPE", recipe)
     methods = recipe['methods'].replace("\'","\"")
     methods = json.loads(methods)
+    #methods = []
     
     return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
 
 @app.route('/add_to_wishlist', methods=['POST'])
 def add_to_wishlist():
-    recipe_id = flask.request.form.get('recipe_id') 
-
+    recipe_id = flask.request.args.get('recipe') 
     username = auth.authenticate()
     user = db.get_user(username)
-    if recipe_id not in user["wishList"]:
-        user["wishList"].append(recipe_id)
-        db.update_user_wishlist(username, user["wishList"])
+    wishList = user.get('wishList', [])
+    if not isinstance(wishList, list):
+        wishList = []
+    if recipe_id not in wishList:
+        wishList.append(recipe_id)
+        db.update_user_wishlist(username, wishList)
+    wishList_ids = db.get_user(username).get('wishList', [])
+    wishlist_recipes = []
+    for recipe_id in wishList_ids:
+        recipe = db.return_recipe(recipe_id)
+        if recipe:
+            wishlist_recipes.append(recipe)
+    return render_template('wishlist.html', wishList=wishlist_recipes, username=username)
 
-    wishList = db.get_user(username)["wishList"]
-    return render_template('wishlist.html', wishList=wishList, username=username)
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
     #email_id = flask.request.cookies.get("emailId")
     return render_template('profile_page.html', email_id=username)
+
+@app.route('/finished_recipes', methods=['GET'])
+def finished_recipes():
+    username = auth.authenticate()
+    completed_recipes = db.get_completed(username)
+    recipes = []
+    for recipe_id in completed_recipes:
+        recipes.append(db.return_recipe(recipe_id))
+    return render_template('prototype_finished_recipes.html', recipes = recipes)
+
+@app.route('/favorite_recipes', methods = ['GET'])
+def favorite_recipes():
+    username = auth.authenticate
+    favRecipes = db.get_favRecipes(username)
+    return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
+
+@app.route('/add_to_favorites', methods=['GET'])
+def add_to_favorites():
+    recipe_id = flask.request.args.get('recipe')
+    username = auth.authenticate()
+    user = db.get_user(username)
+    favorites = user.get('favRecipes', [])
+    if recipe_id not in favorites:
+        favorites.append(recipe_id)
+        db.update_user_favRecipes(username, favorites)
+
+@app.route('/remove_from_favorites', methods=['PATCH'])
+def remove_from_favorites():
+    recipe_id = flask.request.args.get('recipe')
+    username = auth.auntheticate()
+    db.remove_favRecipe(username, recipe_id)
+    favRecipes = db.get_favRecipes(username)
+    return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
+    
+
+    
