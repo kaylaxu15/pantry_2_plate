@@ -2,33 +2,58 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="static/styles.css">
-
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     {% include 'footer.html' %}
-    <h1 style="color: green;">{{recipe.title}}</h1>
-    <img src="{{recipe.picture_url}}" width="700" height="500">
-    <br></br>
-    <h2>Number of Servings: {{recipe.servings}}</h2>
-    <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
-    <h2>Ingredient List</h2>
-    {% for ingredient in recipe.actual_ingredients %}
-    <h3>{{ingredient}}</h3>
-    {% endfor %}
-    <br><br>
-    {% for method in recipe.methods %}
-    <h3>{{method}}</h3>
-    {% endfor %}
+    <div class="profile-container">
+        <h1>Profile</h1>
 
-    <div class="bottom-buttons">
-        <form action="/all_recipes">
-            <button id="all-recipes-button">BACK TO ALL RECIPES </button>
-        </form>
+        <!-- User Image Section -->
+        <div class="user-image">
+            <img src="{{ user_data.picture }}" alt="User Profile Image" width="700" height="500">
+        </div>
+
+        <!--
+        <div class="allergy-section">
+            <label for="allergies">Enter allergies here (i.e. eggs)</label>
+            <select class="js-example-basic-multiple" name="allergies[]" multiple="multiple">
+                <option value=" {{ allergy }}">{{ allergy }}</option>
+                  ...
+                <option value="WY">Wyoming</option>
+              </select>
+            <select name="allergies" id="allergies" multiple>
+                {% for allergy in user_data.allergies %}
+                <option value="{{ allergy }}" {% if allergy in user.allergies %}selected{% endif %}>
+                    {{ allergy }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        -->
+
+        <!-- Dietary Preferences Checkboxes -->
+        <div class="dietary-preferences-section">
+            <p>Dietary Preferences</p>
+            {% for restriction in user_data.restrictions %}
+            <div class="restriction">
+                <label for="diet-{{ restriction }}">
+                    <input type="checkbox" name="dietary-restriction" id="diet-{{ restriction }}"
+                        value="{{ restriction }}" {% if restriction in user.dietary_preferences %}checked{% endif %}>
+                    {{ restriction }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Save Changes Button -->
+        <div class="save-button">
+            <button type="submit" id="saveChangesBtn">SAVE CHANGES</button>
+        </div>
+
     </div>
-    
-
 
 </body>
 

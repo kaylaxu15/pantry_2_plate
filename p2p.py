@@ -9,11 +9,20 @@ import dotenv
 import auth
 import os
 from top import app
+import cloudinary
+import cloudinary.uploader
 
 db = DatabaseClient.DatabaseClient()
 
 dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
+
+cloudinary.config( 
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
+    api_key = os.getenv('CLOUDINARY_API_KEY'), 
+    api_secret = os.getenv('CLOUDINARY_API_SECRET'), 
+    secure=True
+)
 
 @app.route('/', methods=['GET'])
 @app.route('/?', methods=['GET'])
@@ -133,8 +142,8 @@ def add_to_wishlist():
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
-    #email_id = flask.request.cookies.get("emailId")
-    return render_template('profile_page.html', email_id=username)
+    user_data = db.get_user(username)
+    return render_template('profile_page.html', user_data=user_data)
 
 @app.route('/finished_recipes', methods=['GET'])
 def finished_recipes():
