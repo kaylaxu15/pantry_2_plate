@@ -127,7 +127,7 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"_id": ObjectId(recipe_id)})
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time):
+    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
             return 1
@@ -142,7 +142,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "difficulty": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time}
+        dict = {"title": title, "difficulty": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time, "makes":makes, "servings":servings}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -205,27 +205,14 @@ class DatabaseClient:
     
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
-        query = [
-        # Calculate missing_count by filtering ingredients not present in the recipe
-        {
-            "$addFields": {
-                "missing_count": {
-                    "$size": {
-                        "$filter": {
-                            "input": ingredients,
-                            "as": "ingredient",
-                            "cond": {"$not": {"$in": ["$$ingredient", "$ingredients"]}}
-                        }
-                    }
-                }
-            }
-        },
-        
-        # Match recipes with the exact number of missing ingredients
-        {"$match": {"missing_count": number}}]
+        query = [{"$addFields": {"missing_count": {"$size": {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient", ingredients]}}}}}}},{"$match": {"missing_count": number}}]
         return list(col.aggregate(query))
-
-
+    
+    def return_page_recipes(self, ingredients):
+        recipes = []
+        for i in range(5):
+            recipes.extend(self.get_recipes_missing_ingredients(i, ingredients))
+        return recipes
     
     
 if __name__ == "__main__":
@@ -235,9 +222,10 @@ if __name__ == "__main__":
     # recipes = db.get_recipes_ingredients(['cocoa powder'])
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
-    missing_recipes = db.get_recipes_missing_ingredients(1, ['cocoa powder', 'butter', 'dark chocolate', 'egg', 'sugar'])
+    missing_recipes = db.return_page_recipes(['egg', 'butter'])
     for recipe in missing_recipes:
-       print(db.return_recipe(recipe["_id"]))
+       print(recipe)
+       print()
     # db.delete_all_recipes()
     #db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
@@ -259,4 +247,4 @@ if __name__ == "__main__":
     #     except:
     #         servings = ''
         
-    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"], row[1]["total_time"])
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
