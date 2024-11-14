@@ -12,14 +12,27 @@
     <div class="wishlist-container">
         {% if wishList %}
             {% for recipe in wishList %}
-                <span class="inline-box">
-                    <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
-                    <br><br>
-                    <img src="{{recipe.picture_url}}" width="150" height="150">
-                    <br><br>
+            <span class="inline-box">
+                <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
+    
+                <br></br>
+                <img src="{{recipe.picture_url}}" width="150" height="150">
+                <br></br>
+                {% if recipe.servings != '' %}
                     Number of Servings: {{recipe.servings}}
-                    <br><br>
-                    Time needed: {{recipe.total_time}} minutes
+                {% else %}
+                    Makes: {{recipe.makes}}
+                {% endif %}
+                <br></br>
+                Difficulty: {{recipe.difficulty}}
+                <br></br>
+                Time needed: {{recipe.prep_time[5:]}}
+                <br></br>
+    
+                Tags: 
+                {% for tag in recipe.restrictions %}
+                    <button class="tight-wrap-button">{{tag}}</button>
+                {% endfor %}
                 </span>
             {% endfor %}
         {% else %}

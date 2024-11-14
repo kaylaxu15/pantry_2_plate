@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, session
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -112,18 +112,14 @@ def recipe_page():
     
     return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
 
-@app.route('/add_to_wishlist', methods=['POST'])
+@app.route('/add_to_wishlist', methods=['GET', 'POST'])
 def add_to_wishlist():
     username = auth.authenticate()
     wishList = db.get_user_wishlist(username)
-    print("Wishlist before adding:", wishList)
-
     recipe_id = flask.request.form.get('recipe_id')
-    print("Received recipe_id:", recipe_id)
 
     if recipe_id not in wishList:
         wishList.append(recipe_id)
-        print("Wishlist after adding:", wishList)
         db.update_user_wishlist(username, wishList)
     
     full_wishList = []
