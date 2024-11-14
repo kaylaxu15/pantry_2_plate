@@ -112,20 +112,12 @@ def add_to_wishlist():
     recipe_id = flask.request.args.get('recipe') 
     username = auth.authenticate()
     user = db.get_user(username)
-    wishList = user.get('wishList', [])
-    if not isinstance(wishList, list):
-        wishList = []
-    if recipe_id not in wishList:
-        wishList.append(recipe_id)
-        db.update_user_wishlist(username, wishList)
-    wishList_ids = db.get_user(username).get('wishList', [])
-    wishlist_recipes = []
-    for recipe_id in wishList_ids:
-        recipe = db.return_recipe(recipe_id)
-        if recipe:
-            wishlist_recipes.append(recipe)
-    return render_template('wishlist.html', wishList=wishlist_recipes, username=username)
+    if recipe_id not in user['wishList']:
+        user['wishList'].append(recipe_id)
+        db.update_user_wishlist(username, user['wishList'])
 
+    wishList = db.get_user(username)["wishList"]
+    return render_template('wishlist.html', wishList=wishList, username=username)
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
