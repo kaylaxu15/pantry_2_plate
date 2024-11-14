@@ -26,6 +26,9 @@
     <button class="tight-wrap-button">{{tag}}</button>
     {% endfor %}
     <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+    <br></br>
+    <h2>Difficulty: {{recipe.difficulty}}</h2>
+    <br></br>
     <h2>Ingredient List</h2>
     {% for ingredient in recipe.actual_ingredients %}
     <h3>{{ingredient}}</h3>

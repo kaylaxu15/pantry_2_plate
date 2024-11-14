@@ -138,7 +138,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "password": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time}
+        dict = {"title": title, "difficulty": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)

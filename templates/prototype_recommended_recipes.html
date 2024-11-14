@@ -50,6 +50,8 @@
                 Makes: {{recipe.makes}}
             {% endif %}
             <br></br>
+            Difficulty: {{recipe.difficulty}}
+            <br></br>
             Time needed: {{recipe.prep_time[5:]}}
             <form action="/add_to_wishlist" method="post" style="display: inline;">
                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
