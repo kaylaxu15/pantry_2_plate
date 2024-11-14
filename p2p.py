@@ -9,11 +9,20 @@ import dotenv
 import auth
 import os
 from top import app
+import cloudinary
+import cloudinary.uploader
 
 db = DatabaseClient.DatabaseClient()
 
 dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
+
+cloudinary.config( 
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
+    api_key = os.getenv('CLOUDINARY_API_KEY'), 
+    api_secret = os.getenv('CLOUDINARY_API_SECRET'), 
+    secure=True
+)
 
 @app.route('/', methods=['GET'])
 @app.route('/?', methods=['GET'])
@@ -115,30 +124,19 @@ def recipe_page():
 @app.route('/add_to_wishlist', methods=['POST'])
 def add_to_wishlist():
     username = auth.authenticate()
-    wishList = db.get_user_wishlist(username)
-    print("Wishlist before adding:", wishList)
+    user = db.get_user(username)
+    if recipe_id not in user['wishList']:
+        user['wishList'].append(recipe_id)
+        db.update_user_wishlist(username, user['wishList'])
 
-    recipe_id = flask.request.form.get('recipe_id')
-    print("Received recipe_id:", recipe_id)
-
-    if recipe_id not in wishList:
-        wishList.append(recipe_id)
-        print("Wishlist after adding:", wishList)
-        db.update_user_wishlist(username, wishList)
-    
-    full_wishList = []
-    for r_id in wishList:
-        recipe = db.return_recipe(r_id)
-        if recipe:  
-            full_wishList.append(recipe)
-    
-    return render_template('wishlist.html', wishList=full_wishList, username=username)
+    wishList = db.get_user(username)["wishList"]
+    return render_template('wishlist.html', wishList=wishList, username=username)
 
 @app.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
-    #email_id = flask.request.cookies.get("emailId")
-    return render_template('profile_page.html', email_id=username)
+    user_data = db.get_user(username)
+    return render_template('profile_page.html', user_data=user_data)
 
 @app.route('/finished_recipes', methods=['GET'])
 def finished_recipes():
