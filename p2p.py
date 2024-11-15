@@ -164,37 +164,9 @@ def favorite_recipes():
         return render_template('prototype_favorite_recipes.html', recipes = [])
     return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
 
-@app.route('/add_to_completed', methods=['POST'])
-def add_to_completed():
-    recipe_id = flask.request.args.get('completed_recipe')
-    username = auth.authenticate()
-    completed = db.get_completed(username)
-    if completed is None:
-        completed = []
 
-    if recipe_id not in completed:
-        completed.append(recipe_id)
-        db.update_user_completed(username, completed)
-        print("COMPLETED", db.get_completed(username))
-    return finished_recipes()
 
-@app.route('/add_to_favorites', methods=['GET'])
-def add_to_favorites():
-    recipe_id = flask.request.args.get('recipe')
-    username = auth.authenticate()
-    user = db.get_user(username)
-    favorites = user.get('favRecipes', [])
-    if recipe_id not in favorites:
-        favorites.append(recipe_id)
-        db.update_user_favRecipes(username, favorites)
 
-@app.route('/remove_from_favorites', methods=['PATCH'])
-def remove_from_favorites():
-    recipe_id = flask.request.args.get('recipe')
-    username = auth.auntheticate()
-    db.remove_favRecipe(username, recipe_id)
-    favRecipes = db.get_favRecipes(username)
-    return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
 
 
     

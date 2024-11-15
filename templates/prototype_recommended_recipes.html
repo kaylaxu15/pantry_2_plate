@@ -21,13 +21,13 @@
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
             <h2>Filter Options</h2>
             
-            <form action="/recommended_recipes" method="get">
+            <form action="/all_recipes" method="get">
                 <label for="skill">Skill Level:</label>
                 <select name="skill" id="skill">
                     <option value="">--Select--</option> 
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
+                    <option value="Easy">Beginner</option>
+                    <option value="More effort">Intermediate</option>
+                    <option value="A challenge">Advanced</option>
                 </select>
                 <br></br>
                 <label for="time">Time (minutes):</label>

@@ -95,13 +95,10 @@ class DatabaseClient:
         return 0
 
     # return the completed recipeIDs of a user
-    def get_completed(self, emailId):
+    def get_user_completed(self, emailId):
         col = self.db["Users"]
-        user = col.find_one({"emailId": emailId})
-        if user:
-            return user["completed"]
-        else:
-            return None
+        user = col.find_one({"emailId": emailId}, {"completed": 1})
+        return user["completed"] if user and "completed" in user else []
         
     def check_emailId_taken(self, emailId):
         col = self.db["Users"]
