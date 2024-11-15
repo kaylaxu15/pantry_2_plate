@@ -110,6 +110,31 @@ def add_to_wishlist():
     
     return render_template('wishlist.html', wishList=full_wishList, username=username)
 
+@app.route('/remove_from_wishlist', methods=['POST'])
+def remove_from_wishlist():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    
+    if 'wishList' not in session:
+        session['wishList'] = db.get_user_wishlist(username)
+    wishList = session['wishList']
+    
+    recipe_id = flask.request.form.get('recipe_id')
+
+    if recipe_id in wishList:
+        wishList.remove(recipe_id)
+        db.update_user_wishlist(username, wishList)
+        session['wishList'] = wishList
+
+    full_wishList = []
+    for r_id in wishList:
+        recipe = db.return_recipe(r_id)
+        if recipe:
+            full_wishList.append(recipe)
+
+    return render_template('wishlist.html', wishList=full_wishList, username=username)
+
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
@@ -167,6 +192,30 @@ def add_to_favorites():
 
     return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
+@app.route('/remove_from_favorites', methods=['POST'])
+def remove_from_favorites():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    
+    if 'favRecipes' not in session:
+        session['favRecipes'] = db.get_user_favRecipes(username)
+    favRecipes = session['favRecipes']
+    
+    recipe_id = flask.request.form.get('recipe_id')
+
+    if recipe_id in favRecipes:
+        favRecipes.remove(recipe_id)
+        db.update_user_favRecipes(username, favRecipes)
+        session['favRecipes'] = favRecipes
+
+    full_favRecipes = []
+    for r_id in favRecipes:
+        recipe = db.return_recipe(r_id)
+        if recipe:
+            full_favRecipes.append(recipe)
+
+    return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
 
 

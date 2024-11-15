@@ -7,7 +7,7 @@
     <title>Your Favorite Recipes</title>
 </head>
 <body>
-    <h1>{{ username }}'s Favorite Recipes</h1>
+    <h1>Your Favorite Recipes</h1>
     <a href="/all_recipes" class="back-button">Go Back</a>
 
     <div class="favorite-container">
@@ -35,6 +35,9 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
+                <form action="/remove_from_favorites" method="post">
+                    <input type="hidden" name="recipe_id" value="{{recipe._id}}">
+                    <button type="submit">Remove from Favorites</button>
                 </form>
                 </span>
             {% endfor %}
