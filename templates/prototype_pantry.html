@@ -37,6 +37,14 @@
               </tr>
             </thead>
             <tbody>
+              {% for item in pantry_items %}
+                <tr>
+                  <td>{{ item }}</td>
+                  <td>
+                    <button class="remove-button">Remove</button>
+                  </td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
           </div>
@@ -46,7 +54,7 @@
         <div class = "bottom-buttons">
           <form action="/recommended_recipes"> 
             <input type="hidden" id="ing" name="ingredients" value={{ing}}>
-            <button type="submit" id="recommend-button">RECOMMEND</button>
+            <button id="recommend-button">RECOMMEND</button>
           </form>
           <form action="/all_recipes"> 
             <button id="all-recipes-button">ALL RECIPES </button>
@@ -126,6 +134,27 @@
             savePantryItems();
           }
         }
+
+        function savePantryItems() {
+          var pantryItems = getPantryItems();
+          fetch('/pantry/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'pantry_items': pantryItems })
+          });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+          const removeButtons = document.querySelectorAll(".remove-button");
+          removeButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+              const row = button.closest("tr");
+              removeFromPantry(row);
+            });
+          });
+        });
 
         // get pantry items from the table
         function getPantryItems() {

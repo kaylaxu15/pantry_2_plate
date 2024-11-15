@@ -31,36 +31,22 @@ def index():
     username = auth.authenticate()
     return render_template('landing_page.html', username=username)
 
-@app.route('/add/<item>')
-def add_item(item):
-    if 'items' not in session:
-        session['items'] = []
-    items = json.loads(session.get('items', '[]')) 
-    items.append(item)
-    session['items'] = json.dumps(items)
-    return jsonify(session['items'])
-
-@app.route('/remove/<item>')
-def remove_item(item):
-    if 'items' not in session:
-        session['items'] = []
-    items = json.loads(session.get('items', '[]')) 
-    items.remove(item)
-    session['items'] = json.dumps(items)
-    return jsonify(session['items'])
-
-@app.route('/getitems')
-def get_items():
-    items = json.loads(session.get('items', '[]'))
-    return jsonify(items)
-
 @app.route('/pantry', methods=['GET'])
 def pantry_page():
     username = auth.authenticate()
     ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     ingredients = ingredients.values.tolist()
     ingredients = np.squeeze(ingredients)
-    return render_template('prototype_pantry.html', ingredients=ingredients, username=username)
+    pantry_items = session.get('pantry_items', [])
+    return render_template('prototype_pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
+
+@app.route('/pantry/save', methods=['POST'])
+def save_pantry_items():
+    username = auth.authenticate()
+    data = request.get_json()
+    pantry_items = data.get('pantry_items')
+    session['pantry_items'] = pantry_items
+    return jsonify({'success': True})
 
 @app.route('/recommended_recipes', methods=['GET'])
 def results_page():
