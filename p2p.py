@@ -82,9 +82,9 @@ def recipe_page():
     
     recipe = db.return_recipe(recipe_id)
 
-    methods = recipe['methods'].replace("[,]+ \'", ", \"")
-    methods = recipe['methods'].replace("n\"t", "n\'t")
-    methods = recipe['methods'].replace(", \'", ", \"")
+    #methods = recipe['methods'].replace("[,]+ \'", ", \"")
+    #methods = recipe['methods'].replace("n\"t", "n\'t")
+    methods = recipe['methods'].replace("\'", "\"")
 
     print("INDEX", methods)
   
