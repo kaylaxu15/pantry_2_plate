@@ -9,9 +9,10 @@
     {% include 'header.html' %}
     <h1 style="color: green;">Recommended Recipes</h1>
 
-    <a href="/finished_recipes" class="back-button"> Completed/Favorites</a>
+    <a href="/finished_recipes" class="finished-button"> FinFav</a>
     <a href="/pantry" class="back-button">Pantry</a>
-    <a href = "/wishlist" class = "wishlist-button">Wishlist</a>
+    <a href = "/add_to_wishlist" class = "wishlist-button">Wishlist</a>
+    <a href = "/profile-page" class = "profile-button">Profile</a>
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     
@@ -28,30 +29,33 @@
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
                 </select>
-            
+                <br></br>
                 <label for="time">Time (minutes):</label>
                 <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
-            
+                <br></br>
                 <button type="submit">Apply Filters</button>
             </form>
         </div>
     </div>
-
-    {% for recipe in recipes[:18] %}
+    <div class="recipes-container">
+    {% for recipe in recipes %}
         <span class="inline-box">
             <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
 
             <br></br>
             <img src="{{recipe.picture_url}}" width="150" height="150">
             <br></br>
-            {% if recipe.servings != '' %}
+            {% if recipe.servings != "" %}
                 Number of Servings: {{recipe.servings}}
             {% else %}
                 Makes: {{recipe.makes}}
             {% endif %}
             <br></br>
-            Difficulty: {{recipe.difficulty}}
-            <br></br>
+            {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                Difficulty: {{ recipe.difficulty }}
+                <br></br>
+            {% else %}
+            {% endif %}
             Time needed: {{recipe.prep_time[5:]}}
             <form action="/add_to_wishlist" method="post" style="display: inline;">
                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
@@ -63,8 +67,14 @@
             {% for tag in recipe.restrictions %}
                 <button class="tight-wrap-button">{{tag}}</button>
             {% endfor %}
+            <br></br>
+            <form action="/add_to_wishlist" method="post">
+                <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
+                <button type="submit">Add to Wishlist</button>
+            </form>
         </span>
     {% endfor %}
+    </div>
 
     <script>
 
