@@ -105,7 +105,6 @@ def recipe_page():
 def add_to_wishlist():
     if 'username' not in session:
         session['username'] = auth.authenticate()
-        session['username'] = auth.authenticate()
     username = session['username']
     if 'wishList' not in session:
         session['wishList'] = db.get_user_wishlist(username)
@@ -165,15 +164,19 @@ def favorite_recipes():
         return render_template('prototype_favorite_recipes.html', recipes = [])
     return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
 
-@app.route('/add_to_completed', methods=['GET'])
+@app.route('/add_to_completed', methods=['POST'])
 def add_to_completed():
     recipe_id = flask.request.args.get('completed_recipe')
     username = auth.authenticate()
-    user = db.get_user(username)
-    completed = user.get('completed', [])
+    completed = db.get_completed(username)
+    if completed is None:
+        completed = []
+
     if recipe_id not in completed:
         completed.append(recipe_id)
         db.update_user_completed(username, completed)
+        print("COMPLETED", db.get_completed(username))
+    return finished_recipes()
 
 @app.route('/add_to_favorites', methods=['GET'])
 def add_to_favorites():
