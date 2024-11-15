@@ -13,6 +13,24 @@
     align-items: stretch;
 }
 
+.recipes-container, .wishlist-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; 
+    padding: 20px; 
+}
+button[type="submit"] {
+    background-color: #f3d9c6;
+    color: #A15B20;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end; 
+}
+
 body {
     background-color: #c1c265;
     display: flex;
@@ -203,26 +221,79 @@ button {
 }
 
 .filter-button {
-    background-color: #4CAF50;
     position: absolute;
     top: 12px;
     right: 10px;
+    background-color: #4CAF50;
     color: white;
     padding: 10px 0;
     margin: 20px;
     border: none;
     cursor: pointer;
-    width: 100px;
     border-radius: 5px;
+    width: 100px;
     display: inline-block; 
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
 }
+
+.profile-button {
+    position: absolute;
+    top: 12px;
+    right: 510px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+.profile-button-pantry {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+
 .back-button {
     position: absolute;
     top: 12px;
     right: 135px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+.finished-button {
+    position: absolute;
+    top: 12px;
+    right: 385px;
     background-color: #4CAF50;
     color: white;
     padding: 10px 0;

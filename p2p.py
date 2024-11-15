@@ -73,7 +73,7 @@ def results_page():
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
-    recipes = db.get_recipes_ingredients(ingredient_list)
+    recipes = db.return_page_recipes(ingredient_list)
     return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
 
 @app.route('/all_recipes', methods=['GET'])
@@ -104,6 +104,7 @@ def recipe_page():
 @app.route('/add_to_wishlist', methods=['GET', 'POST'])
 def add_to_wishlist():
     if 'username' not in session:
+        session['username'] = auth.authenticate()
         session['username'] = auth.authenticate()
     username = session['username']
     if 'wishList' not in session:
@@ -164,7 +165,17 @@ def favorite_recipes():
         return render_template('prototype_favorite_recipes.html', recipes = [])
     return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
 
-@app.route('/add_to_favorites', methods=['GET', 'POST'])
+@app.route('/add_to_completed', methods=['GET'])
+def add_to_completed():
+    recipe_id = flask.request.args.get('completed_recipe')
+    username = auth.authenticate()
+    user = db.get_user(username)
+    completed = user.get('completed', [])
+    if recipe_id not in completed:
+        completed.append(recipe_id)
+        db.update_user_completed(username, completed)
+
+@app.route('/add_to_favorites', methods=['GET'])
 def add_to_favorites():
     recipe_id = flask.request.args.get('recipe')
     username = auth.authenticate()
@@ -181,6 +192,6 @@ def remove_from_favorites():
     db.remove_favRecipe(username, recipe_id)
     favRecipes = db.get_favRecipes(username)
     return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
-    
+
 
     
