@@ -155,6 +155,16 @@ def add_to_favorites():
         favorites.append(recipe_id)
         db.update_user_favRecipes(username, favorites)
 
+@app.route('/add_to_completed', methods=['GET'])
+def add_to_completed():
+    recipe_id = flask.request.args.get('completed_recipe')
+    username = auth.authenticate()
+    user = db.get_user(username)
+    completed = user.get('completed', [])
+    if recipe_id not in completed:
+        completed.append(recipe_id)
+        db.update_user_completed(username, completed)
+
 @app.route('/remove_from_favorites', methods=['PATCH'])
 def remove_from_favorites():
     recipe_id = flask.request.args.get('recipe')
