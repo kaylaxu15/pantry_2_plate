@@ -2,12 +2,13 @@ from pymongo import MongoClient
 import pandas as pd
 import ast
 from bson import ObjectId
+import ssl
 
 class DatabaseClient:
     
     def __init__(self):
         self.uri = "mongodb+srv://server:hHSsj4NSo5KqJcKB@princetonplateplanner.zggiw.mongodb.net/?retryWrites=true&w=majority&appName=PrincetonPlatePlanner"
-        self.client = MongoClient(self.uri)
+        self.client = MongoClient(self.uri, ssl=True, tlsAllowInvalidCertificates=True)
         self.db = self.client["PPP"]
 
     def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[]):

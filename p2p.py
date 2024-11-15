@@ -105,6 +105,7 @@ def recipe_page():
 def add_to_wishlist():
     if 'username' not in session:
         session['username'] = auth.authenticate()
+        session['username'] = auth.authenticate()
     username = session['username']
     if 'wishList' not in session:
         session['wishList'] = db.get_user_wishlist(username)
@@ -132,17 +133,36 @@ def profile_page():
 
 @app.route('/finished_recipes', methods=['GET'])
 def finished_recipes():
+    print("Entering finished_recipes route")  # Debug statement
     username = auth.authenticate()
+    if username is None:
+        print("User not authenticated")
+        return render_template('prototype_finished_recipes.html', recipes = [])
+    
     completed_recipes = db.get_completed(username)
+    if completed_recipes is None:
+        # print("No completed recipes found for user:", username)
+        return render_template('prototype_finished_recipes.html', recipes = [])
     recipes = []
     for recipe_id in completed_recipes:
-        recipes.append(db.return_recipe(recipe_id))
+        recipe = db.return_recipe(recipe_id)
+        if recipe:
+            recipes.append(recipe)
+        else:
+            print("Recipe not found:", recipe_id)
     return render_template('prototype_finished_recipes.html', recipes = recipes)
 
 @app.route('/favorite_recipes', methods = ['GET'])
 def favorite_recipes():
+    print("Entering favorite_recipes route")  # Debug statement
     username = auth.authenticate
+    if username is None:
+        print("User not authenticated")  # Debug statement
+        return render_template('prototype_favorite_recipes.html', recipes = [])
     favRecipes = db.get_favRecipes(username)
+    
+    if favRecipes is None:
+        return render_template('prototype_favorite_recipes.html', recipes = [])
     return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
 
 @app.route('/add_to_completed', methods=['GET'])
