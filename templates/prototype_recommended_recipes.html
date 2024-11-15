@@ -45,12 +45,13 @@
             <br></br>
             <img src="{{recipe.picture_url}}" width="150" height="150">
             <br></br>
-            {% if recipe.servings != "" %}
-                Number of Servings: {{recipe.servings}}
-            {% else %}
-                Makes: {{recipe.makes}}
+            {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                Number of Servings: {{ recipe.servings }}
+                <br></br>
+            {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                Makes: {{ recipe.makes }}
+                <br></br>
             {% endif %}
-            <br></br>
             {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
                 Difficulty: {{ recipe.difficulty }}
                 <br></br>
