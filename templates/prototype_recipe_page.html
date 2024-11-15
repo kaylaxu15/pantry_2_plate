@@ -18,17 +18,18 @@
     <h1 style="color: green;">{{recipe.title}}</h1>
     <img src="{{recipe.picture_url}}" width="700" height="500">
     <br></br>
-    <h2>Number of Servings: {{recipe.servings}}</h2>
-    <br></br>
+    {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+    <h2>Number of Servings: {{ recipe.servings }}</h2>
+    {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+    <h2>Makes: {{ recipe.makes }}</h2>
+    {% endif %}
     <h2>Tags</h2>
     <div id="ratings"></div>
     {% for tag in recipe.restrictions %}
     <button class="tight-wrap-button">{{tag}}</button>
     {% endfor %}
     <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
-    <br></br>
     <h2>Difficulty: {{recipe.difficulty}}</h2>
-    <br></br>
     <h2>Ingredient List</h2>
     {% for ingredient in recipe.actual_ingredients %}
     <h3>{{ingredient}}</h3>

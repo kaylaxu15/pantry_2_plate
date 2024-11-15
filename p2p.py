@@ -11,6 +11,7 @@ import os
 from top import app
 import cloudinary
 import cloudinary.uploader
+import re
 
 db = DatabaseClient.DatabaseClient()
 
@@ -80,8 +81,13 @@ def recipe_page():
     recipe_id = flask.request.args.get("recipe")
     
     recipe = db.return_recipe(recipe_id)
-    print("RECIPE", recipe)
-    methods = recipe['methods'].replace("\'","\"")
+
+    methods = recipe['methods'].replace("[,]+ \'", ", \"")
+    methods = recipe['methods'].replace("n\"t", "n\'t")
+    methods = recipe['methods'].replace(", \'", ", \"")
+
+    print("INDEX", methods)
+  
     methods = json.loads(methods)
     #methods = []
     
