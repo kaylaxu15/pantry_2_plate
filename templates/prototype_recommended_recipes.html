@@ -57,10 +57,6 @@
             {% else %}
             {% endif %}
             Time needed: {{recipe.prep_time[5:]}}
-            <form action="/add_to_wishlist" method="post" style="display: inline;">
-                <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                <button type="submit" class="wishlist-button">Add to Wishlist</button>
-            </form>
             <br></br>
 
             Tags: 
