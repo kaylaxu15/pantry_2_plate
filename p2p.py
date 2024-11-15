@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, session, jsonify
+from flask import Flask, render_template, session, jsonify, request
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -27,7 +27,7 @@ cloudinary.config(
 @app.route('/', methods=['GET'])
 @app.route('/?', methods=['GET'])
 @app.route('/index', methods=['GET'])
-def landing_page():
+def index():
     username = auth.authenticate()
     return render_template('landing_page.html', username=username)
 
@@ -124,46 +124,62 @@ def add_to_wishlist():
     
     return render_template('wishlist.html', wishList=full_wishList, username=username)
 
-@app.route('/profile-page', methods=['GET', 'POST'])
+@app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
+    if request.method == 'POST':
+        updated_restrictions = request.form.getlist('restriction')
+        db.delete_user_restrictions(username)
+        db.update_user_restrictions(username, updated_restrictions)
     user_data = db.get_user(username)
     return render_template('profile_page.html', user_data=user_data)
 
-@app.route('/finished_recipes', methods=['GET'])
-def finished_recipes():
-    print("Entering finished_recipes route")  # Debug statement
-    username = auth.authenticate()
-    if username is None:
-        print("User not authenticated")
-        return render_template('prototype_finished_recipes.html', recipes = [])
+@app.route('/add_to_completed', methods=['GET', 'POST'])
+def add_to_completed():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    if 'completed' not in session:
+        session['completed'] = db.get_user_completed(username)
+    completed = session['completed']
+    recipe_id = flask.request.form.get('recipe_id')
+
+    if recipe_id not in completed:
+        completed.append(recipe_id)
+        db.update_user_completed(username, completed)
+        session['completed'] = completed
     
-    completed_recipes = db.get_completed(username)
-    if completed_recipes is None:
-        # print("No completed recipes found for user:", username)
-        return render_template('prototype_finished_recipes.html', recipes = [])
-    recipes = []
-    for recipe_id in completed_recipes:
-        recipe = db.return_recipe(recipe_id)
+    full_completed = []
+    for r_id in completed:
+        recipe = db.return_recipe(r_id)
         if recipe:
-            recipes.append(recipe)
-        else:
-            print("Recipe not found:", recipe_id)
-    return render_template('prototype_finished_recipes.html', recipes = recipes)
+            full_completed.append(recipe)
 
-@app.route('/favorite_recipes', methods = ['GET'])
-def favorite_recipes():
-    print("Entering favorite_recipes route")  # Debug statement
-    username = auth.authenticate
-    if username is None:
-        print("User not authenticated")  # Debug statement
-        return render_template('prototype_favorite_recipes.html', recipes = [])
-    favRecipes = db.get_favRecipes(username)
+    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username)
+
+
+@app.route('/add_to_favorites', methods=['GET', 'POST'])
+def add_to_favorites():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    if 'favRecipes' not in session:
+        session['favRecipes'] = db.get_user_favRecipes(username)
+    favRecipes = session['favRecipes']
+    recipe_id = flask.request.form.get('recipe_id')
+
+    if recipe_id not in favRecipes:
+        favRecipes.append(recipe_id)
+        db.update_user_favRecipes(username, favRecipes)
+        session['favRecipes'] = favRecipes
     
-    if favRecipes is None:
-        return render_template('prototype_favorite_recipes.html', recipes = [])
-    return render_template('prototype_favorite_recipes.html', recipes = favRecipes)
+    full_favRecipes = []
+    for r_id in favRecipes:
+        recipe = db.return_recipe(r_id)
+        if recipe:
+            full_favRecipes.append(recipe)
 
+    return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
 
 

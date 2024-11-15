@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
+    <title>Your Favorite Recipes</title>
 </head>
-
 <body>
-    <h1 style="color: green;">Favorite Recipes</h1>
+    <h1>{{ username }}'s Favorite Recipes</h1>
+    <a href="/all_recipes" class="back-button">Go Back</a>
 
-    <a href="/finished_recipes" class="wishlist-button">Completed</a>
-    <a href = "/favorite_recipes" class = "wishlist-button">Favorites</a>
-    {% if recipes is none or recipes|length == 0%}
-        <p>No recipes found.</p>
-    {% else %}
-        {% for recipe in recipes %}
+    <div class="favorite-container">
+        {% if favRecipes %}
+            {% for recipe in favRecipes %}
             <span class="inline-box">
                 <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
-
+    
                 <br></br>
                 <img src="{{recipe.picture_url}}" width="150" height="150">
                 <br></br>
-                Number of Servings: {{recipe.servings}}
+                {% if recipe.servings != '' %}
+                    Number of Servings: {{recipe.servings}}
+                {% else %}
+                    Makes: {{recipe.makes}}
+                {% endif %}
+                <br></br>
+                Difficulty: {{recipe.difficulty}}
                 <br></br>
                 Time needed: {{recipe.prep_time[5:]}}
-                <form action="/remove_from_favorites?recipe={{recipe._id}}" method="post" style="display: inline;">
-                    <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button type="submit" class="wishlist-button">Remove from Favorites</button>
+                <br></br>
+    
+                Tags: 
+                {% for tag in recipe.restrictions %}
+                    <button class="tight-wrap-button">{{tag}}</button>
+                {% endfor %}
+                <br></br>
                 </form>
-            </span>
-        {% endfor %}
-    {% endif %}
-
-    <script>
-
-    </script>
-    {% include 'footer.html' %}
-
+                </span>
+            {% endfor %}
+        {% else %}
+            <p>Your favorite recipe is empty.</p>
+        {% endif %}
+    </div>
 </body>
-
 </html>

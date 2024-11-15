@@ -13,13 +13,14 @@
     align-items: stretch;
 }
 
-.recipes-container, .wishlist-container {
+.recipes-container, .wishlist-container, .completed-container, .favorite-container{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center; 
     padding: 20px; 
 }
+
 button[type="submit"] {
     background-color: #f3d9c6;
     color: #A15B20;
@@ -289,6 +290,23 @@ button {
     position: absolute;
     top: 12px;
     right: 135px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+.back-button-finished {
+    position: absolute;
+    top: 12px;
+    right: 10px;
     background-color: #4CAF50;
     color: white;
     padding: 10px 0;

@@ -1,40 +1,50 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
+    <title>Your Finished Recipes</title>
 </head>
-
 <body>
-    <h1 style="color: green;">Finished Recipes</h1>
+    <h1>{{ username }}'s Finished Recipes</h1>
+    <a href="/all_recipes" class="back-button">Go Back</a>
+    <a href = "/add_to_favorites" class = "back-button-finished">Favorites</a>
 
-    <a href="/finished_recipes" class="wishlist-button">Completed</a>
-    <a href = "/favorite_recipes" class = "wishlist-button">Favorites</a>
-    {% if recipes is none or recipes|length == 0%}
-        <p>No recipes found.</p>
-    {% else %}
-        {% for recipe in recipes %}
+    <div class="completed-container">
+        {% if completed %}
+            {% for recipe in completed %}
             <span class="inline-box">
                 <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
-
+    
                 <br></br>
                 <img src="{{recipe.picture_url}}" width="150" height="150">
                 <br></br>
-                Number of Servings: {{recipe.servings}}
+                {% if recipe.servings != '' %}
+                    Number of Servings: {{recipe.servings}}
+                {% else %}
+                    Makes: {{recipe.makes}}
+                {% endif %}
+                <br></br>
+                Difficulty: {{recipe.difficulty}}
                 <br></br>
                 Time needed: {{recipe.prep_time[5:]}}
-                <form action="/add_to_favorites?recipe={{recipe._id}}" method="post" style="display: inline;">
+                <br></br>
+    
+                Tags: 
+                {% for tag in recipe.restrictions %}
+                    <button class="tight-wrap-button">{{tag}}</button>
+                {% endfor %}
+                <br></br>
+                <form action="/add_to_favorites" method="post">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button type="submit" class="wishlist-button">Add to Favorites</button>
+                    <button type="submit">Add to Favorites</button>
                 </form>
-            </span>
-        {% endfor %}
-    {% endif %}
-
-    <script>
-
-    </script>
-
+                </span>
+            {% endfor %}
+        {% else %}
+            <p>Your finished recipe is empty.</p>
+        {% endif %}
+    </div>
 </body>
-
 </html>
