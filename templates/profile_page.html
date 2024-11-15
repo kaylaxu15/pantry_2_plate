@@ -40,9 +40,17 @@
             {% for restriction in user_data.restrictions %}
             <div class="restriction">
                 <label for="diet-{{ restriction }}">
-                    <input type="checkbox" name="dietary-restriction" id="diet-{{ restriction }}"
-                        value="{{ restriction }}" {% if restriction in user.dietary_preferences %}checked{% endif %}>
-                    {{ restriction }}
+                    <input type="checkbox" name="vegetarian" id="vegetarian"
+                        value="vegetarian" {% if 'vegetarian' in user.dietary_preferences %}checked{% endif %}>
+                    vegetarian
+                    <input type="checkbox" name="vegan" id="vegan"
+                        value="vegan" {% if 'vegan' in user.dietary_preferences %}checked{% endif %}>
+                    <input type="checkbox" name="dairy-free" id="dairy-free"
+                        value="dairy-free" {% if 'dairy-free' in user.dietary_preferences %}checked{% endif %}>
+                    <input type="checkbox" name="keto" id="keto"
+                        value="keto" {% if 'keto' in user.dietary_preferences %}checked{% endif %}>
+                    <input type="checkbox" name="gluten-free" id="gluten-free"
+                        value="gluten-free" {% if 'gluten-free' in user.dietary_preferences %}checked{% endif %}>
                 </label>
             </div>
             {% endfor %}
