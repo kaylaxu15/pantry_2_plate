@@ -146,6 +146,10 @@ class DatabaseClient:
             self.insert_ingredient(ingredient)
         return 0
     
+    def delete_user_restrictions(self, emailId):
+        col = self.db["Users"]
+        col.update_one({"emailId": emailId}, {"$set": {"restrictions": []}})
+    
     def delete_all_recipes(self):
         col = self.db["Recipes"]
         col.delete_many({})
