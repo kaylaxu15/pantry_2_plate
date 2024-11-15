@@ -39,27 +39,27 @@
             <h2>Dietary Preferences</h2>
                 <label>
                     <input type="checkbox" name="restriction" value="vegetarian" 
-                    {% if 'vegetarian' in user_data.dietary_preferences %}checked{% endif %}>
+                    {% if 'vegetarian' in user_data.restrictions %}checked{% endif %}>
                     Vegetarian
                 </label><br>
                 <label>
                     <input type="checkbox" name="restriction" value="vegan" 
-                    {% if 'vegan' in user_data.dietary_preferences %}checked{% endif %}>
+                    {% if 'vegan' in user_data.restrictions %}checked{% endif %}>
                     Vegan
                 </label><br>
                 <label>
                     <input type="checkbox" name="restriction" value="dairy-free" 
-                    {% if 'dairy-free' in user_data.dietary_preferences %}checked{% endif %}>
+                    {% if 'dairy-free' in user_data.restrictions %}checked{% endif %}>
                     Dairy-free
                 </label><br>
                 <label>
                     <input type="checkbox" name="restriction" value="keto" 
-                    {% if 'keto' in user_data.dietary_preferences %}checked{% endif %}>
+                    {% if 'keto' in user_data.restrictions %}checked{% endif %}>
                     Keto
                 </label><br>
                 <label>
                     <input type="checkbox" name="restriction" value="gluten-free" 
-                    {% if 'gluten-free' in user_data.dietary_preferences %}checked{% endif %}>
+                    {% if 'gluten-free' in user_data.restrictions %}checked{% endif %}>
                     Gluten-free
                 </label><br>
                 <button type="submit" id="saveChangesBtn">SAVE CHANGES</button>
