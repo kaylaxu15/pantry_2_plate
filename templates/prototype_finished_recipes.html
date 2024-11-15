@@ -10,23 +10,26 @@
 
     <a href="/finished_recipes" class="wishlist-button">Completed</a>
     <a href = "/favorite_recipes" class = "wishlist-button">Favorites</a>
+    {% if recipes is none or recipes|length == 0%}
+        <p>No recipes found.</p>
+    {% else %}
+        {% for recipe in recipes %}
+            <span class="inline-box">
+                <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
 
-    {% for recipe in recipes %}
-        <span class="inline-box">
-            <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
-
-            <br></br>
-            <img src="{{recipe.picture_url}}" width="150" height="150">
-            <br></br>
-            Number of Servings: {{recipe.servings}}
-            <br></br>
-            Time needed: {{recipe.prep_time[5:]}}
-            <form action="/add_to_favorites" method="post" style="display: inline;">
-                <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                <button type="submit" class="wishlist-button">Add to Favorites</button>
-            </form>
-        </span>
-    {% endfor %}
+                <br></br>
+                <img src="{{recipe.picture_url}}" width="150" height="150">
+                <br></br>
+                Number of Servings: {{recipe.servings}}
+                <br></br>
+                Time needed: {{recipe.prep_time[5:]}}
+                <form action="/add_to_favorites?recipe={{recipe._id}}" method="post" style="display: inline;">
+                    <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
+                    <button type="submit" class="wishlist-button">Add to Favorites</button>
+                </form>
+            </span>
+        {% endfor %}
+    {% endif %}
 
     <script>
 
