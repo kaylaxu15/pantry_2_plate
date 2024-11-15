@@ -61,14 +61,11 @@ class DatabaseClient:
         col.update_one({"emailId": emailId}, {"$set": {"favRecipes": favRecipes}})
         return 0
     
-    # return the favRecipes of a user
-    def get_favRecipes(self, emailId):
+    def get_user_favRecipes(self, emailId):
         col = self.db["Users"]
-        user = col.find_one({"emailId": emailId})
-        if user:
-            return user["favRecipes"]
-        else:
-            return None
+        user = col.find_one({"emailId": emailId}, {"favRecipes": 1})
+        return user["favRecipes"] if user and "favRecipes" in user else []
+
         
     # remove a recipe from favorites
     def remove_favRecipe(self, emailId, recipe_id):
@@ -94,7 +91,6 @@ class DatabaseClient:
         col.update_one({"emailId": emailId}, {"$set": {"completed": completed}})
         return 0
 
-    # return the completed recipeIDs of a user
     def get_user_completed(self, emailId):
         col = self.db["Users"]
         user = col.find_one({"emailId": emailId}, {"completed": 1})
