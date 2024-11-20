@@ -59,6 +59,12 @@
             {% endif %}
             Time needed: {{recipe.prep_time[5:]}}
             <br></br>
+            {% if recipe.missing_count == 0 %}
+            # Missing Ingredients: Perfect Match
+            {% else %}
+            # Missing Ingredients: {{recipe.missing_count}}
+            {% endif %}
+            <br></br>
 
             Tags: 
             {% for tag in recipe.restrictions %}

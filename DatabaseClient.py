@@ -208,9 +208,13 @@ class DatabaseClient:
     
     def return_page_recipes(self, ingredients):
         recipes = []
-        for i in range(5):
+        modified_recipes = []
+        for i in range(10):
             recipes.extend(self.get_recipes_missing_ingredients(i, ingredients))
-        return recipes
+        for recipe in recipes:
+            if int(recipe["missing_count"]) != len(recipe["ingredients"]):
+                modified_recipes.append(recipe)
+        return modified_recipes
     
     
 if __name__ == "__main__":
