@@ -189,6 +189,7 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
+
     def filter_recipes(self, skill=None, max_time=None):
         col = self.db["Recipes"] 
         query = {}
@@ -201,21 +202,39 @@ class DatabaseClient:
         results = col.find(query)
         return list(results)
     
+    def add_default_ingredients(self, ingredients):
+        normalized_ingredients = set(ingredient.lower() for ingredient in ingredients if isinstance(ingredient, str))
+
+        for ingredient in ingredients:
+            if not isinstance(ingredient, str):
+                continue  
+            ingredient_lower = ingredient.lower()
+            if "black peppercorn" not in ingredient_lower:
+                normalized_ingredients.add("black peppercorn")
+            if "sea salt" not in ingredient_lower:
+                normalized_ingredients.add("sea salt")
+
+        return normalized_ingredients
+
+
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
-        query = [{"$addFields": {"missing_count": {"$size": {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient", ingredients]}}}}}}},{"$match": {"missing_count": number}}]
+        updated_ingredients = self.add_default_ingredients(ingredients)
+
+        query = [{"$addFields": {"missing_count": {"$size": {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}}}}},{"$match": {"missing_count": number}}]
         return list(col.aggregate(query))
     
     def return_page_recipes(self, ingredients):
         recipes = []
         modified_recipes = []
+        updated_ingredients = self.add_default_ingredients(ingredients)
+
         for i in range(10):
-            recipes.extend(self.get_recipes_missing_ingredients(i, ingredients))
+            recipes.extend(self.get_recipes_missing_ingredients(i, updated_ingredients))
         for recipe in recipes:
             if int(recipe["missing_count"]) != len(recipe["ingredients"]):
                 modified_recipes.append(recipe)
         return modified_recipes
-    
     
 if __name__ == "__main__":
     db = DatabaseClient()
