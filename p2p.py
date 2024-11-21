@@ -19,9 +19,9 @@ dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
 
 cloudinary.config( 
-    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'), 
-    api_key = os.getenv('CLOUDINARY_API_KEY'), 
-    api_secret = os.getenv('CLOUDINARY_API_SECRET'), 
+    cloud_name = os.environ['CLOUDINARY_CLOUD_NAME'], 
+    api_key = os.environ['CLOUDINARY_API_KEY'], 
+    api_secret = os.environ['CLOUDINARY_API_SECRET'], 
     secure=True
 )
 
@@ -30,6 +30,7 @@ cloudinary.config(
 @app.route('/index', methods=['GET'])
 def index():
     username = auth.authenticate()
+    db.insert_user(emailId=username, password='')
     return render_template('landing_page.html', username=username)
 
 @app.route('/pantry', methods=['GET'])
