@@ -15,6 +15,7 @@
     <a href="/pantry" class="back-button">Pantry</a>
     <a href = "/add_to_wishlist" class = "wishlist-button">Wishlist</a>
     <a href = "/profile_page" class = "profile-button">Profile</a>
+    <a href = "/groceries" class = "profile-button">Groceries</a>
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     
@@ -64,7 +65,7 @@
             <br></br>
             {% if recommended %}
                 {% if recipe.missing_count == 0 %}
-                # Missing Ingredients: Perfect Match
+                Perfect Match!
                 {% else %}
                 # Missing Ingredients: {{recipe.missing_count}}
                 {% endif %}

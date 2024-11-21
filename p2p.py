@@ -139,6 +139,11 @@ def remove_from_wishlist():
             full_wishList.append(recipe)
 
     return render_template('wishlist.html', wishList=full_wishList, username=username)
+@app.route('/groceries', methods=['GET'])
+def groceries_display():
+    username = auth.authenticate()
+    groceryList = session['groceryList']
+    return render_template('grocery_list.html', groceryList=groceryList, username=username)
 
 @app.route('/add_to_groceries', methods=['POST']) 
 def add_to_groceries():
