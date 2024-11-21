@@ -34,6 +34,13 @@
     {% for ingredient in recipe.actual_ingredients %}
     <h3>{{ingredient}}</h3>
     {% endfor %}
+    <div class = "bottom-buttons"></div>
+        <form action="/add_to_groceries" method="POST">
+            <input type="hidden" name="groceries" value="{{ recipe.ingredients }}">
+            <button type="submit">Add to grocery list!</button>
+        </form>
+    </div>
+
     <br><br>
     <h2>Methods</h2>
     {% for method in recipe.methods %}

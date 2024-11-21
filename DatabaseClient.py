@@ -4,6 +4,7 @@ import ast
 from bson import ObjectId
 import ssl
 import json
+import re
 
 class DatabaseClient:
     
@@ -12,11 +13,11 @@ class DatabaseClient:
         self.client = MongoClient(self.uri, ssl=True, tlsAllowInvalidCertificates=True)
         self.db = self.client["PPP"]
 
-    def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[]):
+    def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[], groceryList=[]):
         if self.check_emailId_taken(emailId):
             return 1
         col = self.db["Users"]
-        dict = {"emailId": emailId, "password": password, "picture": picture, "restrictions": restrictions, "inventory": inventory, "favRecipes": favRecipes, "wishList":wishList, "completed":completed}
+        dict = {"emailId": emailId, "password": password, "picture": picture, "restrictions": restrictions, "inventory": inventory, "favRecipes": favRecipes, "wishList":wishList, "completed":completed, "groceryList":groceryList}
         col.insert_one(dict)
         return 0
         
@@ -72,6 +73,18 @@ class DatabaseClient:
     def remove_favRecipe(self, emailId, recipe_id):
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$pull": {"favRecipes": recipe_id}})
+
+    def get_user_grocerylist(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId}, {"groceryList": 1})
+        return user["groceryList"] if user and "groceryList" in user else []
+    
+    def update_user_grocerylist(self, emailId, groceryList):
+        if self.check_emailId_taken(emailId) == False:
+            return 1
+        col = self.db["Users"]
+        col.update_one({"emailId": emailId}, {"$set": {"groceryList": groceryList}})
+        return 0
 
     def get_user_wishlist(self, emailId):
         col = self.db["Users"]
@@ -269,11 +282,17 @@ if __name__ == "__main__":
         except:
             servings = ''
 
+        print("RECIPE TITLE", row[1]["title"])
+        print("METHODS", row[1]["methods"])
+
+
         methods = row[1]["methods"]
-        methods = recipe['methods'].replace("\'", "\"")
+        regexp = re.compile(r"[a-z]+[\'][a-z]+")
+        methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+        methods = methods.replace("\'", "\"")
   
         methods = json.loads(methods)
-        
+
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
                          converted_standardized_ingredients_dict, converted_ingredients, methods, 
                          row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])

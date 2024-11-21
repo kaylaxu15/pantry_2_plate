@@ -140,6 +140,28 @@ def remove_from_wishlist():
 
     return render_template('wishlist.html', wishList=full_wishList, username=username)
 
+@app.route('/add_to_groceries', methods=['POST']) 
+def add_to_groceries():
+    groceries = flask.request.args.get('groceries')
+    
+    print("GROCERIES", groceries)
+    ingredient_list = []
+
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    if 'groceryList' not in session:
+        session['groceryList'] = db.get_user_grocerylist(username)
+    groceryList = session['groceryList']
+
+    for ingredient in ingredient_list:
+        if ingredient not in groceryList:
+            groceryList.append(ingredient)
+    db.update_user_grocerylist(username, groceryList)
+    session['groceryList'] = groceryList
+    
+    return render_template('grocery_list.html', groceryList=groceryList, username=username)
+
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
