@@ -62,7 +62,7 @@ def results_page():
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
     recipes = db.return_page_recipes(ingredient_list)
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -74,7 +74,7 @@ def all_recipes():
         recipes = db.filter_recipes(skill = skill, max_time = max_time)
     else:
         recipes = db.get_all_recipes()
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=False)
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
@@ -86,8 +86,6 @@ def recipe_page():
     #methods = recipe['methods'].replace("[,]+ \'", ", \"")
     #methods = recipe['methods'].replace("n\"t", "n\'t")
     methods = recipe['methods'].replace("\'", "\"")
-
-    print("INDEX", methods)
   
     methods = json.loads(methods)
     #methods = []

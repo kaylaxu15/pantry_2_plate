@@ -43,6 +43,7 @@
         {% for recipe in recipes %}
         <span class="inline-box">
             <a href="javascript:void(0);" onclick="openModal('modal{{ loop.index }}')">{{ recipe.title | safe }}</a>
+
             <br></br>
             <img src="{{recipe.picture_url}}" width="150" height="150">
             <br></br>
@@ -60,12 +61,14 @@
             {% endif %}
             Time needed: {{recipe.prep_time[5:]}}
             <br></br>
-            {% if recipe.missing_count == 0 %}
-            # Missing Ingredients: Perfect Match
-            {% else %}
-            # Missing Ingredients: {{recipe.missing_count}}
+            {% if recommended %}
+                {% if recipe.missing_count == 0 %}
+                # Missing Ingredients: Perfect Match
+                {% else %}
+                # Missing Ingredients: {{recipe.missing_count}}
+                {% endif %}
+             <br></br>
             {% endif %}
-            <br></br>
 
             Tags: 
             {% for tag in recipe.restrictions %}
@@ -82,7 +85,7 @@
         <div id="modal{{ loop.index }}" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
-                <h2>{{ recipe.title }}</h2>
+                <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
                 <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
                 {% if recipe.servings != "" and recipe.servings == recipe.servings %}
                 <h3>Number of Servings: {{ recipe.servings }}</h3>
