@@ -3,6 +3,7 @@ import pandas as pd
 import ast
 from bson import ObjectId
 import ssl
+import json
 
 class DatabaseClient:
     
@@ -267,7 +268,12 @@ if __name__ == "__main__":
             servings = converted_servings_dict['serves']
         except:
             servings = ''
+
+        methods = row[1]["methods"]
+        methods = recipe['methods'].replace("\'", "\"")
+  
+        methods = json.loads(methods)
         
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
-                         converted_standardized_ingredients_dict, converted_ingredients, row[1]["methods"], 
+                         converted_standardized_ingredients_dict, converted_ingredients, methods, 
                          row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])

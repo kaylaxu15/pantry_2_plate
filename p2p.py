@@ -85,12 +85,12 @@ def recipe_page():
 
     #methods = recipe['methods'].replace("[,]+ \'", ", \"")
     #methods = recipe['methods'].replace("n\"t", "n\'t")
-    methods = recipe['methods'].replace("\'", "\"")
+    #methods = recipe['methods'].replace("\'", "\"")
   
-    methods = json.loads(methods)
+    #methods = json.loads(methods)
     #methods = []
     
-    return render_template('prototype_recipe_page.html', recipe=recipe, methods=methods, username=username)
+    return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
 
 @app.route('/add_to_wishlist', methods=['GET', 'POST'])
 def add_to_wishlist():

@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" href="static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <img class="logo" src="static/logo.png" alt="logo">
 </head>
 
 <body>
@@ -108,15 +109,13 @@
                 </ul>
                 <h3>Methods</h3>
                 <ol>
-                    {% for method in methods %}
-                        <li>{{loop.index}}: {{method}}</li>
+                    {% for method in recipe.methods %}
+                        <li>{{method}}</li>
                     {% endfor %}
                 </ol>
             
                 <div class="bottom-buttons-container">
-                    <form action="/all_recipes" style="margin-right: 10px;"> 
-                        <button type="recipe">Back to all Recipes</button>
-                    </form>
+                    <button type="recipe" onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
                 
                     <form action="/add_to_completed" method="post">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">

@@ -232,6 +232,14 @@ button {
     border-radius: 30px;
 }
 
+.logo {
+    width: 140px;
+    height: 100px;
+    margin: 20px;
+    top: 30px;
+    left: 30px;
+  }
+
 .modal {
     display: none;
     position: fixed;
