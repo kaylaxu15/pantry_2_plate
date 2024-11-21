@@ -142,10 +142,11 @@ def remove_from_wishlist():
 
 @app.route('/add_to_groceries', methods=['POST']) 
 def add_to_groceries():
-    groceries = flask.request.args.get('groceries')
+    groceries = flask.request.form['groceries']
     
-    print("GROCERIES", groceries)
-    ingredient_list = []
+    #print("GROCERIES", groceries)
+    groceries = groceries.replace("\'", "\"")
+    ing_list = json.loads(groceries)
 
     if 'username' not in session:
         session['username'] = auth.authenticate()
@@ -154,7 +155,7 @@ def add_to_groceries():
         session['groceryList'] = db.get_user_grocerylist(username)
     groceryList = session['groceryList']
 
-    for ingredient in ingredient_list:
+    for ingredient in ing_list:
         if ingredient not in groceryList:
             groceryList.append(ingredient)
     db.update_user_grocerylist(username, groceryList)
