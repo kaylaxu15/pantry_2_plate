@@ -11,6 +11,7 @@
     overflow:scroll;
   
     align-items: stretch;
+    text-align: center;
 }
 
 .recipes-container, .wishlist-container, .completed-container, .favorite-container{
@@ -43,6 +44,17 @@ button[type="started"] {
     margin: 0 auto; 
     display: block; 
 }
+button[type="recipe"] {
+    background-color: #f3d9c6;
+    color: #A15B20;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; 
+    display: block; 
+}
 
 body {
     background-color: #c1c265;
@@ -64,6 +76,13 @@ h2 {
     color: #315E26;
     /*margin: 20px;*/
     text-align: center;
+}
+
+h3 {
+    font-size: 25px;
+    color: #315E26;
+    /*margin: 20px;*/
+    text-align: left;
 }
 
 p {
@@ -158,6 +177,15 @@ th, td {
     justify-content: space-between;
     padding: 20px;
 }
+.bottom-buttons-container {
+    display: flex; 
+    justify-content: left; 
+    gap: 285px; 
+    margin-top: 20px; 
+    position: relative; 
+    padding-top: 10px;
+    border-top: 1px solid #ccc; 
+}
 
 .col1 {
     /*For defining the size of the buttons.*/
@@ -220,10 +248,14 @@ button {
     background-color: #fefefe;
     border: 1px solid #888;
     margin: auto;
-    width: 80%;
-    max-width: 400px;
+    width: 90%;
+    max-width: 600px;
     border-radius: 10px;
     padding: 20px;
+    max-height: 90vh; 
+    overflow-y: auto; 
+    box-sizing: border-box; 
+    padding-bottom: 50px; 
 }
 
 .close {

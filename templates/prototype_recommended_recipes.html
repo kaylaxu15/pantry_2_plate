@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -37,11 +38,11 @@
             </form>
         </div>
     </div>
-    <div class="recipes-container">
-    {% for recipe in recipes %}
-        <span class="inline-box">
-            <a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a>
 
+    <div class="recipes-container">
+        {% for recipe in recipes %}
+        <span class="inline-box">
+            <a href="javascript:void(0);" onclick="openModal('modal{{ loop.index }}')">{{ recipe.title | safe }}</a>
             <br></br>
             <img src="{{recipe.picture_url}}" width="150" height="150">
             <br></br>
@@ -59,24 +60,105 @@
             {% endif %}
             Time needed: {{recipe.prep_time[5:]}}
             <br></br>
+            {% if recipe.missing_count == 0 %}
+            # Missing Ingredients: Perfect Match
+            {% else %}
+            # Missing Ingredients: {{recipe.missing_count}}
+            {% endif %}
+            <br></br>
 
             Tags: 
             {% for tag in recipe.restrictions %}
                 <button class="tight-wrap-button">{{tag}}</button>
             {% endfor %}
             <br></br>
-            <form action="/add_to_wishlist" method="post">
+            <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post">
                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
                 <button type="submit">Add to Wishlist</button>
             </form>
         </span>
-    {% endfor %}
+        
+
+        <div id="modal{{ loop.index }}" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
+                <h2>{{ recipe.title }}</h2>
+                <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
+                {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                <h3>Number of Servings: {{ recipe.servings }}</h3>
+                {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                <h3>Makes: {{ recipe.makes }}</h3>
+                {% endif %}
+                <h3>Tags:</h3>
+                <div>
+                    {% for tag in recipe.restrictions %}
+                        <button class="tight-wrap-button">{{ tag }}</button>
+                    {% endfor %}
+                </div>
+                <h3>Time needed: {{ recipe.prep_time[5:] }}</h3>
+                <h3>Difficulty: {{ recipe.difficulty }}</h3>
+                <h3>Ingredient List</h3>
+                <ul>
+                    {% for ingredient in recipe.actual_ingredients %}
+                        <li>{{ ingredient }}</li>
+                    {% endfor %}
+                </ul>
+                <h3>Methods</h3>
+                <ol>
+                    {% for method in methods %}
+                        <li>{{loop.index}}: {{method}}</li>
+                    {% endfor %}
+                </ol>
+            
+                <div class="bottom-buttons-container">
+                    <form action="/all_recipes" style="margin-right: 10px;"> 
+                        <button type="recipe">Back to all Recipes</button>
+                    </form>
+                
+                    <form action="/add_to_completed" method="post">
+                        <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
+                        <button type="submit">Completed!!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
     <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
 
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function addToWishlist(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "/add_to_wishlist", true);
+
+            request.onload = function() {
+                if (request.status === 200) {
+                    alert("Recipe added to your wishlist!");
+                } else {
+                    alert("Failed to add recipe to wishlist. Please try again.");
+                }
+            };
+
+            request.onerror = function() {
+                alert("An error occurred. Please check your network connection.");
+            };
+
+            request.send(formData);
+        }
     </script>
-
 </body>
-
 </html>
+    
+           
