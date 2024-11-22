@@ -5,17 +5,23 @@
     <link rel="stylesheet" href="static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <img class="logo" src="static/logo.png" alt="logo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
     {% include 'header.html' %}
-    <h1 style="color: green;">Recommended Recipes</h1>
+    {% if recommended %}
+        <h1 style="color: green;">Recommended Recipes</h1>
+    {% else %}
+        <h1 style="color: green;">All Recipes</h1>
+    {% endif %}
+
 
     <a href="/add_to_completed" class="finished-button"> FinFav</a>
     <a href="/pantry" class="back-button">Pantry</a>
     <a href = "/add_to_wishlist" class = "wishlist-button">Wishlist</a>
     <a href = "/profile_page" class = "profile-button">Profile</a>
-    <a href = "/groceries" class = "profile-button">Groceries</a>
+    <a href = "/groceries" class = "groceries-button">Groceries</a>
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     

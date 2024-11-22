@@ -395,6 +395,25 @@ button {
     text-align: center;
     font-size: 16px;
 }
+
+.groceries-button {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+
 .add_wishlist-button {
     position: absolute;
     top: 12px;
