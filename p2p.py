@@ -168,6 +168,24 @@ def add_to_groceries():
     
     return render_template('grocery_list.html', groceryList=groceryList, username=username)
 
+# update grocery list in session
+@app.route('/remove_from_groceries', methods=['POST'])
+def remove_from_groceries():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    
+    item = request.get_json()
+    if 'groceryList' not in session:
+        session['groceryList'] = db.get_user_grocerylist(username)
+    groceryList = session['groceryList']
+
+    if item in groceryList:
+        groceryList.remove(item)
+    db.update_user_grocerylist(username, groceryList)
+    session['groceryList'] = groceryList
+    
+
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()

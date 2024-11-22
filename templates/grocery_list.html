@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head> GROCERY LIST
-
+        <link rel="stylesheet" href="static/todo.css">
+        <a href="/all_recipes" class="back-button">Go Back</a>
     </head>
     <body>
          <h2>My To Do List</h2>
 
-          
           <ul id="grocery_list">
             {% for ingredient in groceryList %}
                 <li>{{ingredient}}</li>
             {% endfor %}
           </ul>
+
 
     </body>
     <script>
@@ -19,21 +20,23 @@
         var myNodelist = document.getElementsByTagName("LI");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        myNodelist[i].appendChild(span);
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
         }
 
         // Click on a close button to hide the current list item
         var close = document.getElementsByClassName("close");
         var i;
         for (i = 0; i < close.length; i++) {
-        close[i].onclick = function() {
-            var div = this.parentElement;
-            div.style.display = "none";
-        }
+            close[i].onclick = function() {
+                var ingredient = this.parentElement;
+                ingredient.style.display = "none";
+                removeGrocery(div)  // FIXME!!
+
+            }
         }
 
         // Add a "checked" symbol when clicking on a list item
@@ -43,6 +46,23 @@
             event.target.classList.toggle('checked');
         }
         }, false);
+
+        function removeGrocery(ingredient) {
+            var value = document.getElementById('input').value;
+            $.ajax({
+                url: '/remove_from_groceries',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'item': ingredient}),
+                success: function(response) {
+                    
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+        }
 
     
     </script>
