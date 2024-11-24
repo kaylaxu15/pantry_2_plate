@@ -5,24 +5,18 @@
     <link rel="stylesheet" href="static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <img class="logo" src="static/logo.png" alt="logo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
+    {% include 'header.html' %}
     <h1 style="color: green;">Recommended Recipes</h1>
-   
-    <button onclick="savedFunction()" class="drop-button">Saved</button>
-    <div id="savedDropdown" class="dropdown-content">
-        <a href="/add_to_completed">Completed</a>
-        <a href="/add_to_wishlist">Wishlist</a>
-        <a href="/add_to_favorites">Favorites</a>
-    </div>
+
+    <a href="/add_to_completed" class="finished-button"> FinFav</a>
     <a href="/pantry" class="back-button">Pantry</a>
-    <button onclick="profileFunction()" class="drop-profile-button">Profile</button>
-    <div id = "profileDropdown" class ="dropdown-profile-content">
-        <a href = "/profile_page">Profile</a>
-        <a href="logoutapp">Log out of the app</a>
-    </div>
-    <a href = "/groceries" class = "groceries-button">Groceries</a>
+    <a href = "/add_to_wishlist" class = "wishlist-button">Wishlist</a>
+    <a href = "/profile_page" class = "profile-button">Profile</a>
+    <a href = "/groceries" class = "profile-button">Groceries</a>
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     

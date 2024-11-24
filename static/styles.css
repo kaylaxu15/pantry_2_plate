@@ -443,10 +443,7 @@ button {
     text-decoration: none;
     display: block;
 }
-
-.dropdown-profile-content a:hover {background-color: #ddd;}
-
-.drop-button {
+.add_wishlist-button {
     position: absolute;
     top: 12px;
     right: 260px;
