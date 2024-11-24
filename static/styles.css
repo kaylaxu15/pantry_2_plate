@@ -1,18 +1,46 @@
 .inline-box {
     display: inline-block;
     width: 300px;
-    height: 300px;
-    background-color: rgb(229, 205, 209);
-    border: 2px dashed green;
-    padding: 5px;
-    margin: 5px;
-
-    resize: both;
-    overflow:scroll;
-  
-    align-items: stretch;
-    text-align: center;
+    height: 400px; 
+    background-color: #f9f4f4; 
+    padding: 15px; 
+    margin: 10px; 
+    border: 2px solid #d8a7b1; 
+    border-radius: 15px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    resize: none; 
+    overflow: hidden; 
+    text-align: left; 
+    font-family: 'Georgia', serif; 
+    font-size: 16px; 
+    color: #5b3b4b; 
+    transition: transform 0.3s, box-shadow 0.3s; 
+    overflow-y: auto;
 }
+
+.inline-box:hover {
+    transform: scale(1.05); 
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+.inline-box a {
+    text-decoration: none; 
+    color: #d47c90; 
+    font-weight: bold; 
+    transition: color 0.3s; 
+}
+
+.inline-box a:hover {
+    color: #ad5267;
+}
+
+.inline-box img {
+    border-radius: 10px; 
+    width: 100%; 
+    height: auto; 
+    margin-bottom: 10px; 
+}
+
 
 .recipes-container, .wishlist-container, .completed-container, .favorite-container{
     display: flex;
@@ -57,7 +85,7 @@ button[type="recipe"] {
 }
 
 body {
-    background-color: #c1c265;
+    background-color: #F4F2DD;
     display: flex;
     min-height: 100vh;
     margin: 0;
@@ -83,6 +111,13 @@ h3 {
     color: #315E26;
     /*margin: 20px;*/
     text-align: left;
+}
+
+h4 {
+    font-size: 20px;
+    color: #d47c90;
+    /*margin: 20px;*/
+    text-align: center;
 }
 
 p {
@@ -234,10 +269,11 @@ button {
 
 .logo {
     width: 140px;
-    height: 100px;
+    height: 120px;
     margin: 20px;
-    top: 30px;
-    left: 30px;
+    left: 10px;
+    top: 12px;
+
   }
 
 .modal {
@@ -277,7 +313,7 @@ button {
     position: absolute;
     top: 12px;
     right: 10px;
-    background-color: #4CAF50;
+    background-color: #315E26;
     color: white;
     padding: 10px 0;
     margin: 20px;
@@ -294,8 +330,8 @@ button {
 .profile-button {
     position: absolute;
     top: 12px;
-    right: 510px;
-    background-color: #4CAF50;
+    right: 385px;
+    background-color: #315E26;
     color: white;
     padding: 10px 0;
     margin: 20px;
@@ -308,11 +344,29 @@ button {
     text-align: center;
     font-size: 16px;
 }
+.groceries-button {
+    position: absolute;
+    top: 12px;
+    right: 510px;
+    background-color: #315E26;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+}
+
 .profile-button-pantry {
     position: absolute;
     top: 12px;
     right: 10px;
-    background-color: #4CAF50;
+    background-color: #315E26;
     color: white;
     padding: 10px 0;
     margin: 20px;
@@ -330,76 +384,7 @@ button {
     position: absolute;
     top: 12px;
     right: 135px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-}
-.back-button-finished {
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-}
-.finished-button {
-    position: absolute;
-    top: 12px;
-    right: 385px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-}
-
-.wishlist-button {
-    position: absolute;
-    top: 12px;
-    right: 260px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-}
-.add_wishlist-button {
-    position: absolute;
-    top: 12px;
-    right: 260px;
-    background-color: #4CAF50;
+    background-color: #315E26;
     color: white;
     padding: 10px 0;
     margin: 20px;
@@ -420,3 +405,87 @@ button {
     background-color: #45a049;
 }
 
+.drop-profile-button {
+    position: absolute;
+    top: 12px;
+    right: 385px;
+    background-color: #315E26;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+  }
+  
+.drop-profile-button:hover, .drop-profile-button:focus {
+    background-color: #45a049;
+}
+.dropdown-profile-content {
+    display: none;
+    position: absolute;
+    top: 71px;
+    right:345px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+.dropdown-profile-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-profile-content a:hover {background-color: #ddd;}
+
+.drop-button {
+    position: absolute;
+    top: 12px;
+    right: 260px;
+    background-color: #315E26;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+  }
+  
+.drop-button:hover, .drop-button:focus {
+    background-color: #45a049;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 71px;
+    right:220px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+  
+.show {display:block;}

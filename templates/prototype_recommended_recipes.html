@@ -8,14 +8,21 @@
 </head>
 
 <body>
-    {% include 'header.html' %}
     <h1 style="color: green;">Recommended Recipes</h1>
-
-    <a href="/add_to_completed" class="finished-button"> FinFav</a>
+   
+    <button onclick="savedFunction()" class="drop-button">Saved</button>
+    <div id="savedDropdown" class="dropdown-content">
+        <a href="/add_to_completed">Completed</a>
+        <a href="/add_to_wishlist">Wishlist</a>
+        <a href="/add_to_favorites">Favorites</a>
+    </div>
     <a href="/pantry" class="back-button">Pantry</a>
-    <a href = "/add_to_wishlist" class = "wishlist-button">Wishlist</a>
-    <a href = "/profile_page" class = "profile-button">Profile</a>
-    <a href = "/groceries" class = "profile-button">Groceries</a>
+    <button onclick="profileFunction()" class="drop-profile-button">Profile</button>
+    <div id = "profileDropdown" class ="dropdown-profile-content">
+        <a href = "/profile_page">Profile</a>
+        <a href="logoutapp">Log out of the app</a>
+    </div>
+    <a href = "/groceries" class = "groceries-button">Groceries</a>
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     
@@ -43,10 +50,8 @@
 
     <div class="recipes-container">
         {% for recipe in recipes %}
-        <span class="inline-box">
-            <a href="javascript:void(0);" onclick="openModal('modal{{ loop.index }}')">{{ recipe.title | safe }}</a>
-
-            <br></br>
+        <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
+            <h4>{{ recipe.title | safe }}</h4>
             <img src="{{recipe.picture_url}}" width="150" height="150">
             <br></br>
             {% if recipe.servings != "" and recipe.servings == recipe.servings %}
@@ -108,12 +113,6 @@
                         <li>{{ ingredient }}</li>
                     {% endfor %}
                 </ul>
-                <h3>Methods</h3>
-                <ol>
-                    {% for method in recipe.methods %}
-                        <li>{{method}}</li>
-                    {% endfor %}
-                </ol>
             
                 <div class="bottom-buttons-container">
                     <button type="recipe" onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
@@ -160,6 +159,45 @@
 
             request.send(formData);
         }
+        function savedFunction() {
+            document.getElementById("savedDropdown").classList.toggle("show");
+        }
+        function profileFunction() {
+            document.getElementById("profileDropdown").classList.toggle("show");
+
+        }
+
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = 'none'; // Close the modal
+                }
+            }
+
+            if (!event.target.matches('.drop-button')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+            if (!event.target.matches('.drop-profile-button')) {
+                var profileDropdowns = document.getElementsByClassName("dropdown-profile-content");
+                for (var i = 0; i < profileDropdowns.length; i++) {
+                    var openProfileDropdown = profileDropdowns[i];
+                    if (openProfileDropdown.classList.contains('show')) {
+                        openProfileDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+       
+        
     </script>
 </body>
 </html>
