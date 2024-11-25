@@ -461,6 +461,24 @@ button {
     font-size: 16px;
   }
   
+  .drop-button {
+    position: absolute;
+    top: 12px;
+    right: 260px;
+    background-color: #315E26;
+    color: white;
+    padding: 10px 0;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    display: inline-block; 
+    text-decoration: none; 
+    text-align: center;
+    font-size: 16px;
+  }
+
 .drop-button:hover, .drop-button:focus {
     background-color: #45a049;
 }
