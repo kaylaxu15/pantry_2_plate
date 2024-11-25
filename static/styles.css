@@ -428,6 +428,9 @@ button {
     text-decoration: none;
     display: block;
 }
+
+.dropdown-profile-content a:hover {background-color: #ddd;}
+  
 .add_wishlist-button {
     position: absolute;
     top: 12px;
