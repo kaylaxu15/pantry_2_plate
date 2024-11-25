@@ -3,16 +3,56 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="static/styles.css">
-    </head>
-    <h1>Pantry 2 Plate</h1>
-    <h2>A customized recipe recommender so that you don't have to fret about finding recipes to make with 
-        only the ingredients you have on hand!
-    </h2>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Georgia, serif;
+                text-align: center;
+                background-color: #F4F2DD;
+            }
 
-    <form action="/pantry">
-        <button type="started" class=".col1">Get started</button>
-    </form>
-    
-    
+            h1 {
+                margin: 0;
+                font-size: 2.5em;
+                color: #315E26;
+            }
+
+            h2 {
+                margin: 0.5em 0 2em 0;
+                font-size: 1.5em;
+                max-width: 600px;
+                color: #315E26;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+                background-color: #315E26;;
+                color: white;
+                border: none;
+                font-family: Georgia, serif;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Pantry 2 Plate</h1>
+        <h2>
+            A customized recipe recommender so that you don't have to fret about finding recipes to make with 
+            only the ingredients you have on hand!
+        </h2>
+        <form action="/pantry">
+            <button type="submit">Get started</button>
+        </form>
+    </body>
 </html>
