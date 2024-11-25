@@ -10,8 +10,6 @@
 <body>
     <h1>Your Finished Recipes</h1>
     <a href="/all_recipes" class="back-button">Go Back</a>
-    <a href = "/add_to_favorites" class = "back-button-finished">Favorites</a>
-
     <div class="completed-container">
         {% if completed %}
             {% for recipe in completed %}
@@ -37,10 +35,6 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-                <form action="/add_to_favorites" method="post">
-                    <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button type="submit">Add to Favorites</button>
-                </form>
                 </span>
             {% endfor %}
         {% else %}

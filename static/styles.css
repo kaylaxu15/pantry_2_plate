@@ -325,25 +325,9 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
+    font-family: "Times New Roman", Times, serif;
 }
 
-.profile-button {
-    position: absolute;
-    top: 12px;
-    right: 385px;
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-}
 .groceries-button {
     position: absolute;
     top: 12px;
@@ -421,6 +405,7 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
+    font-family: "Times New Roman", Times, serif;
   }
   
 .drop-profile-button:hover, .drop-profile-button:focus {
@@ -477,6 +462,7 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
+    font-family: "Times New Roman", Times, serif;
   }
 
 .drop-button:hover, .drop-button:focus {
