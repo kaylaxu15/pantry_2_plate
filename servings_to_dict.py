@@ -29,6 +29,6 @@ def servings_to_dict(string):
         
     return dict
 
-df = pd.read_csv('output/recipes_data_2024-11-11.csv')
+df = pd.read_csv('webscraping/output/2024-11-27_final_recipes_servings_data.csv')
 df['serves_dict'] = df['serves'].apply(servings_to_dict)
-df.to_csv('webscraping/output/final_recipes_servings_data_2024-11-11.csv', index=False)
+df.to_csv('webscraping/output/2024-11-27_final_recipes_servings_data.csv', index=False)

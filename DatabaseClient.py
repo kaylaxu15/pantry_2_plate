@@ -268,7 +268,7 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
+    df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
 
     for row in df.iterrows():
         converted_ingredients = ast.literal_eval(row[1]["ingredients"])
@@ -286,9 +286,9 @@ if __name__ == "__main__":
         methods = row[1]["methods"]
         print(row[1]["title"])
         print(methods)
-        # regexp = re.compile(r"[a-z]+[\'][a-z]+")
-        # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
-        # methods = methods.replace("\'", "\"")
+        regexp = re.compile(r"[a-z]+[\'][a-z]+")
+        methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+        methods = methods.replace("\'", "\"")
   
         methods = json.loads(methods)
 
