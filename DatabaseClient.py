@@ -258,9 +258,9 @@ if __name__ == "__main__":
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
     missing_recipes = db.return_page_recipes(['egg', 'butter'])
-    for recipe in missing_recipes:
-       print(recipe)
-       print()
+    # for recipe in missing_recipes:
+    #    print(recipe)
+    #    print()
     db.delete_all_recipes()
     #db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
@@ -268,13 +268,12 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
+    df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv")
 
     for row in df.iterrows():
         converted_ingredients = ast.literal_eval(row[1]["ingredients"])
         #converted_methods = ast.literal_eval(row[1]["methods"])
         converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        print(converted_standardized_ingredients_dict)
         converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
         try:
@@ -283,14 +282,14 @@ if __name__ == "__main__":
             servings = ''
 
 
-        methods = row[1]["methods"]
-        print(row[1]["title"])
-        print(methods)
-        regexp = re.compile(r"[a-z]+[\'][a-z]+")
-        methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
-        methods = methods.replace("\'", "\"")
+        methods = str(row[1]["methods"])
+        # print(row[1]["title"])
+        # print(methods)
+        # regexp = re.compile(r"[a-z]+[\'][a-z]+")
+        # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+        # methods = methods.replace("\'", "\"")
   
-        methods = json.loads(methods)
+        methods = ast.literal_eval(methods)
 
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
                          converted_standardized_ingredients_dict, converted_ingredients, methods, 

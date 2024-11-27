@@ -109,7 +109,7 @@ def extract(pages, sleep_timer):
                     for m in method: 
                         p_tags = m.find_all('p')
                         for p in p_tags:
-                            methods.append(p.text)
+                            methods.append(str(p.text))
 
                 print("METHODS IS !!!!!!!!!!!!!!!!!!!!", methods)
             except:

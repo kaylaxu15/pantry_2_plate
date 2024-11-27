@@ -63,8 +63,8 @@ df_ingredient_list = pd.concat([concat_df, df_ingredient_list], ignore_index=Tru
 ingredient_list = df_ingredient_list['ingredients'].tolist()
 ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
 
-df = pd.read_csv('output/recipes_data_2024-11-11.csv')
+df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/output/recipes_data_2024-11-11.csv')
 df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
 df['ingredients_dict'] = df['ingredients'].apply(ingredients_to_dict)
 df['standardized_ingredients_dict'] = df['ingredients_dict'].apply(match, args=([ingredient_list]))
-df.to_csv('webscraping/output/2024-11-27_final_recipes_servings_data.csv', index=False)
+df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv', index=False)

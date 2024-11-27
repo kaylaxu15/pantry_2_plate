@@ -56,7 +56,7 @@
                 <br></br>
             {% else %}
             {% endif %}
-            Time needed: {{recipe.prep_time[5:]}}
+            Time needed: {{recipe.total_time}}
             <br></br>
             {% if recommended %}
                 {% if recipe.missing_count == 0 %}
@@ -98,7 +98,7 @@
                         <button class="tight-wrap-button">{{ tag }}</button>
                     {% endfor %}
                 </div>
-                <h3>Time needed: {{ recipe.prep_time[5:] }}</h3>
+                <h3>Time needed: {{ recipe.total_time }}</h3>
                 <h3>Difficulty: {{ recipe.difficulty }}</h3>
                 <h3>Ingredient List</h3>
                 <ul>
