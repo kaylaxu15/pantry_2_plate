@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <button onclick="savedFunction()" class="drop-button">Saved</button>
+    <div id="savedDropdown" class="dropdown-content">
+        <a href="/add_to_completed">Completed</a>
+        <a href="/add_to_wishlist">Wishlist</a>
+        <a href="/add_to_favorites">Favorites</a>
+    </div>
+    <button onclick="profileFunction()" class="drop-profile-button">Profile</button>
+    <div id="profileDropdown" class="dropdown-profile-content">
+        <a href = "/profile_page">Profile</a>
+        <a href="logoutapp">Log out of the app</a>
+    </div>
+    <a href="/pantry" class="pantry-button">Pantry</a>
+    <a href="/all_recipes" class="all-recipes-button">All Recipes</a> 
+
+    <script>
+        function savedFunction() {
+            document.getElementById("savedDropdown").classList.toggle("show");
+        }
+        function profileFunction() {
+            document.getElementById("profileDropdown").classList.toggle("show");
+
+        }
+    </script>
+</html>

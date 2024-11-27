@@ -9,22 +9,11 @@
 </head>
 
 <body>
-    <h1>Recommended Recipes</h1>
-    <button onclick="savedFunction()" class="drop-button">Saved</button>
-    <div id="savedDropdown" class="dropdown-content">
-        <a href="/add_to_completed">Completed</a>
-        <a href="/add_to_wishlist">Wishlist</a>
-        <a href="/add_to_favorites">Favorites</a>
-    </div>
-    <button onclick="profileFunction()" class="drop-profile-button">Profile</button>
-    <div id="profileDropdown" class="dropdown-profile-content">
-        <a href = "/profile_page">Profile</a>
-        <a href="logoutapp">Log out of the app</a>
-    </div>
-    <a href="/pantry" class="back-button">Pantry</a>
-    <a href = "/groceries" class = "groceries-button">Groceries</a>
-
+    <h1>Recommended Recipes</h1> 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
+    {% include 'header.html' %}
+    <button onclick="savedFunction()" class="drop-button">Saved</button>
+
     
     <div id="filterModal" class="modal">
         <div class="modal-content">
@@ -53,6 +42,7 @@
         <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
             <h4>{{ recipe.title | safe }}</h4>
             <img src="{{recipe.picture_url}}" width="150" height="150">
+           
             <br></br>
             {% if recipe.servings != "" and recipe.servings == recipe.servings %}
                 Number of Servings: {{ recipe.servings }}
@@ -70,7 +60,7 @@
             <br></br>
             {% if recommended %}
                 {% if recipe.missing_count == 0 %}
-                Perfect Match!
+                All Good to Go!
                 {% else %}
                 # Missing Ingredients: {{recipe.missing_count}}
                 {% endif %}
@@ -93,7 +83,10 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                 <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
-                <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
+                <a href="/recipe_page?recipe={{recipe._id}}">
+                    <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
+                </a>
+
                 {% if recipe.servings != "" and recipe.servings == recipe.servings %}
                 <h3>Number of Servings: {{ recipe.servings }}</h3>
                 {% elif recipe.makes != "" and recipe.makes == recipe.makes %}

@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
     <title>Your Wishlist</title>
+    {% include 'header.html' %}
 </head>
 <body>
-    <h1>{{ username }}'s Wishlist</h1>
-    <a href="/all_recipes" class="back-button">Back to Recipes</a>
+    <h1>Wishlist</h1>
+    <h2>{{ username }}</h2>
+    <button onclick="history.back()" class="back-button">Go Back</button>
     <div class="wishlist-container">
         {% if wishList %}
             {% for recipe in wishList %}
@@ -17,6 +19,7 @@
     
                 <br></br>
                 <img src="{{recipe.picture_url}}" width="150" height="150">
+                
                 <br></br>
                 {% if recipe.servings != '' %}
                     Number of Servings: {{recipe.servings}}

@@ -57,6 +57,8 @@ def extract(pages, sleep_timer):
             time.sleep(sleep_timer)
             url = list_urls[i]
             print(f"THE ACTUAL URL FOR THE RECIPE IS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ {url}")
+
+            url = url[url.rfind("https://"):]   # FIXME (deals with some http issues)
             
             html = requests.get(url)
             print(f"THE ACTUAL URL FOR THE RECIPE IS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ {url}")
@@ -145,7 +147,7 @@ def extract(pages, sleep_timer):
             
             i = 0
             ingredient_list = []
-            ingredients = soup.find_all('li', {'class': 'pb-xxs pt-xxs list-item list-item--separator'})
+            ingredients = soup.find_all('li', {'class': 'pb-xxs pt-xxs list-item list-item--separator-top'})
             while i < len(ingredients):
                 try:
                     ingredient_string = ''.join(str(ingredients[i]).split('<!-- -->')[1])
@@ -187,5 +189,5 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    recipes_df.to_csv(f'{output_dir}/recipes_data_2024-11-8.csv', index=False)
+    recipes_df.to_csv(f'{output_dir}/recipes_data_2024-11-11.csv', index=False)
     print('Complete')

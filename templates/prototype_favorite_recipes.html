@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
     <title>Your Favorite Recipes</title>
+    {% include 'header.html' %}
 </head>
 <body>
     <h1>Your Favorite Recipes</h1>
-    <a href="/all_recipes" class="back-button">Go Back</a>
+    <button onclick="history.back()" class="back-button">Go Back</button>
 
     <div class="favorite-container">
         {% if favRecipes %}
