@@ -9,7 +9,11 @@
 </head>
 
 <body>
-    <h1>Recommended Recipes</h1> 
+    {% if recommended %}
+        <h1>Recommended Recipes</h1> 
+    {% else %}
+        <h1>All Recipes</h1> 
+
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
     <button onclick="savedFunction()" class="drop-button">Saved</button>
