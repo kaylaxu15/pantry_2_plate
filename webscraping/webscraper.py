@@ -102,13 +102,14 @@ def extract(pages, sleep_timer):
             # add methods for recipes
             try: 
                 methods = []
-                li_tags = soup.find_all('li', {'class':'pb-xs pt-xs list-item'})
+                method_items = soup.find_all('li', {'class':'method-steps__list-item'})
                 # print("THE LI_TAGS ARE", li_tags)
-                for li in li_tags:
-                    p_tags = li.find_all('p')
-                    for p in p_tags:
-                        # print("THE P IS !!!!!!!!!!!!!!!!!!!!", p.text)
-                        methods.append(p.text)
+                for nested_soup in method_items:
+                    method = nested_soup.find_all('div', {'class':'editor-content'})
+                    for m in method: 
+                        p_tags = m.find_all('p')
+                        for p in p_tags:
+                            methods.append(p.text)
 
                 print("METHODS IS !!!!!!!!!!!!!!!!!!!!", methods)
             except:
@@ -147,17 +148,8 @@ def extract(pages, sleep_timer):
             
             i = 0
             ingredient_list = []
-            ingredients = soup.find_all('li', {'class': 'pb-xxs pt-xxs list-item list-item--separator-top'})
-            while i < len(ingredients):
-                try:
-                    ingredient_string = ''.join(str(ingredients[i]).split('<!-- -->')[1])
-                except Exception as e:
-                    # print(e)
-                    ingredient_string = ''.join(ingredients[i].text)
-                    pass
-                ingredient_list.append(ingredient_string)
-                ingredient_list = [l.replace('</li>', '') for l in ingredient_list]
-                i = i + 1
+            ingredients = soup.find_all('li', {'class': "ingredients-list__item list-item list-item--separator-top"})
+            ingredient_list = [element.text for element in ingredients]
 
             print(f'Loaded recipe: {recipe_title}')
             new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,

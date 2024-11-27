@@ -3,9 +3,13 @@ import ast
 import re
 
 def ingredients_to_dict(list):
-    exclude = ['tbsp', 'tsp']
+    exclude = ['tbsp', 'tsp', 'g']
     dict = {}
     for element in list:
+        # corner case
+        if element.split(' ')[0] == 'tsp':
+            element = "1 " + element
+
         units = None
         if 'plus' in element:
             element = element.split('plus')[0]
@@ -27,6 +31,11 @@ def ingredients_to_dict(list):
         main_str = main_str.strip()
         if main_str == '':
             continue
+
+        if measurement == None and element.rfind("of a") != -1:
+            measurement = element[:element.rfind("of a")] 
+            print(measurement)
+
         if units != None:
             measurement += ' ' + units 
         dict[main_str] = measurement

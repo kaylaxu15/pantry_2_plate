@@ -19,7 +19,7 @@ def serves_column(string):
         return string
     return None
 
-df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/final_recipes_servings_data_2024-11-11.csv')
+df = pd.read_csv('webscraping/output/final_recipes_servings_data_2024-11-11.csv')
 df['makes'] = df['serves'].apply(makes_column)
 df['servings'] = df['serves'].apply(serves_column) 
-df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/final_recipes_servings_data_2024-11-11.csv', index=False)
+df.to_csv('webscraping/output/final_recipes_servings_data_2024-11-27.csv', index=False)

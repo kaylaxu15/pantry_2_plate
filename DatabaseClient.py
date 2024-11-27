@@ -268,25 +268,27 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/final_recipes_data_2024-11-11.csv")
+    df = pd.read_csv("webscraping/output/final_recipes_servings_data_2024-11-11.csv")
 
     for row in df.iterrows():
         converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-        converted_methods = ast.literal_eval(row[1]["methods"])
+        #converted_methods = ast.literal_eval(row[1]["methods"])
         converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        # print(converted_standardized_ingredients_dict)
-        # converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
+        print(converted_standardized_ingredients_dict)
+        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-        # try:
-        #     servings = converted_servings_dict['serves']
-        # except:
-        #     servings = ''
+        try:
+            servings = converted_servings_dict['serves']
+        except:
+            servings = ''
 
 
         methods = row[1]["methods"]
-        regexp = re.compile(r"[a-z]+[\'][a-z]+")
-        methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
-        methods = methods.replace("\'", "\"")
+        print(row[1]["title"])
+        print(methods)
+        # regexp = re.compile(r"[a-z]+[\'][a-z]+")
+        # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+        # methods = methods.replace("\'", "\"")
   
         methods = json.loads(methods)
 
