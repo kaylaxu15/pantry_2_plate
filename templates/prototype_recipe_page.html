@@ -155,7 +155,7 @@
         <form action="/all_recipes">
             <button id="all-recipes-button">Back to all recipes</button>
         </form>
-        <form action="/add_to_completed" method="post">
+        <form id="completedForm" onsubmit="addToCompleted(event)" method="post">
             <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
             <button type="submit">Completed!!</button>
         </form>
@@ -174,5 +174,28 @@
         }
         document.getElementById('ratings').innerHTML = html;
     }
+    function addToCompleted(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "/add_to_completed", true);
+
+            request.onload = function() {
+                if (request.status === 200) {
+                    alert("Recipe has been completed!");
+                } else {
+                    alert("Failed to add recipe to completed list. Please try again.");
+                }
+            };
+
+            request.onerror = function() {
+                alert("An error occurred. Please check your network connection.");
+            };
+
+            request.send(formData);
+        }
 </script>
 </html>

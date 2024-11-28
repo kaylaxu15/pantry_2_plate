@@ -211,7 +211,7 @@ class DatabaseClient:
             query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}}
         elif skill:
             query = {"difficulty": {"$eq": skill}}
-        elif max_time is not None:
+        elif max_time:
             query = {"total_time": {"$lte": max_time}}
         results = col.find(query)
         return list(results)
