@@ -48,6 +48,12 @@ class DatabaseClient:
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$set": {"inventory": inventory}})
         return 0
+    
+    def get_user_inventory(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId}, {"inventory": 1})
+        return user["inventory"] if user and "inventory" in user else []
+    
         
     def update_user_password(self, emailId, password):
         if self.check_emailId_taken(emailId) == False:
