@@ -17,9 +17,7 @@
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
-    <button onclick="savedFunction()" class="drop-button">Saved</button>
 
-    
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -157,14 +155,7 @@
 
             request.send(formData);
         }
-        function savedFunction() {
-            document.getElementById("savedDropdown").classList.toggle("show");
-        }
-        function profileFunction() {
-            document.getElementById("profileDropdown").classList.toggle("show");
-
-        }
-
+        
         window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
@@ -172,7 +163,6 @@
                     modals[i].style.display = 'none'; // Close the modal
                 }
             }
-
             if (!event.target.matches('.drop-button')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
                 var i;
@@ -193,8 +183,6 @@
                 }
             }
         }
-
-       
         
     </script>
 </body>

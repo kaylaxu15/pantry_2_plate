@@ -5,7 +5,7 @@
     background-color: #f9f4f4; 
     padding: 15px; 
     margin: 10px; 
-    border: 2px solid #d8a7b1; 
+    border: 2px solid #dca9a9; 
     border-radius: 15px; 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
     resize: none; 
@@ -13,7 +13,7 @@
     text-align: left; 
     font-family: 'Georgia', serif; 
     font-size: 16px; 
-    color: #5b3b4b; 
+    color: #A15B20; 
     transition: transform 0.3s, box-shadow 0.3s; 
     overflow-y: auto;
 }
@@ -25,13 +25,13 @@
 
 .inline-box a {
     text-decoration: none; 
-    color: #d47c90; 
+    color: #f3d9c6; 
     font-weight: bold; 
     transition: color 0.3s; 
 }
 
 .inline-box a:hover {
-    color: #ad5267;
+    color: #f3d9c6;
 }
 
 .inline-box img {
@@ -115,7 +115,7 @@ h3 {
 
 h4 {
     font-size: 20px;
-    color: #d47c90;
+    color: #A15B20;
     /*margin: 20px;*/
     text-align: center;
 }
@@ -331,7 +331,7 @@ button {
 .pantry-button {
     position: absolute;
     top: 12px;
-    right: 230px;
+    right: 135px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -349,7 +349,7 @@ button {
 .all-recipes-button {
     position: absolute;
     top: 12px;
-    right: 490px;
+    right: 385px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -393,7 +393,7 @@ button {
 .drop-profile-button {
     position: absolute;
     top: 12px;
-    right: 100px;
+    right: 10px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -416,7 +416,7 @@ button {
     display: none;
     position: absolute;
     top: 71px;
-    right:80px;
+    right:30px;
     background-color: #f1f1f1;
     min-width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -453,7 +453,7 @@ button {
   .drop-button {
     position: absolute;
     top: 12px;
-    right: 360px;
+    right: 260px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -477,7 +477,7 @@ button {
     display: none;
     position: absolute;
     top: 71px;
-    right:380px;
+    right:280px;
     background-color: #f1f1f1;
     min-width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
