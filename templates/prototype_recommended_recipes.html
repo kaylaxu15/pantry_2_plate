@@ -111,6 +111,15 @@
                     {% endfor %}
                 </div>
                 <h3>Time needed: {{ recipe.total_time }}</h3>
+
+                {% if recommended %}
+                    {% if recipe.missing_count == 0 %}
+                        <h3>All Good to Go!</h3>
+                    {% else %}
+                        <h3># Missing Ingredients: {{recipe.missing_count}}</h3>
+                    {% endif %}
+                {% endif %}
+
                 {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
                     {% if recipe.difficulty == 'Easy' %}
                         <h3>Skill level: Beginner</h3>
