@@ -151,6 +151,8 @@ def extract(pages, sleep_timer):
             ingredients = soup.find_all('li', {'class': "ingredients-list__item list-item list-item--separator-top"})
             ingredient_list = [element.text for element in ingredients]
 
+            for ingredient in soup.find_all('li', {'class': "ingredients-list__item list-item list-item--separator-top"})
+
             print(f'Loaded recipe: {recipe_title}')
             new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
                        'reviews': number_of_review, 'vegetarian': vegetarian, 'vegan': vegan, 'keto': keto,
