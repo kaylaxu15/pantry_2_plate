@@ -7,7 +7,7 @@ def ingredients_to_dict(list):
     dict = {}
     for element in list:
         # corner case
-        if element.split(' ')[0] == 'tsp':
+        if element.split(' ')[0] in exclude:
             element = "1 " + element
 
         units = None
