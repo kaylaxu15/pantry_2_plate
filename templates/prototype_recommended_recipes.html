@@ -17,9 +17,7 @@
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
-    <button onclick="savedFunction()" class="drop-button">Saved</button>
 
-    
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -114,11 +112,6 @@
             
                 <div class="bottom-buttons-container">
                     <button type="recipe" onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
-                
-                    <form action="/add_to_completed" method="post">
-                        <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                        <button type="submit">Completed!!</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -157,14 +150,7 @@
 
             request.send(formData);
         }
-        function savedFunction() {
-            document.getElementById("savedDropdown").classList.toggle("show");
-        }
-        function profileFunction() {
-            document.getElementById("profileDropdown").classList.toggle("show");
-
-        }
-
+        
         window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
@@ -172,7 +158,6 @@
                     modals[i].style.display = 'none'; // Close the modal
                 }
             }
-
             if (!event.target.matches('.drop-button')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
                 var i;
@@ -193,8 +178,6 @@
                 }
             }
         }
-
-       
         
     </script>
 </body>

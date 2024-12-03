@@ -39,15 +39,15 @@ def pantry_page():
     ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     ingredients = ingredients.values.tolist()
     ingredients = np.squeeze(ingredients)
-    pantry_items = session.get('pantry_items', [])
+    pantry_items = db.get_user_inventory(username)
     return render_template('prototype_pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
 
 @app.route('/pantry/save', methods=['POST'])
 def save_pantry_items():
     username = auth.authenticate()
     data = request.get_json()
-    pantry_items = data.get('pantry_items')
-    session['pantry_items'] = pantry_items
+    pantry_items = data.get('pantry_items', [])
+    db.update_user_inventory(username, pantry_items)
     return jsonify({'success': True})
 
 @app.route('/recommended_recipes', methods=['GET'])

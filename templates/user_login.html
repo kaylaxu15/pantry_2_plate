@@ -48,6 +48,10 @@
                 </tr>
             </table>
         </form>
+
+        <form method="POST" action="{{ url_for('login')}}">
+            <button type="submit">Login with Google</button>
+        </form>
      <hr>
      
     {% endif %}

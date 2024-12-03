@@ -48,6 +48,12 @@ class DatabaseClient:
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$set": {"inventory": inventory}})
         return 0
+    
+    def get_user_inventory(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId}, {"inventory": 1})
+        return user["inventory"] if user and "inventory" in user else []
+    
         
     def update_user_password(self, emailId, password):
         if self.check_emailId_taken(emailId) == False:
@@ -211,7 +217,7 @@ class DatabaseClient:
             query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}}
         elif skill:
             query = {"difficulty": {"$eq": skill}}
-        elif max_time is not None:
+        elif max_time:
             query = {"total_time": {"$lte": max_time}}
         results = col.find(query)
         return list(results)
