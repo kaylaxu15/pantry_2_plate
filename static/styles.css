@@ -84,6 +84,8 @@ button[type="recipe"] {
     display: block; 
 }
 
+
+
 body {
     background-color: #F4F2DD;
     display: flex;
@@ -113,11 +115,14 @@ h3 {
     text-align: left;
 }
 
-h4 {
-    font-size: 20px;
+.recipe-name {
+    font-size: 15px;
     color: #A15B20;
     /*margin: 20px;*/
     text-align: center;
+}
+.recipe-name:hover {
+    background-color: #824A1A;
 }
 
 p {
@@ -382,8 +387,10 @@ button {
 }
 
 .filter-button:hover {
-    background-color: #dca9a9;
+    outline: 3px solid #824A1A;
 }
+
+
 .back-button:hover {
     background-color: #45a049;
 }
@@ -428,7 +435,7 @@ button {
     display: block;
 }
 
-.dropdown-profile-content a:hover {background-color: #ddd;}
+.dropdown-profile-content a:hover {background-color: #824A1A;}
   
 .add_wishlist-button {
     position: absolute;
@@ -489,6 +496,6 @@ button {
     display: block;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {background-color: #824A1A;}
   
 .show {display:block;}

@@ -2,14 +2,15 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-url = "https://www.bbcgoodfood.com/recipes/air-fryer-apple-pancakes"
-
+url = "https://www.bbcgoodfood.com/recipes/chocolate-walnut-butter-cups"
 html = requests.get(url)
 soup = BeautifulSoup(html.text, 'html.parser')
 
+# re.compile('ingredients-list__item .*')
+
 ingredients = soup.find_all('li', {'class': re.compile('ingredients-list__item.*')})
 for ingredient in ingredients:
-    print(ingredients.text)
+    print(ingredient.text)
 # ingredient_list = [element.text for element in ingredients]
 # for i in ingredient_list:
 #     print(i)

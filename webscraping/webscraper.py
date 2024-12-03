@@ -6,6 +6,7 @@ import os
 import numpy as np
 import pandas as pd
 import requests
+import re
 from bs4 import BeautifulSoup
 
 warnings.filterwarnings('ignore')
@@ -148,10 +149,8 @@ def extract(pages, sleep_timer):
             
             i = 0
             ingredient_list = []
-            ingredients = soup.find_all('li', {'class': "ingredients-list__item list-item list-item--separator-top"})
+            ingredients = soup.find_all('li', {'class': re.compile('ingredients-list__item.*')})
             ingredient_list = [element.text for element in ingredients]
-
-            for ingredient in soup.find_all('li', {'class': "ingredients-list__item list-item list-item--separator-top"})
 
             print(f'Loaded recipe: {recipe_title}')
             new_row = pd.DataFrame([{'title': recipe_title, 'difficulty': difficulty, 'serves': serves, 'rating': rating,
@@ -170,7 +169,7 @@ def extract(pages, sleep_timer):
 
 if __name__ == '__main__':
     # enter how many pages of recipes you would like to scrape
-    pages = range_of_numbers(96, 190)
+    pages = range_of_numbers(1, 250)
     # here you can change the amount of time between each request to scrape data
     sleep_timer = 0
     #week = datetime.datetime.now().strftime("%Y-%m-%d")

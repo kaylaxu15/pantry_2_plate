@@ -13,11 +13,11 @@ class DatabaseClient:
         self.client = MongoClient(self.uri, ssl=True, tlsAllowInvalidCertificates=True)
         self.db = self.client["PPP"]
 
-    def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[], groceryList=[]):
+    def insert_user(self, emailId, password, picture="", restrictions=[], inventory=[], favRecipes=[], wishList=[], completed=[], groceryList=[], ratings={}):
         if self.check_emailId_taken(emailId):
             return 1
         col = self.db["Users"]
-        dict = {"emailId": emailId, "password": password, "picture": picture, "restrictions": restrictions, "inventory": inventory, "favRecipes": favRecipes, "wishList":wishList, "completed":completed, "groceryList":groceryList}
+        dict = {"emailId": emailId, "password": password, "picture": picture, "restrictions": restrictions, "inventory": inventory, "favRecipes": favRecipes, "wishList":wishList, "completed":completed, "groceryList":groceryList, "ratings": ratings}
         col.insert_one(dict)
         return 0
         

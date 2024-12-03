@@ -136,7 +136,17 @@
             <h2>Makes: {{ recipe.makes }}</h2>
             {% endif %}
             <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
-            <h2>Difficulty: {{recipe.difficulty}}</h2>
+            {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                {% if recipe.difficulty == 'Easy' %}
+                    <h2>Skill level: Beginner</h2>
+                {% endif %}
+                {% if recipe.difficulty == 'More effort' %}
+                    <h2>Skill level: Intermediate</h2>
+                {% endif %}
+                {% if recipe.difficulty == 'A challenge' %}
+                    <h2>Skill level: Advanced</h2>
+                {% endif %}
+            {% endif %}
             <h2>Ingredient List</h2>
             <ul>
                 {% for ingredient in recipe.actual_ingredients %}
@@ -152,9 +162,7 @@
         {% endfor %}
     </div>
     <div class="bottom-buttons">
-        <form action="/all_recipes">
-            <button id="all-recipes-button">Back to all recipes</button>
-        </form>
+        <button onclick="history.back()" class="back-button">Go Back</button>
         <form id="completedForm" onsubmit="addToCompleted(event)" method="post">
             <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
             <button type="submit">Completed!!</button>

@@ -43,7 +43,7 @@
     <div class="recipes-container">
         {% for recipe in recipes %}
         <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
-            <h4>{{ recipe.title | safe }}</h4>
+            <h4 class=.recipe-name>{{ recipe.title | safe }}</h4>
             <img src="{{recipe.picture_url}}" width="150" height="150">
            
             <br></br>
@@ -54,8 +54,17 @@
                 Makes: {{ recipe.makes }}
                 <br></br>
             {% endif %}
+
             {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
-                Difficulty: {{ recipe.difficulty }}
+                    {% if recipe.difficulty == 'Easy' %}
+                        Skill level: Beginner
+                    {% endif %}
+                    {% if recipe.difficulty == 'More effort' %}
+                        Skill level: Intermediate
+                    {% endif %}
+                    {% if recipe.difficulty == 'A challenge' %}
+                        Skill level: Advanced
+                    {% endif %}
                 <br></br>
             {% else %}
             {% endif %}
@@ -102,7 +111,17 @@
                     {% endfor %}
                 </div>
                 <h3>Time needed: {{ recipe.total_time }}</h3>
-                <h3>Difficulty: {{ recipe.difficulty }}</h3>
+                {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                    {% if recipe.difficulty == 'Easy' %}
+                        <h3>Skill level: Beginner</h3>
+                    {% endif %}
+                    {% if recipe.difficulty == 'More effort' %}
+                        <h3>Skill level: Intermediate</h3>
+                    {% endif %}
+                    {% if recipe.difficulty == 'A challenge' %}
+                        <h3>Skill level: Advanced</h3>
+                    {% endif %}
+                {% endif %}
                 <h3>Ingredient List</h3>
                 <ul>
                     {% for ingredient in recipe.actual_ingredients %}

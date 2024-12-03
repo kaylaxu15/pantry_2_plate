@@ -29,7 +29,15 @@
                     <br></br>
                 {% endif %}
                 {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
-                    Difficulty: {{ recipe.difficulty }}
+                    {% if recipe.difficulty == 'Easy' %}
+                        Skill level: Beginner
+                    {% endif %}
+                    {% if recipe.difficulty == 'More effort' %}
+                        Skill level: Intermediate
+                    {% endif %}
+                    {% if recipe.difficulty == 'A challenge' %}
+                        Skill level: Advanced
+                    {% endif %}
                     <br></br>
                 {% else %}
                 {% endif %}
