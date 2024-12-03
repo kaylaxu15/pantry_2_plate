@@ -86,7 +86,7 @@
             <br></br>
             <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post">
                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                <button type="submit">Add to Wishlist</button>
+                <button class="submit-button">Add to Wishlist</button>
             </form>
         </span>
         
@@ -130,7 +130,7 @@
                 </ul>
             
                 <div class="bottom-buttons-container">
-                    <button type="recipe" onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
+                    <button class="submit-button" onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
                 </div>
             </div>
         </div>
