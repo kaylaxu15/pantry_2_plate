@@ -268,6 +268,27 @@ def remove_from_favorites():
 
     return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
+@app.route('/add_review', methods=['POST'])
+def add_review():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+
+    recipe_id = flask.request.form.get('recipe_id')
+    review = flask.request.form.get('review')
+    print("REVIEW", review)
+    print("RECIPE_ID", recipe_id)
+
+    reviews = db.get_user_reviews(username)
+    reviews[recipe_id] = review
+    db.update_user_reviews(username, reviews)
+
+    json_doc = json.dumps(review)
+    response = flask.make_response(json_doc)
+    response.headers['Content-Type'] = 'application/json'
+
+    return response
+    
 
 
 

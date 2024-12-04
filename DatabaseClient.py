@@ -115,6 +115,22 @@ class DatabaseClient:
         col = self.db["Users"]
         user = col.find_one({"emailId": emailId}, {"completed": 1})
         return user["completed"] if user and "completed" in user else []
+    
+    # adds user reviews as a field
+    def add_user_reviews(self):
+        users_collection = self.db["Users"]
+        users_collection.update_many({}, {"$set":{"reviews": {}}})
+
+    def update_user_reviews(self, emailId, new_dict):
+        if self.check_emailId_taken(emailId) == False:
+            return 1
+        col = self.db["Users"]
+        col.update_one({"emailId": emailId}, {"$set": {"reviews": new_dict}})
+
+    def get_user_reviews(self, emailId):
+        col = self.db["Users"]
+        user = col.find_one({"emailId": emailId}, {"reviews": 1})
+        return user["reviews"] if user and "reviews" in user else {}
         
     def check_emailId_taken(self, emailId):
         col = self.db["Users"]
@@ -263,40 +279,42 @@ if __name__ == "__main__":
     # recipes = db.get_recipes_ingredients(['cocoa powder'])
     # for recipe in recipes:
     #    print(db.return_recipe(recipe["_id"]))
-    missing_recipes = db.return_page_recipes(['egg', 'butter'])
     # for recipe in missing_recipes:
     #    print(recipe)
     #    print()
-    db.delete_all_recipes()
+    
     #db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
     # db.update_user_password("Niru", "Mahaniru1234")
     # print(db.get_user("Niru"))
     # db.delete_user("Niru")
 
-    # inserting the recipes into the database
-    df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv")
+    # missing_recipes = db.return_page_recipes(['egg', 'butter'])
+    # db.delete_all_recipes()
+    # # inserting the recipes into the database
+    # df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv")
 
-    for row in df.iterrows():
-        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-        #converted_methods = ast.literal_eval(row[1]["methods"])
-        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
+    # for row in df.iterrows():
+    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+    #     #converted_methods = ast.literal_eval(row[1]["methods"])
+    #     converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+    #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-        try:
-            servings = converted_servings_dict['serves']
-        except:
-            servings = ''
+    #     try:
+    #         servings = converted_servings_dict['serves']
+    #     except:
+    #         servings = ''
 
 
-        methods = str(row[1]["methods"])
-        # print(row[1]["title"])
-        # print(methods)
-        # regexp = re.compile(r"[a-z]+[\'][a-z]+")
-        # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
-        # methods = methods.replace("\'", "\"")
+    #     methods = str(row[1]["methods"])
+    #     # print(row[1]["title"])
+    #     # print(methods)
+    #     # regexp = re.compile(r"[a-z]+[\'][a-z]+")
+    #     # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+    #     # methods = methods.replace("\'", "\"")
   
-        methods = ast.literal_eval(methods)
+    #     methods = ast.literal_eval(methods)
 
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
-                         converted_standardized_ingredients_dict, converted_ingredients, methods, 
-                         row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
+    #                      converted_standardized_ingredients_dict, converted_ingredients, methods, 
+    #                      row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
+    db.add_user_reviews()
