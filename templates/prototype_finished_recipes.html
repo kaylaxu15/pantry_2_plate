@@ -59,10 +59,10 @@
                 <div id="reviewbox">
                     <input type="text" id="review" name="review">
                     <input type="hidden" id="recipe_id" value="{{ recipe._id }}">
-                    <button id="review_button" class="submit-button">Save Changes</button>
+                    <button onclick="getReviews()", id="review_button">Save Changes</button>
                 </div>
 
-                <form action="/add_to_favorites" method="post">
+                <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
                     <button class="submit-button">Add to Favorites</button>
                 </form>
@@ -74,6 +74,30 @@
     </div>
     
     <script>
+        function addToFavorites(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "/add_to_favorites", true);
+
+            request.onload = function() {
+                if (request.status === 200) {
+                    alert("Favorited recipe!");
+                } else {
+                    alert("Failed to add recipe to wishlist. Please try again.");
+                }
+            };
+
+            request.onerror = function() {
+                alert("An error occurred. Please check your network connection.");
+            };
+
+            request.send(formData);
+        }
+
         function convertToHtml(review) {
             let template = `{{review}}`
             let map = {review: review};
