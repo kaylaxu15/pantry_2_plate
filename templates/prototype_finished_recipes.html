@@ -73,9 +73,9 @@
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event)" method="post">
                         {% set recipeID = recipe._id | string %}
-                        <input type="text" id="review" name="review" value="{{reviews[recipeID]}}">
+                        <input type="text" id="reviewText" name="review" value="{{reviews[recipeID]}}">
                         <input type="hidden" name="recipe_id" value="{{recipeID}}">
-                        <button class="submit-button" id="review_button">Save Changes</button>
+                        <button class="submit-button" id="review_button" onclick="style.display = 'none'">Save Changes</button>
                     </form>
                 </div>  
 
@@ -92,6 +92,14 @@
     </div>
     
     <script>
+        const textBox = document.getElementById("reviewText");
+
+        const button = document.getElementById("review_button");
+
+        textBox.addEventListener("click", function() {
+            button.style.display = "block"; 
+        });
+
         function addToFavorites(event) {
             event.preventDefault(); 
 
