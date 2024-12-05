@@ -228,12 +228,22 @@ def add_to_favorites():
     if 'favRecipes' not in session:
         session['favRecipes'] = db.get_user_favRecipes(username)
     favRecipes = session['favRecipes']
-    recipe_id = flask.request.form.get('recipe_id')
+    
+    # Only try to get recipe_id and update favorites if it's a POST request
+    if flask.request.method == 'POST':
+        recipe_id = flask.request.form.get('recipe_id')
+        if recipe_id and recipe_id not in favRecipes:
+            favRecipes.append(recipe_id)
+            db.update_user_favRecipes(username, favRecipes)
+            session['favRecipes'] = favRecipes
+            
+    # recipe_id = flask.request.form.get('recipe_id')
 
-    if recipe_id not in favRecipes:
-        favRecipes.append(recipe_id)
-        db.update_user_favRecipes(username, favRecipes)
-        session['favRecipes'] = favRecipes
+    # if recipe_id not in favRecipes:
+    #     favRecipes.append(recipe_id)
+    #     db.update_user_favRecipes(username, favRecipes)
+    #     session['favRecipes'] = favRecipes
+        
     
     full_favRecipes = []
     for r_id in favRecipes:
