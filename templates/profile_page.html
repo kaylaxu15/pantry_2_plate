@@ -15,8 +15,14 @@
 
         <!-- User Image Section -->
         <div class="user-image">
-            <img src="{{ user_data.picture }}" alt="User Profile Image" width="700" height="500">
+            {% if user_data.picture %}
+            <img src="{{ user_data.picture }}" alt="User Profile Image" width="100" height="100">
+            {% endif %}
         </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <p><input type="file" name="file">
+               <input type="submit" value="Upload">
+            </form>
 
         <!--
         <div class="allergy-section">
