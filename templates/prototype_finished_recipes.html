@@ -68,9 +68,11 @@
                 <br></br>
 
                 <div id="reviewbox">
-                    <input type="text" id="review" name="review">
-                    <input type="hidden" id="recipe_id" value="{{ recipe._id }}">
-                    <button onclick="getReviews()", id="review_button">Save Changes</button>
+                    <form id="reviewForm" method="post">
+                        <input type="text" id="review" name="review">
+                        <input type="hidden" id="recipe_id" value="{{ recipe._id }}">
+                        <button class="submit-button" id="review_button">Save Changes</button>
+                    </form>
                 </div>
 
                 <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
@@ -116,11 +118,9 @@
             return html;
         }
 
-        let request = null;
+        ('#review_button').click(getReviews)
         function getReviews() {
-            if (request !== null)
-                request.abort();
-            
+    
             let review = $('#review').val() || '';
             review = encodeURIComponent(review);
 
@@ -129,7 +129,7 @@
             
             let requestData = {
                 type: 'POST',
-                url: '/add_review?review=' + review, 
+                url: '/add_review',
                 success: handleResponse,
                 error: handleError
             };
