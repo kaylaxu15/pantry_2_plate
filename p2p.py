@@ -71,7 +71,7 @@ def results_page():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination, pantry_items = pantry_items)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():

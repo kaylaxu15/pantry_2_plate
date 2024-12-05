@@ -15,7 +15,7 @@
     {% else %}
         <h1>All Recipes</h1> 
     {% endif %}
-
+    {% if recommended %}
     <div class="pantry-summary">
         {% if pantry_items %}
         <div class="scrollable-table">
@@ -38,7 +38,7 @@
             <p>No pantry items available.</p>
         {% endif %}
     </div>
-    
+    {% endif %}
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
