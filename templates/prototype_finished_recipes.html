@@ -26,10 +26,11 @@
         </select>
         <button onclick="searchRecipes()" class="search-button">Search</button>
     </div>
+
     <div class="completed-container">
         {% if completed %}
             {% for recipe in completed %}
-            <span class="inline-box">
+            <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
                 <h4>{{ recipe.title | safe }}</h4>
                 <img src="{{recipe.picture_url}}" width="150" height="150">
                 <br></br>
@@ -84,13 +85,71 @@
                     
                 </form>
                 </span>
+                <div id="modal{{ loop.index }}" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
+                        <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
+                        <a href="/recipe_page?recipe={{recipe._id}}">
+                            <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
+                        </a>
+                        <h3>Time needed: {{ recipe.total_time }}</h3>
+        
+                        {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                        <h3>Number of Servings: {{ recipe.servings }}</h3>
+                        {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                        <h3>Makes: {{ recipe.makes }}</h3>
+                        {% endif %}
+                        
+        
+                        {% if recommended %}
+                            {% if recipe.missing_count == 0 %}
+                                <h3>All Good to Go!</h3>
+                            {% else %}
+                                <h3># Missing Ingredients: {{recipe.missing_count}}</h3>
+                            {% endif %}
+                        {% endif %}
+        
+                        {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                            {% if recipe.difficulty == 'Easy' %}
+                                <h3>Skill level: Beginner</h3>
+                            {% endif %}
+                            {% if recipe.difficulty == 'More effort' %}
+                                <h3>Skill level: Intermediate</h3>
+                            {% endif %}
+                            {% if recipe.difficulty == 'A challenge' %}
+                                <h3>Skill level: Advanced</h3>
+                            {% endif %}
+                        {% endif %}
+        
+                        <div>
+                            {% for tag in recipe.restrictions %}
+                                <button class="tight-wrap-button">{{ tag }}</button>
+                            {% endfor %}
+                        </div>
+                        <h3>Ingredient List</h3>
+                        <ul>
+                            {% for ingredient in recipe.actual_ingredients %}
+                                <li>{{ ingredient }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         {% else %}
             <p>Your finished recipes list is empty.</p>
         {% endif %}
-    </div>
+
+        
     
     <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
         const textBox = document.getElementById("reviewText");
 
         const button = document.getElementById("review_button");
@@ -98,6 +157,15 @@
         textBox.addEventListener("click", function() {
             button.style.display = "block"; 
         });
+
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = 'none'; // Close the modal
+                }
+            }
+        }
 
         function addToFavorites(event) {
             event.preventDefault(); 
