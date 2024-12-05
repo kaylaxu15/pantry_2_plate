@@ -29,11 +29,11 @@ client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
 #-----------------------------------------------------------------------
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login_page():
-#      return flask.render_template('user_login.html')
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+     return flask.render_template('user_login.html')
 
-@app.route('/login', methods=['GET'])
+@app.route('/google_login', methods=['GET'])
 def login():
 
     # Determine the URL for Google login.

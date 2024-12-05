@@ -240,6 +240,15 @@ class DatabaseClient:
        
         results = col.find(query)
         return list(results) 
+    
+    def filter_restrictions(self, restrictions):
+        col = self.db["Recipes"] 
+        query = {}
+        if len(restrictions) > 0:
+            query = {"restrictions": {"$all": restrictions}}
+       
+        results = col.find(query)
+        return list(results) 
         
     def add_default_ingredients(self, ingredients):
         normalized_ingredients = set(ingredient.lower() for ingredient in ingredients if isinstance(ingredient, str))

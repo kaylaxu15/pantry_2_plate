@@ -295,8 +295,8 @@ button.remove-button:hover {
     position: absolute;
     top: 12px;
     right: 385px;
-    background-color: #315E26;
-    color: white;
+    background-color: white;
+    color: #824A1A;
     padding: 10px 0;
     margin: 20px;
     border: none;

@@ -12,6 +12,7 @@ from top import app
 import cloudinary
 import cloudinary.uploader
 import re
+from flask_paginate import Pagination, get_page_parameter
 
 db = DatabaseClient.DatabaseClient()
 
@@ -59,7 +60,12 @@ def results_page():
     #else:
     user_data = db.get_user(username)
     recipes = db.return_page_recipes(pantry_items)
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data, pantry_items=pantry_items)
+
+    # add pages
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination = Pagination(page=page, per_page=20, total=len(recipes), search=True, record_name='recipes')
+
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data, pantry_items=pantry_items, pagination=pagination)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -83,7 +89,22 @@ def all_recipes():
     else:
         recipes = db.get_all_recipes()
     user_data = db.get_user(username)
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=False, user_data=user_data)
+
+    # filter by restrictions: 
+    recipes = db.filter_restrictions(user_data['restrictions'])
+
+    # add paging
+
+    per_page = 20
+    try:
+        page = int(request.args.get('page', 1))
+    except ValueError:
+        page = 1
+    offset = (page-1)*per_page
+    rpart = recipes[offset:offset+per_page]
+    pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
+
+    return render_template('prototype_recommended_recipes.html', offset=offset, recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination)
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
@@ -91,13 +112,6 @@ def recipe_page():
     recipe_id = flask.request.args.get("recipe")
     
     recipe = db.return_recipe(recipe_id)
-
-    #methods = recipe['methods'].replace("[,]+ \'", ", \"")
-    #methods = recipe['methods'].replace("n\"t", "n\'t")
-    #methods = recipe['methods'].replace("\'", "\"")
-  
-    #methods = json.loads(methods)
-    #methods = []
     
     return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
 

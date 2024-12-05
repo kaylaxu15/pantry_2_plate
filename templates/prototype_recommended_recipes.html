@@ -44,6 +44,11 @@
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
 
+    {{ pagination.info }}
+    <div class="pagination">
+        {{ pagination.links }}
+    </div>
+
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -66,15 +71,12 @@
         </div>
     </div>
 
+    
     <div class="recipes-container">
-        {% for recipe in recipes %}
-            {% set overlap_found = [] %}
-            {% for restriction in recipe.restrictions %}
-                {% if restriction in user_data.restrictions %}
-                    {% if overlap_found.append(1) %}{% endif %}
-                {% endif %}
-            {% endfor %} 
-            {% if overlap_found | length == user_data.restrictions | length %}
+        <br></br>
+
+        {% for recipe in rpart %}
+            
                 <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
                     <h4 class=.recipe-name>{{ recipe.title | safe }}</h4>
                     <img src="{{recipe.picture_url}}" width="150" height="150">
@@ -122,7 +124,7 @@
                         <button class="submit-button" onclick="event.stopPropagation();">Add to Wishlist</button>
                     </form>
                 </span>
-            {% endif %}
+            
 
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
@@ -178,6 +180,7 @@
                     </div>
                 </div>
         {% endfor %}
+        {{ pagination.links }}
     </div>
 
     <script>

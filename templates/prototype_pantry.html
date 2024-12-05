@@ -7,7 +7,10 @@
 </head>
 <body>
     <div class="header">
-        <img class="logo" src="static/logo.png" alt="logo">
+
+        <a href="/">
+            <img class="logo" src="static/logo.png" alt="logo">
+        </a>
       {% include 'header.html' %}
       <link rel="stylesheet" href="static/styles.css">
       <h1>Pantry</h1>
@@ -227,10 +230,10 @@
 
 
     <div class="search-container">
-        <p>Search for the ingredients you currently have around, and click on it to add to your pantry.</p>
-        <h4>We assume you already have salt and pepper on hand!</h4>
+        <p>Search for ingredients to add to your pantry (ie egg, butter, sugar), and select items from the dropdown!</p>
+        <h4>We will assume you already have salt and pepper on hand!</h4>
         <div class="search">
-            <input type="text" id="SearchBox" oninput="filterOut()" placeholder="Search for ingredients">
+            <input type="text" id="SearchBox" oninput="filterOut()" placeholder="Search for ingredients (ie egg, sugar, butter)">
             <div class="dropdown" id="dropdown">
                 <ul id="Ingredients">
                     {% for ingredient in ingredients %}

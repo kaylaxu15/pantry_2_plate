@@ -192,9 +192,9 @@ p {
 }
 
 .scrollable-table {
+    margin: auto 0;
     max-height: 150px; 
     overflow-y: auto; 
-    margin: 10px auto;
     border: 2px solid #315E26;
     border-radius: 10px;
     background-color: white;
@@ -594,3 +594,53 @@ button {
 .inline-box.hidden {
     display: none;
 }
+
+.pagination-page-info {
+    padding: 10px 0;
+    width: 40em;
+    margin: .5em;
+    margin-right: 10px auto;
+    font-size: 25px;
+}
+.pagination-page-info b {
+    color: #824A1A;
+    background: #f3d9c6;
+    padding: 10px 0;
+    font-size: 100%;
+    margin-right: 10px auto; 
+}
+
+.pagination {
+    display: inline-block;
+  }
+
+  ul {
+    float: center;
+    list-style-type: none;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+  
+  .pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
