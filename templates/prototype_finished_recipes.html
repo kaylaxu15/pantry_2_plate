@@ -60,7 +60,7 @@
                     <form id="reviewForm" method="post">
                         <input type="text" id="review" name="review">
                         <input type="hidden" id="recipe_id" value="{{ recipe._id }}">
-                        <button onclick="getReviews()", id="review_button">Save Changes</button>
+                        <button class="submit-button" id="review_button">Save Changes</button>
                     </form>
                 </div>
 
@@ -76,6 +76,29 @@
     </div>
     
     <script>
+        function addToFavorites(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "/add_to_favorites", true);
+
+            request.onload = function() {
+                if (request.status === 200) {
+                    alert("Favorited recipe!");
+                } else {
+                    alert("Failed to add recipe to wishlist. Please try again.");
+                }
+            };
+
+            request.onerror = function() {
+                alert("An error occurred. Please check your network connection.");
+            };
+
+            request.send(formData);
+        }
 
         function convertToHtml(review) {
             let template = `{{review}}`
@@ -84,11 +107,9 @@
             return html;
         }
 
-        let request = null;
+        ('#review_button').click(getReviews)
         function getReviews() {
-            if (request !== null)
-                request.abort();
-            
+    
             let review = $('#review').val() || '';
             review = encodeURIComponent(review);
 
@@ -97,7 +118,7 @@
             
             let requestData = {
                 type: 'POST',
-                url: '/add_review?review=' + review, 
+                url: '/add_review',
                 success: handleResponse,
                 error: handleError
             };

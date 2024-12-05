@@ -286,7 +286,7 @@ def add_review():
     json_doc = json.dumps(review)
     response = flask.make_response(json_doc)
     response.headers['Content-Type'] = 'application/json'
-
+    
     return response
     
 
