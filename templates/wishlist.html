@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="static/styles.css">
     <title>Your Wishlist</title>
     {% include 'header.html' %}
-    <img class="logo" src="static/logo.png" alt="logo">
+    <a href="/">
+        <img class="logo" src="static/logo.png" alt="logo">
+    </a>
 </head>
 <body>
     <h1>Wishlist</h1>
@@ -52,6 +54,7 @@
                 <br></br>
                 {% endif %}
 
+                
                 Tags: 
                 {% for tag in recipe.restrictions %}
                     <button class="tight-wrap-button">{{tag}}</button>

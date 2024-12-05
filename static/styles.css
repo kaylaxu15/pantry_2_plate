@@ -257,6 +257,7 @@ th, td {
     display: -ms-inline-grid;
     flex-flow: row wrap;
     align-items: stretch;
+    cursor: not-allowed;
 }
 
 button {

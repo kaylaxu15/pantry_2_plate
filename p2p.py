@@ -61,8 +61,9 @@ def results_page():
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
+    user_data = db.get_user(username)
     recipes = db.return_page_recipes(ingredient_list)
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -74,7 +75,8 @@ def all_recipes():
         recipes = db.filter_recipes(skill = skill, max_time = max_time)
     else:
         recipes = db.get_all_recipes()
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=False)
+    user_data = db.get_user(username)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=False, user_data=user_data)
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
@@ -206,19 +208,20 @@ def add_to_completed():
     completed = session['completed']
     recipe_id = flask.request.form.get('recipe_id')
 
+
     if recipe_id not in completed:
         completed.append(recipe_id)
         db.update_user_completed(username, completed)
         session['completed'] = completed
-    
+
     full_completed = []
     for r_id in completed:
         recipe = db.return_recipe(r_id)
         if recipe:
             full_completed.append(recipe)
 
-    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username)
-
+    reviews = db.get_user_reviews(username)
+    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
 @app.route('/add_to_favorites', methods=['GET', 'POST'])
 def add_to_favorites():
@@ -283,11 +286,9 @@ def add_review():
     reviews[recipe_id] = review
     db.update_user_reviews(username, reviews)
 
-    json_doc = json.dumps(review)
-    response = flask.make_response(json_doc)
-    response.headers['Content-Type'] = 'application/json'
     
-    return response
+    full_completed = db.get_user_completed(username)
+    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
     
 
 

@@ -29,24 +29,25 @@ client = oauthlib.oauth2.WebApplicationClient(GOOGLE_CLIENT_ID)
 
 #-----------------------------------------------------------------------
 
-@app.route('/login', methods=['GET', 'POST'])
+# @app.route('/login', methods=['GET', 'POST'])
+# def login_page():
+#      return flask.render_template('user_login.html')
+
+@app.route('/login', methods=['GET'])
 def login():
-    
-    if flask.request.method == 'POST':
-        
 
     # Determine the URL for Google login.
-        google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
-        authorization_endpoint = (
-            google_provider_cfg['authorization_endpoint'])
+    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
+    authorization_endpoint = (
+        google_provider_cfg['authorization_endpoint'])
 
     # Construct the request URL for Google login, providing scopes
     # to fetch the user's profile data.
-        request_uri = client.prepare_request_uri(
-            authorization_endpoint,
-            redirect_uri = flask.request.base_url + '/callback',
-            scope=['openid', 'email', 'profile'],
-        )
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri = flask.request.base_url + '/callback',
+        scope=['openid', 'email', 'profile'],
+    )
 
     #-------------------------------------------------------------------
     # For learning:
@@ -54,15 +55,12 @@ def login():
     #-------------------------------------------------------------------
 
     # Redirect to the request URL.
-        return flask.redirect(request_uri)
+    return flask.redirect(request_uri)
     
-    
-    return flask.render_template('user_login.html')
 #-----------------------------------------------------------------------
 
 @app.route('/login/callback', methods=['GET'])
 def callback():
-
     # Get the authorization code that Google sent.
     code = flask.request.args.get('code')
 

@@ -183,6 +183,7 @@ class DatabaseClient:
         col.update_one({"emailId": emailId}, {"$set": {"restrictions": []}})
     
     def delete_all_recipes(self):
+        self.delete_all_ingredients()
         col = self.db["Recipes"]
         col.delete_many({})
         return 0
@@ -314,7 +315,7 @@ if __name__ == "__main__":
   
     #     methods = ast.literal_eval(methods)
 
-    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], list(converted_standardized_ingredients_dict.keys()), row[1]["picture_url"], 
+    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], ast.literal_eval(row[1]["standardized_ingredients"]), row[1]["picture_url"], 
     #                      converted_standardized_ingredients_dict, converted_ingredients, methods, 
     #                      row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
     db.add_user_reviews()

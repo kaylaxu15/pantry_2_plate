@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Your Finished Recipes</title>
     {% include 'header.html' %}
-    <img class="logo" src="static/logo.png" alt="logo">
+    <a href="/">
+        <img class="logo" src="static/logo.png" alt="logo">
+    </a>
+    
 </head>
 <body>
     <h1>Your Finished Recipes</h1>
@@ -56,13 +59,13 @@
                 {% endfor %}
                 <br></br>
 
-                <div id="reviewbox">
-                    <form id="reviewForm" method="post">
-                        <input type="text" id="review" name="review">
-                        <input type="hidden" id="recipe_id" value="{{ recipe._id }}">
+                <div class="reviewbox">
+                    <form id="reviewForm" onsubmit="addReview(event)" method="post">
+                        <input type="text" id="review" name="review" value="{{reviews.recipeID}}">
+                        <input type="hidden" name="recipe_id">
                         <button class="submit-button" id="review_button">Save Changes</button>
                     </form>
-                </div>
+                </div>  
 
                 <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
@@ -107,37 +110,67 @@
             return html;
         }
 
-        ('#review_button').click(getReviews)
-        function getReviews() {
+        function addReview(event) {
+           event.preventDefault();
+
+
+           const form = event.target;
+           const formData = new FormData(form);
+
+
+           const request = new XMLHttpRequest();
+           request.open("POST", "/add_review", true);
+
+
+           request.onload = function() {
+               if (request.status === 200) {
+                   alert("Saved Changes!");
+
+
+               } else {
+                   alert("Failed to save changes. Please try again.");
+               }
+           };
+
+
+           request.onerror = function() {
+               alert("An error occurred. Please check your network connection.");
+           };
+
+
+           request.send(formData);
+       }
+
+        // function getReviews() {
     
-            let review = $('#review').val() || '';
-            review = encodeURIComponent(review);
+        //     let review = $('#review').val() || '';
+        //     review = encodeURIComponent(review);
 
-            let recipe_id = $('#recipe_id').val();
-            recipe_id = encodeURIComponent(recipe_id);
+        //     let recipe_id = $('#recipe_id').val();
+        //     recipe_id = encodeURIComponent(recipe_id);
             
-            let requestData = {
-                type: 'POST',
-                url: '/add_review',
-                success: handleResponse,
-                error: handleError
-            };
+        //     let requestData = {
+        //         type: 'GET',
+        //         url: '/add_review',
+        //         success: handleResponse,
+        //         error: handleError
+        //     };
 
-            request = $.ajax(requestData);
-        }
+        //     request = $.ajax(requestData);
+        // }
 
-        function handleResponse(review) {
-            $('#reviewbox').html(convertToHtml(review));
-        }
+        // function handleResponse(review) {
+        //     $('#reviewbox').html(convertToHtml(review));
+        // }
 
-        function handleError(request) {
-            if (request.statusText !== 'abort')
-                alert('Error: Failed to fetch data from server');
-        }
+        // function handleError(request) {
+        //     if (request.statusText !== 'abort')
+        //         alert('Error: Failed to fetch data from server');
+        // }
 
-        $(document).ready(function() {
-            $("#review_button").on("click", getReviews);
-        });
+        // $(document).ready(function() {
+        //     $("#review_button").on("click", getReviews);
+        // });
         
     </script>
 </body>
