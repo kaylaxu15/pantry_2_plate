@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="static/styles.css">
     <title>Your Wishlist</title>
     {% include 'header.html' %}
@@ -14,6 +15,17 @@
     <h1>Wishlist</h1>
     <h2>{{ username }}</h2>
     <button onclick="history.back()" class="back-button">Go Back</button>
+    <div class="search-box">
+        <input type="text" id="search-input" name="search" placeholder="Search recipes...">
+        <select id="search-type" name="search-type">
+            <option value="all">All</option>
+            <option value="title">Title</option>
+            <option value="tags">Tags</option>
+            <option value="difficulty">Skill Level</option>
+        </select>
+        <button onclick="searchRecipes()" class="search-button">Search</button>
+    </div>
+
     <div class="wishlist-container">
         {% if wishList %}
             {% for recipe in wishList %}
@@ -71,5 +83,71 @@
             <p>Your wishlist is empty.</p>
         {% endif %}
     </div>
+    <script>
+            
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add enter key listener
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === "Enter") {
+                    searchRecipes();
+                }
+            });
+        });
+        
+    
+        function searchRecipes() {
+            var searchRequest = null;
+            console.log("Search function called");
+            
+            
+            let searchTerm = $('#search-input').val().toLowerCase();
+            let searchType = $('#search-type').val();
+
+            console.log("Search term:", searchTerm);
+            console.log("Search type:", searchType);
+            console.log("Number of recipe boxes:", $('.inline-box').length);
+            
+            // Client-side filtering
+            $('.inline-box').each(function() {
+                let $recipe = $(this);
+                let match = false;
+                
+                let title = $recipe.find('h4').text().toLowerCase();
+                let tags = $recipe.find('.tight-wrap-button').map(function() {
+                    return $(this).text().toLowerCase();
+                }).get();
+                let difficulty = $recipe.text().includes('Skill level:') ? 
+                    $recipe.text().split('Skill level:')[1].split('\n')[0].trim().toLowerCase() : '';
+                
+                    console.log("Checking recipe:", {
+                        title: title,
+                        tags: tags,
+                        difficulty: difficulty
+                    });
+                switch(searchType) {
+                    case 'title':
+                        match = title.includes(searchTerm);
+                        break;
+                    case 'tags':
+                        match = tags.some(tag => tag.includes(searchTerm));
+                        break;
+                    case 'difficulty':
+                        match = difficulty.includes(searchTerm);
+                        break;
+                    case 'all':
+                    default:
+                        match = title.includes(searchTerm) || 
+                                tags.some(tag => tag.includes(searchTerm)) || 
+                                difficulty.includes(searchTerm);
+                        break;
+                }
+                console.log("Match result:", match);
+                $(this).toggleClass('hidden', !match);
+            });
+        }
+
+
+    </script>
+
 </body>
 </html>
