@@ -61,11 +61,17 @@ def results_page():
     user_data = db.get_user(username)
     recipes = db.return_page_recipes(pantry_items)
 
-    # add pages
-    page = request.args.get(get_page_parameter(), type=int, default=1)
-    pagination = Pagination(page=page, per_page=20, total=len(recipes), search=True, record_name='recipes')
+    # add paging
+    per_page = 20
+    try:
+        page = int(request.args.get('page', 1))
+    except ValueError:
+        page = 1
+    offset = (page-1)*per_page
+    rpart = recipes[offset:offset+per_page]
+    pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data, pantry_items=pantry_items, pagination=pagination)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -104,7 +110,7 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', offset=offset, recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination)
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
