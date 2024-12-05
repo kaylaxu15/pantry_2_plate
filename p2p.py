@@ -110,15 +110,13 @@ def add_to_wishlist():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
-    if 'wishList' not in session:
-        session['wishList'] = db.get_user_wishlist(username)
-    wishList = session['wishList']
+    
+    wishList = db.get_user_wishlist(username)
     recipe_id = flask.request.form.get('recipe_id')
 
     if recipe_id not in wishList:
         wishList.append(recipe_id)
         db.update_user_wishlist(username, wishList)
-        session['wishList'] = wishList
     
     full_wishList = []
     for r_id in wishList:
@@ -134,16 +132,13 @@ def remove_from_wishlist():
         session['username'] = auth.authenticate()
     username = session['username']
     
-    if 'wishList' not in session:
-        session['wishList'] = db.get_user_wishlist(username)
-    wishList = session['wishList']
+    wishList = db.get_user_wishlist(username)
     
     recipe_id = flask.request.form.get('recipe_id')
 
     if recipe_id in wishList:
         wishList.remove(recipe_id)
         db.update_user_wishlist(username, wishList)
-        session['wishList'] = wishList
 
     full_wishList = []
     for r_id in wishList:
@@ -152,6 +147,7 @@ def remove_from_wishlist():
             full_wishList.append(recipe)
 
     return render_template('wishlist.html', wishList=full_wishList, username=username)
+
 @app.route('/groceries', methods=['GET'])
 def groceries_display():
     username = auth.authenticate()
@@ -214,16 +210,14 @@ def add_to_completed():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
-    if 'completed' not in session:
-        session['completed'] = db.get_user_completed(username)
-    completed = session['completed']
+    
+    completed = db.get_user_completed(username)
     recipe_id = flask.request.form.get('recipe_id')
 
 
     if recipe_id not in completed:
         completed.append(recipe_id)
         db.update_user_completed(username, completed)
-        session['completed'] = completed
 
     full_completed = []
     for r_id in completed:
@@ -240,9 +234,7 @@ def add_to_favorites():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
-    if 'favRecipes' not in session:
-        session['favRecipes'] = db.get_user_favRecipes(username)
-    favRecipes = session['favRecipes']
+    favRecipes = db.get_user_favRecipes(username)
     
     # Only try to get recipe_id and update favorites if it's a POST request
     if flask.request.method == 'POST':
@@ -274,16 +266,13 @@ def remove_from_favorites():
         session['username'] = auth.authenticate()
     username = session['username']
     
-    if 'favRecipes' not in session:
-        session['favRecipes'] = db.get_user_favRecipes(username)
-    favRecipes = session['favRecipes']
+    favRecipes = db.get_user_favRecipes(username)
     
     recipe_id = flask.request.form.get('recipe_id')
 
     if recipe_id in favRecipes:
         favRecipes.remove(recipe_id)
         db.update_user_favRecipes(username, favRecipes)
-        session['favRecipes'] = favRecipes
 
     full_favRecipes = []
     for r_id in favRecipes:

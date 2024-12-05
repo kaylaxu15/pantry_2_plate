@@ -93,9 +93,9 @@
                         <button class="tight-wrap-button">{{tag}}</button>
                     {% endfor %}
                     <br></br>
-                    <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post">
+                    <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                        <button class="submit-button">Add to Wishlist</button>
+                        <button class="submit-button" onclick="event.stopPropagation();">Add to Wishlist</button>
                     </form>
                 </span>
             {% endif %}
@@ -167,6 +167,7 @@
 
         function addToWishlist(event) {
             event.preventDefault(); 
+            event.stopPropagation();
 
             const form = event.target;
             const formData = new FormData(form);
