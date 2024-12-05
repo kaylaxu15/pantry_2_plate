@@ -121,7 +121,8 @@
                     <br></br>
                     <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                        <button class="submit-button" onclick="event.stopPropagation();">Add to Wishlist</button>
+                        <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;">Add to Wishlist <i class="fa fa-star-o"></i></button>
+
                     </form>
                 </span>
             

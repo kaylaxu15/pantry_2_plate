@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Your Finished Recipes</title>
@@ -80,7 +81,8 @@
 
                 <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button class="submit-button">Add to Favorites</button>
+                    <button style="font-size:14px; padding: 8px 16px;" >Add to Favorites <i class="fa fa-heart"></i></button>
+                    
                 </form>
                 </span>
             {% endfor %}
