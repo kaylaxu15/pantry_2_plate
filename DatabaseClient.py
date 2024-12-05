@@ -158,6 +158,7 @@ class DatabaseClient:
         return col.find_one({"_id": ObjectId(recipe_id)})
     
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
+        
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
             return 1
@@ -226,7 +227,7 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
-
+    
     def filter_recipes(self, skill=None, max_time=None):
         col = self.db["Recipes"] 
         query = {}
@@ -236,9 +237,10 @@ class DatabaseClient:
             query = {"difficulty": {"$eq": skill}}
         elif max_time:
             query = {"total_time": {"$lte": max_time}}
+       
         results = col.find(query)
-        return list(results)
-    
+        return list(results) 
+        
     def add_default_ingredients(self, ingredients):
         normalized_ingredients = set(ingredient.lower() for ingredient in ingredients if isinstance(ingredient, str))
 
