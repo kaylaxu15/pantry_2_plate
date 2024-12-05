@@ -64,12 +64,11 @@
                 <br></br>
                 {% endif %}
 
-                Tags: 
                 {% for tag in recipe.restrictions %}
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-
+                Note:
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event)" method="post">
                         <input type="text" id="review" name="review" value="{{reviews.recipeID}}">
