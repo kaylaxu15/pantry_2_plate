@@ -68,11 +68,12 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-                Note:
+                Additional Notes:
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event)" method="post">
-                        <input type="text" id="review" name="review" value="{{reviews.recipeID}}">
-                        <input type="hidden" name="recipe_id">
+                        {% set recipeID = recipe._id | string %}
+                        <input type="text" id="review" name="review" value="{{reviews[recipeID]}}">
+                        <input type="hidden" name="recipe_id" value="{{recipeID}}">
                         <button class="submit-button" id="review_button">Save Changes</button>
                     </form>
                 </div>  

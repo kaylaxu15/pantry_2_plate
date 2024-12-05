@@ -221,6 +221,7 @@ def add_to_completed():
             full_completed.append(recipe)
 
     reviews = db.get_user_reviews(username)
+
     return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
 @app.route('/add_to_favorites', methods=['GET', 'POST'])
