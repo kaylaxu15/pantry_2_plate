@@ -10,7 +10,8 @@ import auth
 import os
 from top import app
 import cloudinary
-import cloudinary.uploader
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 import re
 from flask_paginate import Pagination, get_page_parameter
 
@@ -71,7 +72,7 @@ def results_page():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination, pantry_items = pantry_items)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -214,10 +215,18 @@ def remove_from_groceries():
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
+    upload_result = None 
+    pic_url = None 
     if request.method == 'POST':
         updated_restrictions = request.form.getlist('restriction')
-        db.delete_user_restrictions(username)
-        db.update_user_restrictions(username, updated_restrictions)
+        file_to_upload = request.files['file']
+        if updated_restrictions: 
+            db.delete_user_restrictions(username)
+            db.update_user_restrictions(username, updated_restrictions)
+        if file_to_upload:
+            upload_result = upload(file_to_upload)
+            url, options = cloudinary_url(upload_result['public_id'], format='jpg', crop='fill', width=100, height=100)
+            db.update_user_pic(username, url)
     user_data = db.get_user(username)
     return render_template('profile_page.html', user_data=user_data)
 

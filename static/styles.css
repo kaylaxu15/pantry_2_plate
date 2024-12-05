@@ -611,7 +611,7 @@ button {
 }
 
 .pagination {
-    display: inline-block;
+    display: flex;
   }
 
   ul {
