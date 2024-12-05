@@ -443,7 +443,7 @@ button {
     display: block;
 }
 
-.dropdown-profile-content a:hover {background-color: #824A1A;}
+.dropdown-profile-content a:hover {outline: 3px solid #824A1A;}
   
 .add_wishlist-button {
     position: absolute;
@@ -504,6 +504,6 @@ button {
     display: block;
 }
 
-.dropdown-content a:hover {background-color: #824A1A;}
+.dropdown-content a:hover {outline: 3px solid #824A1A;}
   
 .show {display:block;}
