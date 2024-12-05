@@ -53,17 +53,13 @@ def save_pantry_items():
 @app.route('/recommended_recipes', methods=['GET'])
 def results_page():
     username = auth.authenticate()
-    ingredient_list = flask.request.args.get("ingredients")
-    #skill = flask.request.args.get('skill')
-    #max_time = flask.request.args.get('time', type = int)
-    ingredient_list = json.loads(ingredient_list) 
-    ingredient_list = [ingredient.lower() for ingredient in ingredient_list]
+    pantry_items = db.get_user_inventory(username)
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
     user_data = db.get_user(username)
-    recipes = db.return_page_recipes(ingredient_list)
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data)
+    recipes = db.return_page_recipes(pantry_items)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, username=username, recommended=True, user_data=user_data, pantry_items=pantry_items)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
