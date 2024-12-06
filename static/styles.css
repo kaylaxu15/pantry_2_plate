@@ -560,6 +560,7 @@ button {
     max-width: 800px;
     display: flex;
     gap: 10px;
+    justify-content: center;
 }
 
 .search-box input[type="text"] {
@@ -568,6 +569,7 @@ button {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+    min-width: 200px;
 }
 
 .search-box select {
@@ -598,21 +600,24 @@ button {
 
 .pagination-page-info {
     padding: 10px 0;
-    width: 40em;
-    margin: .5em;
-    margin-right: 10px auto;
+    margin: 1em;
+    text-align: center;
     font-size: 25px;
+    color: #824A1A;
+    width: 100%;
 }
 .pagination-page-info b {
     color: #824A1A;
     background: #f3d9c6;
     padding: 10px 0;
     font-size: 100%;
-    margin-right: 10px auto; 
+     
 }
 
 .pagination {
     display: flex;
+    position: relative;
+    justify-content: center;
   }
 
   ul {

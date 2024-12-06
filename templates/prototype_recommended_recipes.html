@@ -57,29 +57,7 @@
         {{ pagination.links }}
     </div>
 
-    {% if recommended %}
-        <div id="filterModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
-                <h2>Filter Options</h2>
-                
-                <form action="/recommended_recipes" method="get">
-                    <label for="skill">Skill Level:</label>
-                    <select name="skill" id="skill">
-                        <option value="">--Select--</option> 
-                        <option value="Easy">Beginner</option>
-                        <option value="More effort">Intermediate</option>
-                        <option value="A challenge">Advanced</option>
-                    </select>
-                    <br></br>
-                    <label for="time">Time (minutes):</label>
-                    <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
-                    <br></br>
-                    <button type="submit">Apply Filters</button>
-                </form>
-            </div>
-        </div>
-    {% else %}
+    
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -101,8 +79,6 @@
             </form>
         </div>
     </div>
-    {% endif %}
-
     
     <div class="recipes-container">
         <br></br>
@@ -175,7 +151,7 @@
                         {% endif %}
                         
 
-                        {% if recommended %}
+                       {% if recommended %}
                             {% if recipe.missing_count == 0 %}
                                 <h3>All Good to Go!</h3>
                             {% else %}
@@ -213,6 +189,8 @@
                     </div>
                 </div>
         {% endfor %}
+    </div>
+    <div class="pagination">
         {{ pagination.links }}
     </div>
 

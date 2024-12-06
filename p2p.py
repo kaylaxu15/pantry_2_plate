@@ -61,29 +61,7 @@ def results_page():
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
     user_data = db.get_user(username)
-    skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = str)
-    query = flask.request.args.get('search', type = str)
-    if query is None:
-        query = ''
-
-    if max_time:
-        try:
-            max_time = int(max_time)
-        except ValueError:
-            max_time = None
-    else:
-        max_time = None
-    if skill and max_time is not None:
-        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=user_data['restrictions'], search=query)
-    elif skill:
-        recipes = db.filter_recipes(skill=skill, restrictions=user_data['restrictions'], search=query)
-    elif max_time is not None:
-        recipes = db.filter_recipes(max_time=max_time, restrictions=user_data['restrictions'], search=query)
-    elif len(query) > 0:
-        recipes = db.filter_recipes(restrictions=user_data['restrictions'], search=query)
-    else:
-        recipes = db.return_page_recipes(pantry_items)
+    recipes = db.return_page_recipes(pantry_items)
 
     # add paging
     per_page = 20
@@ -143,6 +121,7 @@ def all_recipes():
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
     return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination)
+
 
 @app.route('/recipe_page', methods=['GET'])
 def recipe_page():
