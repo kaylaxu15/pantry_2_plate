@@ -151,8 +151,27 @@
                         modals[i].style.display = 'none'; // Close the modal
                     }
                 }
+                if (!event.target.matches('.drop-button')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+                if (!event.target.matches('.drop-profile-button')) {
+                    var profileDropdowns = document.getElementsByClassName("dropdown-profile-content");
+                    for (var i = 0; i < profileDropdowns.length; i++) {
+                        var openProfileDropdown = profileDropdowns[i];
+                        if (openProfileDropdown.classList.contains('show')) {
+                            openProfileDropdown.classList.remove('show');
+                        }
+                    }
+                }
             }
-
+            
             function searchRecipes() {
                 var searchRequest = null;
                 console.log("Search function called");

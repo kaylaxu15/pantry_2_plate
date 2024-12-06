@@ -40,6 +40,18 @@
     </div>
     {% endif %}
 
+    <div class="search-box">
+        <input type="text" id="search-input" name="search" placeholder="Search recipes...">
+        <select id="search-type" name="search-type">
+            <option value="all">All</option>
+            <option value="title">Title</option>
+            <option value="tags">Tags</option>
+            <option value="difficulty">Skill Level</option>
+        </select>
+        <button onclick="searchRecipes()" class="search-button">Search</button>
+    </div>
+
+
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
 
@@ -48,6 +60,29 @@
         {{ pagination.links }}
     </div>
 
+    {% if recommended %}
+        <div id="filterModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
+                <h2>Filter Options</h2>
+                
+                <form action="/recommended_recipes" method="get">
+                    <label for="skill">Skill Level:</label>
+                    <select name="skill" id="skill">
+                        <option value="">--Select--</option> 
+                        <option value="Easy">Beginner</option>
+                        <option value="More effort">Intermediate</option>
+                        <option value="A challenge">Advanced</option>
+                    </select>
+                    <br></br>
+                    <label for="time">Time (minutes):</label>
+                    <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
+                    <br></br>
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -69,6 +104,7 @@
             </form>
         </div>
     </div>
+    {% endif %}
 
     
     <div class="recipes-container">
@@ -244,6 +280,66 @@
                 }
             }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add enter key listener
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === "Enter") {
+                    searchRecipes();
+                }
+            });
+        });
+        
+        function searchRecipes() {
+            var searchRequest = null;
+            console.log("Search function called");
+            
+            
+            let searchTerm = $('#search-input').val().toLowerCase();
+            let searchType = $('#search-type').val();
+
+            console.log("Search term:", searchTerm);
+            console.log("Search type:", searchType);
+            console.log("Number of recipe boxes:", $('.inline-box').length);
+            
+            // Client-side filtering
+            $('.inline-box').each(function() {
+                let $recipe = $(this);
+                let match = false;
+                
+                let title = $recipe.find('h4').text().toLowerCase();
+                let tags = $recipe.find('.tight-wrap-button').map(function() {
+                    return $(this).text().toLowerCase();
+                }).get();
+                let difficulty = $recipe.text().includes('Skill level:') ? 
+                    $recipe.text().split('Skill level:')[1].split('\n')[0].trim().toLowerCase() : '';
+                
+                    console.log("Checking recipe:", {
+                        title: title,
+                        tags: tags,
+                        difficulty: difficulty
+                    });
+                switch(searchType) {
+                    case 'title':
+                        match = title.includes(searchTerm);
+                        break;
+                    case 'tags':
+                        match = tags.some(tag => tag.includes(searchTerm));
+                        break;
+                    case 'difficulty':
+                        match = difficulty.includes(searchTerm);
+                        break;
+                    case 'all':
+                    default:
+                        match = title.includes(searchTerm) || 
+                                tags.some(tag => tag.includes(searchTerm)) || 
+                                difficulty.includes(searchTerm);
+                        break;
+                }
+                console.log("Match result:", match);
+                $(this).toggleClass('hidden', !match);
+            });
+        }
+
         
     </script>
 </body>

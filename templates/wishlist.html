@@ -11,8 +11,7 @@
 
 </head>
 <body>
-    <h1>Wishlist</h1>
-    <h2>{{ username }}</h2>
+    <h1>Your Wishlist</h1>
     <button onclick="history.back()" class="back-button">Go Back</button>
     <div class="search-box">
         <input type="text" id="search-input" name="search" placeholder="Search recipes...">
@@ -147,6 +146,25 @@
                     modals[i].style.display = 'none'; // Close the modal
                 }
             }
+            if (!event.target.matches('.drop-button')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+            if (!event.target.matches('.drop-profile-button')) {
+                var profileDropdowns = document.getElementsByClassName("dropdown-profile-content");
+                for (var i = 0; i < profileDropdowns.length; i++) {
+                    var openProfileDropdown = profileDropdowns[i];
+                    if (openProfileDropdown.classList.contains('show')) {
+                        openProfileDropdown.classList.remove('show');
+                    }
+                }
+            }
         }
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
@@ -206,7 +224,6 @@
                 $(this).toggleClass('hidden', !match);
             });
         }
-
 
     </script>
 

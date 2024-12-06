@@ -228,27 +228,19 @@ class DatabaseClient:
         return list(results)
     
     
-    def filter_recipes(self, skill=None, max_time=None):
+    def filter_recipes(self, skill=None, max_time=None, restrictions=[]):
         col = self.db["Recipes"] 
         query = {}
         if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}}
+            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
         elif skill:
-            query = {"difficulty": {"$eq": skill}}
+            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}}
         elif max_time:
-            query = {"total_time": {"$lte": max_time}}
+            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
        
         results = col.find(query)
         return list(results) 
     
-    def filter_restrictions(self, restrictions):
-        col = self.db["Recipes"] 
-        query = {}
-        if len(restrictions) > 0:
-            query = {"restrictions": {"$all": restrictions}}
-       
-        results = col.find(query)
-        return list(results) 
         
     def add_default_ingredients(self, ingredients):
         normalized_ingredients = set(ingredient.lower() for ingredient in ingredients if isinstance(ingredient, str))

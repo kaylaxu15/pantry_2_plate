@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <button onclick="savedFunction()" class="drop-button">Saved</button>
-    <div id="savedDropdown" class="dropdown-content">
-        <a href="/add_to_completed">Completed</a>
-        <a href="/add_to_wishlist">Wishlist</a>
-        <a href="/add_to_favorites">Favorites</a>
-    </div>
-    <button onclick="profileFunction()" class="drop-profile-button">Profile</button>
-    <div id="profileDropdown" class="dropdown-profile-content">
-        <a href = "/profile_page">Profile</a>
-        <a href="logoutapp">Log out</a>
-    </div>
-    <a href="/pantry" class="pantry-button">Pantry</a>
-    <a href="/all_recipes" class="all-recipes-button">All Recipes</a> 
+
+    <nav>
+        <ul>
+          <li><a>
+            <button onclick="savedFunction()" class="drop-button" id="navsaved">Saved</button>
+            <div id="savedDropdown" class="dropdown-content">
+                <a href="/add_to_completed">Completed</a>
+                <a href="/add_to_wishlist">Wishlist</a>
+                <a href="/add_to_favorites">Favorites</a>
+            </div>
+        </a></li>
+          <li><a>
+            <button onclick="profileFunction()" class="drop-profile-button" id="navprofile">Profile</button>
+            <div id="profileDropdown" class="dropdown-profile-content">
+                <a href = "/profile_page">Profile</a>
+                <a href="logoutapp">Log out</a>
+            </div>
+        </a></li>
+          <li><a href="/pantry" class="pantry-button" id="navpantry">Pantry</a></li>
+          <li><a href="/all_recipes" class="all-recipes-button" id="navrecipes">All Recipes</a></li>
+        </ul>
+    </nav>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script>
         function savedFunction() {
             document.getElementById("savedDropdown").classList.toggle("show");
@@ -21,5 +32,40 @@
             document.getElementById("profileDropdown").classList.toggle("show");
 
         }
+
+        $(document).ready(function(){
+    
+            var browserUrl = window.location.href;
+            
+            console.log(browserUrl)
+            var myUrl = $(this).attr('href');
+
+            parts = browserUrl.split("/")
+            browserUrl = parts[parts.length - 1]
+
+            if (browserUrl === 'add_to_completed' || browserUrl === '/add_to_favorites' || browserUrl == '/add_to_wishlist'){
+                const element = document.getElementById("navsaved");
+                element.style.backgroundColor = "#f3d9c6";
+                element.style.color = '#824A1A';
+            } else if (browserUrl === 'profile_page') {
+    
+                const element = document.getElementById("navprofile");
+                element.style.backgroundColor = "#f3d9c6";
+                element.style.color = '#824A1A';
+            } else if (browserUrl === 'all_recipes') {
+
+                const element = document.getElementById("navrecipes");
+                element.style.backgroundColor = "#f3d9c6";
+                element.style.color = '#824A1A';
+            } else if (browserUrl === 'pantry') {
+    
+                const element = document.getElementById("navpantry");
+                element.style.backgroundColor = "#f3d9c6";
+                element.style.color = '#824A1A';
+            }
+                
+        });
+
+        
     </script>
 </html>

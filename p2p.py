@@ -61,7 +61,23 @@ def results_page():
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
     user_data = db.get_user(username)
-    recipes = db.return_page_recipes(pantry_items)
+    skill = flask.request.args.get('skill', type = str)
+    max_time = flask.request.args.get('time', type = str)
+    if max_time:
+        try:
+            max_time = int(max_time)
+        except ValueError:
+            max_time = None
+    else:
+        max_time = None
+    if skill and max_time is not None:
+        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=user_data['restrictions'])
+    elif skill:
+        recipes = db.filter_recipes(skill=skill, restrictions=user_data['restrictions'])
+    elif max_time is not None:
+        recipes = db.filter_recipes(max_time=max_time, restrictions=user_data['restrictions'])
+    else:
+        recipes = db.return_page_recipes(pantry_items)
 
     # add paging
     per_page = 20
@@ -78,6 +94,8 @@ def results_page():
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
     username = auth.authenticate()
+    user_data = db.get_user(username)
+    
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
     #flask.request.args(ingredient_list)
@@ -89,17 +107,13 @@ def all_recipes():
     else:
         max_time = None
     if skill and max_time is not None:
-        recipes = db.filter_recipes(skill=skill, max_time=max_time)
+        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=user_data['restrictions'])
     elif skill:
-        recipes = db.filter_recipes(skill=skill)
+        recipes = db.filter_recipes(skill=skill, restrictions=user_data['restrictions'])
     elif max_time is not None:
-        recipes = db.filter_recipes(max_time=max_time)
+        recipes = db.filter_recipes(max_time=max_time, restrictions=user_data['restrictions'])
     else:
         recipes = db.get_all_recipes()
-    user_data = db.get_user(username)
-
-    # filter by restrictions: 
-    recipes = db.filter_restrictions(user_data['restrictions'])
 
     # add paging
 
