@@ -81,7 +81,7 @@
 
                 <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button style="font-size:14px; padding: 8px 16px;" >Add to Favorites <i class="fa fa-heart"></i></button>
+                    <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" >Add to Favorites <i class="fa fa-heart"></i></button>
                     
                 </form>
                 </span>

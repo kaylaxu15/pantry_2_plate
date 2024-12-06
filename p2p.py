@@ -31,13 +31,14 @@ cloudinary.config(
 @app.route('/?', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    username = auth.authenticate()
-    db.insert_user(emailId=username, password='')
-    return render_template('landing_page.html', username=username)
+    #username = auth.authenticate()
+    #db.insert_user(emailId=username, password='')
+    return render_template('landing_page.html')
 
 @app.route('/pantry', methods=['GET'])
 def pantry_page():
     username = auth.authenticate()
+    db.insert_user(emailId=username, password='')
     ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     ingredients = ingredients.values.tolist()
     ingredients = np.squeeze(ingredients)
