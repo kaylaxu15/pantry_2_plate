@@ -68,9 +68,9 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-                <form action="/remove_from_wishlist" method="post">
+                <form action="/remove_from_wishlist" method="post" onclick="event.stopPropagation();">
                     <input type="hidden" name="recipe_id" value="{{recipe._id}}">
-                    <button class="submit-button">Remove from Wishlist</button>
+                    <button class="submit-button" onclick="event.stopPropagation();">Remove from Wishlist</button>
                 </form>
             </span>
 

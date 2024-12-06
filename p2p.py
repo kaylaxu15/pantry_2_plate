@@ -95,6 +95,9 @@ def results_page():
 def all_recipes():
     username = auth.authenticate()
     user_data = db.get_user(username)
+    restrictions = user_data['restrictions']
+    if restrictions is None:
+        restrictions = []
     
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
@@ -107,11 +110,11 @@ def all_recipes():
     else:
         max_time = None
     if skill and max_time is not None:
-        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=user_data['restrictions'])
+        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions)
     elif skill:
-        recipes = db.filter_recipes(skill=skill, restrictions=user_data['restrictions'])
+        recipes = db.filter_recipes(skill=skill, restrictions=restrictions)
     elif max_time is not None:
-        recipes = db.filter_recipes(max_time=max_time, restrictions=user_data['restrictions'])
+        recipes = db.filter_recipes(max_time=max_time, restrictions=restrictions)
     else:
         recipes = db.get_all_recipes()
 

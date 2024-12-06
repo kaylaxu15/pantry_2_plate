@@ -311,6 +311,7 @@ class DatabaseClient:
         for i in range(10):
             recipes.extend(self.get_recipes_missing_ingredients(i, updated_ingredients))
         for recipe in recipes:
+            print("RECIPE", recipe)
             if int(recipe["missing_count"]) != len(recipe["ingredients"]):
                 modified_recipes.append(recipe)
         return modified_recipes

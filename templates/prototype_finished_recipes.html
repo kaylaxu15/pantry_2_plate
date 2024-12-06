@@ -79,9 +79,9 @@
                     </form>
                 </div>  
 
-                <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post">
+                <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post" onclick="event.stopPropagation();">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                    <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" >Add to Favorites <i class="fa fa-heart"></i></button>
+                    <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" >Add to Favorites <i class="fa fa-heart"></i></button>
                     
                 </form>
                 </span>
@@ -199,7 +199,8 @@
         }
 
         function addToFavorites(event) {
-            event.preventDefault(); 
+            event.preventDefault();
+            event.stopPropagation(); 
 
             const form = event.target;
             const formData = new FormData(form);
