@@ -94,6 +94,7 @@ body {
     min-height: 100vh;
     margin: 0;
     flex-direction: column;
+    display:block !important
 }
 
 h1 {
@@ -644,3 +645,5 @@ button {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }
+
+
