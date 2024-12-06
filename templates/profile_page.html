@@ -20,7 +20,7 @@
                 {% endif %}
             </div>
             <form class="upload-form" action="" method="POST" enctype="multipart/form-data">
-                <input type="file" name="file">
+                <input type="file" name="file" required>
                 <button type="submit" class="submit-button">Upload</button>
                 
             </form>
@@ -73,7 +73,7 @@
                     Gluten-free
                 </label>
             </div>
-            <button class="submit-button" type="submit">Save Changes</button>
+            <button class="submit-button" type="submit" id="saveBtn">Save Changes</button>
         </form>
     </div>
 </body>
@@ -100,6 +100,13 @@
                     }
                 }
             }
+
+            const button = document.getElementById("saveBtn");
+
+            button.addEventListener('click', (event) => {
+                alert("Saved Changes to Profile!")
+
+            });
         }    
 
 </script>
