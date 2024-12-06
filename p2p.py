@@ -127,9 +127,9 @@ def all_recipes():
         recipes = db.filter_recipes(max_time=max_time, restrictions=restrictions)
     elif len(query) > 0:
         print("HERE")
-        recipes = db.filter_recipes(restrictions=user_data['restrictions'], search=query)
+        recipes = db.filter_recipes(restrictions=restrictions, search=query)
     else:
-        recipes = db.get_all_recipes()
+        recipes = db.filter_recipes(restrictions=restrictions)
 
     # add paging
 
