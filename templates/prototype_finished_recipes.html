@@ -75,7 +75,7 @@
                         {% set recipeID = recipe._id | string %}
                         <input type="text" id="reviewText" name="review" value="{{reviews[recipeID]}}">
                         <input type="hidden" name="recipe_id" value="{{recipeID}}">
-                        <button class="submit-button" id="review_button" onclick="style.display = 'none'">Save Changes</button>
+                        <button class="submit-button" id="review_button">Save Changes</button>
                     </form>
                 </div>  
 
@@ -157,6 +157,10 @@
             button.style.display = "block"; 
         });
 
+        button.addEventListener("click", function() {
+            button.style.display = "none"; 
+        });
+
         window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
@@ -164,6 +168,10 @@
                     modals[i].style.display = 'none'; // Close the modal
                 }
             }
+            var element = event.relatedTarget;
+            if($(element).hasClass('submit-button')) {
+                e.stopPropagation();
+            }  
         }
 
         function addToFavorites(event) {

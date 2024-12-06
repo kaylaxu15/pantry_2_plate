@@ -269,7 +269,46 @@ class DatabaseClient:
         col = self.db["Recipes"]
         updated_ingredients = self.add_default_ingredients(ingredients)
 
-        query = [{"$addFields": {"missing_count": {"$size": {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}}}}},{"$match": {"missing_count": number}}]
+        query = [
+            {
+                "$addFields": {
+                    "matching_ingredients": {
+                        "$filter": {
+                            "input": "$ingredients",
+                            "as": "ingredient",
+                            "cond": {"$in": ["$$ingredient", list(updated_ingredients)]}
+                        }
+                    },
+                    "missing_ingredients": {
+                        "$filter": {
+                            "input": "$ingredients",
+                            "as": "ingredient",
+                            "cond": {"$not": {"$in": ["$$ingredient", list(updated_ingredients)]}}
+                        }
+                    },
+                }
+            },
+            # Add a field to count missing ingredients
+            {
+                "$addFields": {
+                    "missing_count": {"$size": "$missing_ingredients"}
+                }
+            },
+            # Match recipes with the specified number of missing ingredients
+            {
+                "$match": {"missing_count": number}
+            },
+            # Project the desired fields
+            {
+                "$project": {
+                    "_id": 0,
+                    "recipe_name": 1,  # Include the recipe name
+                    "matching_ingredients": 1,
+                    "missing_ingredients": 1
+                }
+            }
+        ]
+
         return list(col.aggregate(query))
     
     def return_page_recipes(self, ingredients):

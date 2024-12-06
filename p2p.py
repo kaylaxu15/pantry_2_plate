@@ -219,12 +219,12 @@ def profile_page():
     upload_result = None 
     pic_url = None 
     if request.method == 'POST':
-        updated_restrictions = request.form.getlist('restriction')
-        file_to_upload = request.files['file']
-        if updated_restrictions: 
+        if request.form: 
+            updated_restrictions = request.form.getlist('restriction')
             db.delete_user_restrictions(username)
             db.update_user_restrictions(username, updated_restrictions)
-        if file_to_upload:
+        else:
+            file_to_upload = request.files['file']
             upload_result = upload(file_to_upload)
             url, options = cloudinary_url(upload_result['public_id'], format='jpg', crop='fill', width=100, height=100)
             db.update_user_pic(username, url)
