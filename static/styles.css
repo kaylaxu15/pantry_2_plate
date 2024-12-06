@@ -709,7 +709,7 @@ button {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .checkbox-group label {
