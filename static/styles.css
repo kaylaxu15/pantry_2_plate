@@ -645,5 +645,93 @@ button {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }
+  .profile-container {
+    flex: 1;
+    width: 100%; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.page-title {
+    font-size: 36px;
+    color: #315E26;
+    margin-bottom: 20px;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #DCA9A9;
+}
+
+.upload-form input[type="file"] {
+    padding: 10px;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.upload-form .submit-button {
+    background-color: #f3d9c6;
+    color: #A15B20;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-form .submit-button:hover {
+    background-color: #dcb2a9;
+}
+
+.preferences-form h2 {
+    font-size: 24px;
+    color: #315E26;
+    margin-bottom: 15px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.checkbox-group label {
+    font-size: 18px;
+    color: #315E26;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.preferences-form .submit-button {
+    background-color: #f3d9c6;
+    color: #A15B20;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.preferences-form .submit-button:hover {
+    background-color: #dcb2a9;
+}
 
 
