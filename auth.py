@@ -140,7 +140,7 @@ def callback():
     #    userinfo_response.json()['email_verified'])
     #flask.session['locale'] = userinfo_response.json()['locale']
 
-    return flask.redirect(flask.url_for('pantry_page'))
+    return flask.redirect(flask.url_for('profile_page'))
 
 #-----------------------------------------------------------------------
 
