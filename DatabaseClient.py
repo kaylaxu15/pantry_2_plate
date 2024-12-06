@@ -228,16 +228,28 @@ class DatabaseClient:
         return list(results)
     
     
-    def filter_recipes(self, skill=None, max_time=None, restrictions=[]):
+    def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 
+
         query = {}
+        search = "/*" + search + "/*"
+        print("SKILL", skill)
+        print("MAX TIME", max_time)
+        print("Restrictions", restrictions[0])
+        print("Search", search)
+
         if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
+
+            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
         elif skill:
-            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}}
+            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
         elif max_time:
-            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
-       
+            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
+        elif restrictions: 
+            query = {"restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
+        elif len(search) > 0:
+            query = {"title":{'$regex': search, '$options': 'i'}}
+
         results = col.find(query)
         return list(results) 
     
