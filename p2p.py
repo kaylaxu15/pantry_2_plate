@@ -246,18 +246,20 @@ def remove_from_groceries():
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
-    upload_result = None 
-    pic_url = None 
+    upload_result = None
+    pic_url = None
+
     if request.method == 'POST':
-        if request.form: 
-            updated_restrictions = request.form.getlist('restriction')
-            db.delete_user_restrictions(username)
-            db.update_user_restrictions(username, updated_restrictions)
-        else:
+        if 'file' in request.files:  
             file_to_upload = request.files['file']
             upload_result = upload(file_to_upload)
             url, options = cloudinary_url(upload_result['public_id'], format='jpg', crop='fill', width=100, height=100)
             db.update_user_pic(username, url)
+        else: 
+            updated_restrictions = request.form.getlist('restriction')
+            db.delete_user_restrictions(username)
+            db.update_user_restrictions(username, updated_restrictions)
+
     user_data = db.get_user(username)
     return render_template('profile_page.html', user_data=user_data)
 

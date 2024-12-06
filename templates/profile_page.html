@@ -9,20 +9,22 @@
 
 <body>
     <div class="profile-container">
-        <h1>Profile</h1>
+        <h1 class="page-title">Profile</h1>
         {% include 'header.html' %}
 
         <!-- User Image Section -->
-        <div class="user-image">
-            {% if user_data.picture %}
-            <img src="{{ user_data.picture }}" alt="User Profile Image" width="200" height="200">
-            {% endif %}
-        </div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <div class="profile-section">
+            <div class="user-image">
+                {% if user_data.picture %}
+                <img src="{{ user_data.picture }}" alt="User Profile Image">
+                {% endif %}
+            </div>
+            <form class="upload-form" action="" method="POST" enctype="multipart/form-data">
                 <input type="file" name="file">
-               <input type="submit" value="Upload">
+                <button type="submit" class="submit-button">Upload</button>
+                
             </form>
-
+        </div>
         <!--
         <div class="allergy-section">
             <label for="allergies">Enter allergies here (i.e. eggs)</label>
@@ -41,39 +43,42 @@
         </div>
         -->
 
-        <!-- Dietary Preferences Checkboxes -->
-        <form action="/profile_page" method="POST">
+        <!-- Dietary Preferences Section -->
+        <form class="preferences-form" action="/profile_page" method="POST">
             <h2>Dietary Preferences</h2>
+            <div class="checkbox-group">
                 <label>
                     <input type="checkbox" name="restriction" value="vegetarian" 
                     {% if 'vegetarian' in user_data.restrictions %}checked{% endif %}>
                     Vegetarian
-                </label><br>
+                </label>
                 <label>
                     <input type="checkbox" name="restriction" value="vegan" 
                     {% if 'vegan' in user_data.restrictions %}checked{% endif %}>
                     Vegan
-                </label><br>
+                </label>
                 <label>
                     <input type="checkbox" name="restriction" value="dairy-free" 
                     {% if 'dairy-free' in user_data.restrictions %}checked{% endif %}>
                     Dairy-free
-                </label><br>
+                </label>
                 <label>
                     <input type="checkbox" name="restriction" value="keto" 
                     {% if 'keto' in user_data.restrictions %}checked{% endif %}>
                     Keto
-                </label><br>
+                </label>
                 <label>
                     <input type="checkbox" name="restriction" value="gluten-free" 
                     {% if 'gluten-free' in user_data.restrictions %}checked{% endif %}>
                     Gluten-free
-                </label><br>
-                <button class="submit-button" id="saveChangesBtn">SAVE CHANGES</button>
+                </label>
+            </div>
+            <button class="submit-button" type="submit">Save Changes</button>
         </form>
     </div>
-
 </body>
+
+
 <script>
      window.onclick = function(event) {
             if (!event.target.matches('.drop-button')) {
@@ -95,8 +100,7 @@
                     }
                 }
             }
-        }
-    
+        }    
 
 </script>
 
