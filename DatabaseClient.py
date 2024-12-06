@@ -233,13 +233,8 @@ class DatabaseClient:
 
         query = {}
         search = "/*" + search + "/*"
-        print("SKILL", skill)
-        print("MAX TIME", max_time)
-        print("Restrictions", restrictions[0])
-        print("Search", search)
 
         if skill and max_time is not None:
-
             query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
         elif skill:
             query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
