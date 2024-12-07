@@ -55,7 +55,7 @@
     font-size: 14px;
     padding: 8px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     align-self: flex-end; 
 }
@@ -94,7 +94,7 @@ body {
     min-height: 100vh;
     margin: 0;
     flex-direction: column;
-    display:block !important
+    display:block !important;
 }
 
 h1 {
@@ -253,17 +253,18 @@ th, td {
     color: #A15B20;
     width: fit-content; 
     font-size: 16px;
-    border-radius: 30px;
     border: 1px solid black;
-    
-    resize: both;
     overflow:scroll;
+    border-radius: 0px;
+    margin: 3px;
   
     display: -ms-inline-grid;
     flex-flow: row wrap;
     align-items: stretch;
-    cursor: not-allowed;
+    cursor: default;
 }
+
+
 
 button {
     background-color: #FBDFC9; 
@@ -350,7 +351,7 @@ button {
 .pantry-button {
     position: absolute;
     top: 12px;
-    right: 135px;
+    right: 385px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -371,7 +372,7 @@ button {
 .all-recipes-button {
     position: absolute;
     top: 12px;
-    right: 385px;
+    right: 135px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -709,4 +710,12 @@ button {
     background-color: #dcb2a9;
 }
 
+.checked
+{
+    color:#A15B20;
+}
+.unchecked
+{
+    color:#f3d9c6;
+}
 

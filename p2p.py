@@ -63,6 +63,8 @@ def results_page():
     user_data = db.get_user(username)
     recipes = db.return_page_recipes(pantry_items)
 
+    restrictions = user_data['restrictions']
+
     # add paging
     per_page = 20
     try:
@@ -73,7 +75,7 @@ def results_page():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination, pantry_items = pantry_items)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions)
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -115,7 +117,7 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination, restrictions=restrictions)
 
 
 @app.route('/recipe_page', methods=['GET'])

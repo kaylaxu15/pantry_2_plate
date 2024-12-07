@@ -104,6 +104,15 @@
 
         }    
 
+
+    const button = document.getElementById("saveBtn");
+
+    button.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents click event from bubbling up to parent container
+        alert("Saved changes!")
+
+    });
+
 </script>
 
 </html>

@@ -65,9 +65,9 @@
                 <br></br>
                 Additional Notes:
                 <div class="reviewbox">
-                    <form id="reviewForm" onsubmit="addReview(event)" method="post">
+                    <form id="reviewForm" onsubmit="addReview(event)" method="post" onclick="event.stopPropagation();">
                         {% set recipeID = recipe._id | string %}
-                        <input type="text" id="reviewText" name="review" value="{{reviews[recipeID]}}">
+                        <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" style="overflow:scroll;"></textarea>
                         <input type="hidden" name="recipe_id" value="{{recipeID}}">
                         <button class="submit-button" id="review_button">Save Changes</button>
                     </form>

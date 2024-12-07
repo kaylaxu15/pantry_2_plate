@@ -15,6 +15,17 @@
     {% else %}
         <h1>All Recipes</h1> 
     {% endif %}
+
+    <div class="pantry-summary" style="text-align: center;"></div>
+            {% if restrictions %}
+                <p style="font-size: 20px; text-align: center;"><strong>Your current dietary restrictions:</strong> 
+                    {{ restrictions|join(', ') }}
+                </p>
+            {% else %}
+                <p style="font-size: 20px;">No dietary restrictions.</p>
+            {% endif %}
+    </div>
+
     {% if recommended %}
         <div class="pantry-summary" style="text-align: center;">
             {% if pantry_items %}
@@ -27,7 +38,7 @@
         </div>
     {% endif %}
     {% if not recommended %}
-    <p style = "text-align: center; font-size: medium;">This page displays all recipes. To set specific dietary restrictions, please visit your profile</p>
+    <p style = "text-align: center; font-size: medium;">All recipes are displayed. To change your dietary restrictions, please visit your profile!</p>
     {% endif %}
 
 
@@ -78,8 +89,12 @@
         {% for recipe in rpart %}
             
                 <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
-                    <h4 class=.recipe-name>{{ recipe.title | safe }}</h4>
+                    <h4 class=.recipe-name>{{ recipe.title | safe }}</h4> 
+                    
+                    <i class="fa fa-star unchecked" id="wishlistStar"></i>
+
                     <img src="{{recipe.picture_url}}" width="150" height="150">
+                    
                 
                     <br></br>
                     Time needed: {{recipe.total_time}}
@@ -116,7 +131,7 @@
                     {% endif %}
 
                     {% for tag in recipe.restrictions %}
-                        <button class="tight-wrap-button">{{tag}}</button>
+                        <button class="tight-wrap-button" border>{{tag}}</button>
                     {% endfor %}
                     <br></br>
                     <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();">
@@ -192,6 +207,26 @@
     </div>
 
     <script>
+        document.getElementById("wishlistStar").addEventListener("click", function(event){
+            console.log("here")
+            
+            var cls=document.getElementById("wishlistStar").className;
+        if(cls.includes("unchecked"))
+        {
+            console.log("here")
+            document.getElementById("wishlistStar").classList.remove("unchecked");
+            document.getElementById("wishlistStar").classList.add("checked");
+            console.log("UNCHECKED")
+        }
+        else
+        {
+            document.getElementById("wishlistStar").classList.remove("checked"); 
+            document.getElementById("wishlistStar").classList.add("unchecked");
+            console.log("CHECKED")
+        }
+        });
+
+
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }
@@ -252,7 +287,6 @@
                 }
             }
         }
-        
         
     </script>
 </body>
