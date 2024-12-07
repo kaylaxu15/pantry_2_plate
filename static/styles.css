@@ -192,39 +192,6 @@ p {
     color: #315E26;
 }
 
-.scrollable-table {
-    margin: auto 0;
-    max-height: 150px; 
-    overflow-y: auto; 
-    border: 2px solid #315E26;
-    border-radius: 10px;
-    background-color: white;
-    width: 100%;
-}
-
-.scrollable-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.scrollable-table th, .scrollable-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #315E26;
-}
-
-.scrollable-table th {
-    background-color: #315E26;
-    color: #f3d9c6;
-    position: sticky;
-    top: 0; 
-}
-
-.scrollable-table td {
-    font-size: 1em;
-    color: #315E26;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -352,6 +319,9 @@ button {
     padding: 10px 0;
     text-align: center;
     border-top: 1px solid #ccc;
+    display: flex; 
+    justify-content: center; 
+    gap: 20px;
 }
 
 .close {
@@ -602,7 +572,7 @@ button {
     padding: 10px 0;
     margin: 1em;
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     color: #824A1A;
     width: 100%;
 }

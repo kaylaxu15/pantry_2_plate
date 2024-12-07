@@ -82,11 +82,7 @@ def all_recipes():
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    query = flask.request.args.get('search', type = str) 
-    
-    if query is None:
-        query = ''
-    
+    query = flask.request.args.get('search', type = str) or ''  
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
     #flask.request.args(ingredient_list)
@@ -103,8 +99,7 @@ def all_recipes():
         recipes = db.filter_recipes(skill=skill, restrictions=restrictions)
     elif max_time is not None:
         recipes = db.filter_recipes(max_time=max_time, restrictions=restrictions)
-    elif len(query) > 0:
-        print("HERE")
+    elif query:
         recipes = db.filter_recipes(restrictions=restrictions, search=query)
     else:
         recipes = db.filter_recipes(restrictions=restrictions)

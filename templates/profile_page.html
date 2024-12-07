@@ -10,7 +10,7 @@
 
 <body>
     <div class="profile-container">
-        <h1 class="page-title">Profile</h1>
+        <h1>Profile</h1>
         {% include 'header.html' %}
 
         <!-- User Image Section -->
@@ -21,7 +21,7 @@
                 {% endif %}
             </div>
             <form class="upload-form" action="" method="POST" enctype="multipart/form-data">
-                <input type="file" name="file" required>
+                <input type="file" name="file" accept="image/*" required>
                 <button type="submit" class="submit-button">Upload</button>
                 
             </form>

@@ -3,6 +3,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -96,7 +99,7 @@
             margin-left: 20px;
         }
     
-        .bottom-buttons {
+        .bottom-recipe-buttons {
             text-align: center;
             margin: 30px 0;
             display: flex;
@@ -104,7 +107,7 @@
             gap: 20px;
         }
     
-        .bottom-buttons button {
+        .bottom-recipe-buttons button {
             background-color: #315E26;
             color: #F4F2DD;
             border: none;
@@ -115,14 +118,21 @@
             font-family:'Times New Roman', Times, serif;
         }
     
-        .bottom-buttons button:hover {
+        .bottom-recipe-buttons button:hover {
             background-color: #F4F2DD;
             color: #315E26;
             border: 2px solid #315E26;
         }
     </style>
-</head>
-<body>
+
+    <div class="header">
+
+        <img class="logo" src="static/logo.png" alt="logo">
+
+      {% include 'header.html' %}
+      <link rel="stylesheet" href="static/styles.css">
+      <button onclick="history.back()" class="back-button">Go Back</button>
+    </div>
 
     <h1>{{recipe.title}}</h1>
     <div class="content">
@@ -131,23 +141,23 @@
         </div>
         <div class="details-container">
             {% if recipe.servings != "" and recipe.servings == recipe.servings %}
-            <h2>Number of Servings: {{ recipe.servings }}</h2>
+            <h2 style = "text-align: left;">Number of Servings: {{ recipe.servings }}</h2>
             {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
-            <h2>Makes: {{ recipe.makes }}</h2>
+            <h2 style = "text-align: left;">Makes: {{ recipe.makes }}</h2>
             {% endif %}
-            <h2>Time needed: {{recipe.prep_time[5:]}}</h2>
+            <h2 style = "text-align: left;">Time needed: {{recipe.prep_time[5:]}}</h2>
             {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
                 {% if recipe.difficulty == 'Easy' %}
-                    <h2>Skill level: Beginner</h2>
+                    <h2 style = "text-align: left;">Skill level: Beginner</h2>
                 {% endif %}
                 {% if recipe.difficulty == 'More effort' %}
-                    <h2>Skill level: Intermediate</h2>
+                    <h2 style = "text-align: left;">Skill level: Intermediate</h2>
                 {% endif %}
                 {% if recipe.difficulty == 'A challenge' %}
-                    <h2>Skill level: Advanced</h2>
+                    <h2 style = "text-align: left;">Skill level: Advanced</h2>
                 {% endif %}
             {% endif %}
-            <h2>Ingredient List</h2>
+            <h2 style = "text-align: left;">Ingredient List</h2>
             <ul>
                 {% for ingredient in recipe.actual_ingredients %}
                 <li>{{ingredient}}</li>
@@ -158,11 +168,10 @@
     <div class="methods-section">
         <h2>Methods</h2>
         {% for method in recipe.methods %}
-        <p>{{loop.index}}: {{method}}</p>
+        <p style="font-size: 20px;">{{loop.index}}: {{method}}</p>
         {% endfor %}
     </div>
-    <div class="bottom-buttons">
-        <button onclick="history.back()" class="back-button">Go Back</button>
+    <div class="bottom-recipe-buttons">
         <form id="completedForm" onsubmit="addToCompleted(event)" method="post">
             <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
             <button class="submit-button">Completed!!</button>

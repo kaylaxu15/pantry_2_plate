@@ -16,28 +16,15 @@
         <h1>All Recipes</h1> 
     {% endif %}
     {% if recommended %}
-    <div class="pantry-summary">
-        {% if pantry_items %}
-        <div class="scrollable-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Your Pantry</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in pantry_items %}
-                        <tr>
-                            <td>{{ item }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="pantry-summary" style="text-align: center;">
+            {% if pantry_items %}
+                <p style="font-size: 20px;"><strong>The pantry items you have added so far:</strong> 
+                    {{ pantry_items|join(', ') }}
+                </p>
+            {% else %}
+                <p style="font-size: 20px;">No pantry items available.</p>
+            {% endif %}
         </div>
-        {% else %}
-            <p>No pantry items available.</p>
-        {% endif %}
-    </div>
     {% endif %}
 
     {% if not recommended %}
@@ -129,7 +116,7 @@
                     <br></br>
                     <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                        <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist <i class="fa fa-star-o"></i></button>
+                        <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist </button>
 
                     </form>
                 </span>
@@ -184,7 +171,12 @@
                         </ul>
                     
                         <div class="modal-footer">
-                            <button onclick="closeModal('modal{{ loop.index }}')">Not Interested</button>
+                            <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                            <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post">
+                                <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
+                                <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist</button>
+                            </form>
+                            <button style="font-size: 14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
                         </div>
                     </div>
                 </div>
