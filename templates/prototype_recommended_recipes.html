@@ -26,6 +26,10 @@
             {% endif %}
         </div>
     {% endif %}
+    {% if not recommended %}
+    <p style = "text-align: center; font-size: medium;">This page displays all recipes. To set specific dietary restrictions, please visit your profile</p>
+    {% endif %}
+
 
     {% if not recommended %}
         <div class="search-box">
