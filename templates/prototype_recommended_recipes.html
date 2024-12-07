@@ -38,6 +38,7 @@
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
     {% include 'header.html' %}
+    <button onclick="history.back()" class="back-button">Go Back</button>
 
     {{ pagination.info }}
     <div class="pagination">
