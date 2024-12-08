@@ -6,6 +6,7 @@ import ssl
 import json
 import re
 import NLP
+import inflect
 
 class DatabaseClient:
     
@@ -312,6 +313,7 @@ if __name__ == "__main__":
     # inserting the recipes into the database
     df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
     nlp_model = NLP.NLP()
+    p = inflect.engine()
     i = 0
     for row in df.iterrows():
         i += 1
@@ -321,9 +323,10 @@ if __name__ == "__main__":
         standardized_ingredients = []
         for ingredient in converted_ingredients:
             extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
-            if extracted_ingredient not in unique_ingredients:
-                unique_ingredients.add(extracted_ingredient)
-                standardized_ingredients.append(extracted_ingredient)
+            singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+            if singular_ingredient not in unique_ingredients:
+                unique_ingredients.add(singular_ingredient)
+                standardized_ingredients.append(singular_ingredient)
         #converted_methods = ast.literal_eval(row[1]["methods"])
         converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
         converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
