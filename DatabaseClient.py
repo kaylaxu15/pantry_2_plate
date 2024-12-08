@@ -227,6 +227,9 @@ class DatabaseClient:
         results = col.find()
         return list(results)
     
+    def get_pantry_ingredients(self):
+        ingredient_dict = self.get_all_ingredients()
+        return [item['ingredient'] for item in ingredient_dict]
     
     def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 

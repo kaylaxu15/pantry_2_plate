@@ -41,7 +41,7 @@ def pantry_page():
     db.insert_user(emailId=username, password='')
     # ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     # ingredients = ingredients.values.tolist()
-    ingredients = db.get_all_ingredients()
+    ingredients = db.get_pantry_ingredients()
     ingredients = np.squeeze(ingredients)
     pantry_items = db.get_user_inventory(username)
     return render_template('prototype_pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
