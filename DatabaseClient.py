@@ -5,6 +5,7 @@ from bson import ObjectId
 import ssl
 import json
 import re
+import NLP
 
 class DatabaseClient:
     
@@ -306,32 +307,43 @@ if __name__ == "__main__":
     # db.delete_user("Niru")
 
     # missing_recipes = db.return_page_recipes(['egg', 'butter'])
-    # db.delete_all_recipes()
-    # # inserting the recipes into the database
-    # df = pd.read_csv("/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv")
+    
+    db.delete_all_recipes()
+    # inserting the recipes into the database
+    df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
+    nlp_model = NLP.NLP()
+    i = 0
+    for row in df.iterrows():
+        i += 1
+        print(i / 6882)
+        converted_ingredients = ast.literal_eval(row[1]["ingredients"])
+        unique_ingredients = set()
+        standardized_ingredients = []
+        for ingredient in converted_ingredients:
+            extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
+            if extracted_ingredient not in unique_ingredients:
+                unique_ingredients.add(extracted_ingredient)
+                standardized_ingredients.append(extracted_ingredient)
+        #converted_methods = ast.literal_eval(row[1]["methods"])
+        converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
+        converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
 
-    # for row in df.iterrows():
-    #     converted_ingredients = ast.literal_eval(row[1]["ingredients"])
-    #     #converted_methods = ast.literal_eval(row[1]["methods"])
-    #     converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
-    #     converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
-
-    #     try:
-    #         servings = converted_servings_dict['serves']
-    #     except:
-    #         servings = ''
+        try:
+            servings = converted_servings_dict['serves']
+        except:
+            servings = ''
 
 
-    #     methods = str(row[1]["methods"])
-    #     # print(row[1]["title"])
-    #     # print(methods)
-    #     # regexp = re.compile(r"[a-z]+[\'][a-z]+")
-    #     # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
-    #     # methods = methods.replace("\'", "\"")
+        methods = str(row[1]["methods"])
+        # print(row[1]["title"])
+        # print(methods)
+        # regexp = re.compile(r"[a-z]+[\'][a-z]+")
+        # methods = re.sub(r'(\w{2})\'([a-z]+)', r'\1\2', methods)
+        # methods = methods.replace("\'", "\"")
   
-    #     methods = ast.literal_eval(methods)
+        methods = ast.literal_eval(methods)
 
-    #     db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], ast.literal_eval(row[1]["standardized_ingredients"]), row[1]["picture_url"], 
-    #                      converted_standardized_ingredients_dict, converted_ingredients, methods, 
-    #                      row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], standardized_ingredients, row[1]["picture_url"], 
+                         converted_standardized_ingredients_dict, converted_ingredients, methods, 
+                         row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
     db.add_user_reviews()
