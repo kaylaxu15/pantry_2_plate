@@ -95,8 +95,16 @@ def extract(pages, sleep_timer):
                 cook_time = np.nan
                 
             try: 
-                picture_url = soup.find_all('img', {'class':'image__img'})[2].get('src')
-                print(picture_url)
+                images = soup.find_all('img', {'class':'image__img'})
+                # print("THE LI_TAGS ARE", li_tags)
+                for img in images:
+                    title = img['title']
+
+                    if title == recipe_title:
+                        picture_url = img['src']
+                    elif title == recipe_title + "s":
+                        picture_url = img['src']
+
             except:
                 picture_url = np.nan
 

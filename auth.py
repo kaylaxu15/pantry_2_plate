@@ -131,7 +131,7 @@ def callback():
 
     flask.session['email'] = userinfo_response.json()['email']
     #flask.session['sub'] = userinfo_response.json()['sub']
-    #flask.session['name'] = userinfo_response.json()['name']
+    flask.session['name'] = userinfo_response.json()['name']
     #flask.session['given_name'] = userinfo_response.json()['given_name']
     #flask.session['family_name'] = (
     #    userinfo_response.json()['family_name'])
@@ -140,7 +140,7 @@ def callback():
     #    userinfo_response.json()['email_verified'])
     #flask.session['locale'] = userinfo_response.json()['locale']
 
-    return flask.redirect(flask.url_for('profile_page'))
+    return flask.redirect(flask.url_for('welcome_page'))
 
 #-----------------------------------------------------------------------
 

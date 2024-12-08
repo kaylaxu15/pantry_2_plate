@@ -35,6 +35,16 @@ def index():
     #db.insert_user(emailId=username, password='')
     return render_template('landing_page.html')
 
+@app.route('/welcome_page', methods=['GET', 'POST'])
+def welcome_page():
+    if 'username' not in session:
+        session['username'] = auth.authenticate()
+    username = session['username']
+    name = session['name']
+    print(name)
+
+    return render_template('welcome_page.html', username=username, name=name)
+
 @app.route('/pantry', methods=['GET'])
 def pantry_page():
     username = auth.authenticate()

@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-url = "https://www.bbcgoodfood.com/recipes/chocolate-walnut-butter-cups"
+url = "https://www.bbcgoodfood.com/recipes/chocolate-chip-muffins"
 html = requests.get(url)
 soup = BeautifulSoup(html.text, 'html.parser')
 
@@ -28,6 +28,18 @@ for nested_soup in method_items:
         p_tags = m.find_all('p')
         for p in p_tags:
             methods.append(str(p.text))
+
+images = soup.find_all('img', {'class':'image__img'})
+# print("THE LI_TAGS ARE", li_tags)
+for img in images:
+    title = img['title']
+
+    if title == 'Chocolate chip muffins':
+        imageURL = img['src']
+        print(imageURL)
+    
+
+
 
 
 

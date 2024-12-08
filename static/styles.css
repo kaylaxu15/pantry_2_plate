@@ -41,7 +41,7 @@
 }
 
 
-.recipes-container, .wishlist-container, .completed-container, .favorite-container{
+.recipes-container, .wishlist-container, .completed-container, .favorite-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
