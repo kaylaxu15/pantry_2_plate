@@ -10,13 +10,14 @@ class NLP:
         df = pd.read_csv("webscraping/output/ingredients_list.csv")
         self.known_ingredients = set(df["ingredients"].values.tolist())
 
-    # Extract the main ingredient from a string
+    # Extract main ingredient from given string
     def extract_ingredient(self, text):
+        # print(text)
         text = text.split(" or ")[0]
 
         # String Removal
         text_cleaned = re.sub(
-            r'\b(\w*\d+\w*|[¼½¾⅓⅔⅛⅜⅝⅞]|shakes|tbsp|tsp|cup|cups|g|kg|ml|l|oz|ounce|pinch|dash|bunch|slice|clove|cloves|can|cans|handful|stick|small|medium|large|hot|fresh|to taste|optional|few|extra|plus|more|leftover|good|shop-bought|homemade|ready-to-roll|broken|lengthways|stalks removed|roughly snapped)\b',
+            r'\b(\w*\d+\w*|[¼½¾⅓⅔⅛⅜⅝⅞]|¼tsp|shakes|tbsp|tsp|cup|cups|g|kg|ml|l|oz|ounce|pinch|dash|bunch|slice|clove|cloves|can|cans|handful|stick|small|medium|large|hot|fresh|to taste|optional|few|extra|plus|more|leftover|good|shop-bought|homemade|ready-to-roll|broken|lengthways|stalks removed|roughly snapped|yolk|yolks|white|whites|fork|room|temperature|mins|pieces|pin|quarter|quaerters|water|boiling|bowl|freerange|very|soft|crosswise|bulb|end|half|semicircles|to|decorate|toasted|beaten|strong)\b',
             '', text, flags=re.IGNORECASE)
         text_cleaned = re.sub(
             r'\b(finely|roughly|thinly|coarsely|juiced|cut|into|wedges|rings|chopped|diced|minced|sliced|grated|peeled|halved|quartered|zested|seeds removed|to serve|shredded|ground|drained|torn|broken|snapped|stalk|stalks|florets|whole|works well)\b',
@@ -28,6 +29,8 @@ class NLP:
         text_cleaned = re.sub(r'\(.*?\)', '', text_cleaned, flags=re.IGNORECASE)
         text_cleaned = re.sub(r'[^\w\s]', '', text_cleaned)
         text_cleaned = re.sub(r'\s+', ' ', text_cleaned).strip()
+        
+        # print(text_cleaned)
 
         doc = self.nlp(text_cleaned)
 
@@ -45,6 +48,8 @@ class NLP:
                 if word in self.known_ingredients:
                     return word
         return ingredient_phrase if ingredient_phrase else text_cleaned
+
+
     
 # Testing for accuracy
 if __name__ == "__main__":
@@ -61,7 +66,7 @@ if __name__ == "__main__":
     for recipe in recipe_list:
         i += 1
         # print(i/len(recipe_list))
-        list_recipe = ast.literal_eval(recipe)  # Convert string to list of ingredients
+        list_recipe = ast.literal_eval(recipe)
         for ingredient in list_recipe:
             original_ingredient.append(ingredient)
             print(ingredient)
