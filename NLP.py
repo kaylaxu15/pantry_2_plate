@@ -17,7 +17,7 @@ class NLP:
 
         # String Removal
         text_cleaned = re.sub(
-            r'\b(\w*\d+\w*|[¼½¾⅓⅔⅛⅜⅝⅞]|¼tsp|shakes|tbsp|tsp|cup|cups|g|kg|ml|l|oz|ounce|pinch|dash|bunch|slice|clove|cloves|can|cans|handful|stick|small|medium|large|hot|fresh|to taste|optional|few|extra|plus|more|leftover|good|shop-bought|homemade|ready-to-roll|broken|lengthways|stalks removed|roughly snapped|yolk|yolks|white|whites|fork|room|temperature|mins|pieces|pin|quarter|quaerters|water|boiling|bowl|freerange|very|soft|crosswise|bulb|end|half|semicircles|to|decorate|toasted|beaten|strong)\b',
+            r'\b(\w*\d+\w*|[¼½¾⅓⅔⅛⅜⅝⅞]|¼tsp|shakes|tbsp|tsp|cup|cups|g|kg|ml|l|oz|ounce|pinch|dash|bunch|slice|clove|cloves|can|cans|handful|stick|small|medium|large|hot|fresh|to taste|optional|few|extra|plus|more|leftover|good|shop-bought|homemade|ready-to-roll|broken|lengthways|stalks removed|roughly snapped|yolk|yolks|white|whites|fork|room|temperature|mins|pieces|pin|quarter|quaerters|water|boiling|bowl|freerange|very|soft|crosswise|bulb|end|half|semicircles|to|decorate|toasted|beaten|strong|veg|peeler|choice|cube|cubes|minute|minutes|skinless|bag|very|hole|topping|skinon|food|processor|liquid|if|intact|slices|slice|layer|layers|fingers|finger|one|ones|cordial|quarters|quarter|punnet|punnets)\b',
             '', text, flags=re.IGNORECASE)
         text_cleaned = re.sub(
             r'\b(finely|roughly|thinly|coarsely|juiced|cut|into|wedges|rings|chopped|diced|minced|sliced|grated|peeled|halved|quartered|zested|seeds removed|to serve|shredded|ground|drained|torn|broken|snapped|stalk|stalks|florets|whole|works well)\b',
@@ -55,7 +55,15 @@ class NLP:
         elif text == "parmigianoreggiano":
             return "parmigiano reggiano"
         else:
-            return text
+            words = text.split()
+            unique_words = []
+            seen = set()
+
+            for word in words:
+                if word.lower() not in seen:
+                    unique_words.append(word)
+                    seen.add(word.lower())
+            return " ".join(unique_words)
         
 
 

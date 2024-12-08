@@ -323,6 +323,7 @@ if __name__ == "__main__":
         standardized_ingredients = []
         for ingredient in converted_ingredients:
             extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
+            extracted_ingredient = nlp_model.handle_corner_cases(extracted_ingredient)
             singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
             if singular_ingredient not in unique_ingredients:
                 unique_ingredients.add(singular_ingredient)
