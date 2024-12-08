@@ -12,10 +12,9 @@ class NLP:
 
     # Extract the main ingredient from a string
     def extract_ingredient(self, text):
-        # Handle "or" logic by splitting and keeping the first part
         text = text.split(" or ")[0]
 
-        # Remove numbers, fractions, units, and irrelevant descriptors
+        # String Removal
         text_cleaned = re.sub(
             r'\b(\w*\d+\w*|[¼½¾⅓⅔⅛⅜⅝⅞]|shakes|tbsp|tsp|cup|cups|g|kg|ml|l|oz|ounce|pinch|dash|bunch|slice|clove|cloves|can|cans|handful|stick|small|medium|large|hot|fresh|to taste|optional|few|extra|plus|more|leftover|good|shop-bought|homemade|ready-to-roll|broken|lengthways|stalks removed|roughly snapped)\b',
             '', text, flags=re.IGNORECASE)
@@ -24,26 +23,22 @@ class NLP:
             '', text_cleaned, flags=re.IGNORECASE)
         text_cleaned = re.sub(
             r'\b(pack|packs|box|boxes|bottle|bottles|jar|jars|tin|tins|can|cans|container|containers|carton|cartons)\b',
-            '', text_cleaned, flags=re.IGNORECASE)  # Remove container-related words
+            '', text_cleaned, flags=re.IGNORECASE)
         text_cleaned = re.sub(r'\b(of|and|a|mix|any|such as|shop-bought|or)\b', '', text_cleaned, flags=re.IGNORECASE)  # Remove additional filler words
-        text_cleaned = re.sub(r'\(.*?\)', '', text_cleaned, flags=re.IGNORECASE)  # Remove parentheticals
-        text_cleaned = re.sub(r'[^\w\s]', '', text_cleaned)  # Remove punctuation
-        text_cleaned = re.sub(r'\s+', ' ', text_cleaned).strip()  # Remove extra spaces
+        text_cleaned = re.sub(r'\(.*?\)', '', text_cleaned, flags=re.IGNORECASE)
+        text_cleaned = re.sub(r'[^\w\s]', '', text_cleaned)
+        text_cleaned = re.sub(r'\s+', ' ', text_cleaned).strip()
 
-        # Parse the cleaned text with spaCy
         doc = self.nlp(text_cleaned)
 
-        # Extract nouns and proper nouns
         candidates = [token.text for token in doc if token.pos_ in {"NOUN", "PROPN"}]
         ingredient_phrase = " ".join(candidates).strip()
 
-        # Match against known ingredients, ensuring whole-word matches
         matches = [ingredient for ingredient in self.known_ingredients if re.search(rf'\b{re.escape(ingredient)}\b', ingredient_phrase, flags=re.IGNORECASE)]
         if matches:
-            matches.sort(key=len, reverse=True)  # Sort by specificity
+            matches.sort(key=len, reverse=True)
             return matches[0]
 
-        # Fallback: Use the most relevant part of the cleaned text
         if " " in text_cleaned:
             words = text_cleaned.split()
             for word in words:
