@@ -267,8 +267,7 @@ class DatabaseClient:
                 normalized_ingredients.add("sea salt")
 
         return normalized_ingredients
-
-
+    
     def get_recipes_missing_ingredients(self, number, ingredients):
         col = self.db["Recipes"]
         updated_ingredients = self.add_default_ingredients(ingredients)
@@ -284,6 +283,45 @@ class DatabaseClient:
 
         for i in range(10):
             given_recipes = self.get_recipes_missing_ingredients(i, updated_ingredients)
+            sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
+            recipes.extend(sorted_recipes)
+        for recipe in recipes:
+            if int(recipe["missing_count"]) != len(recipe["ingredients"]):
+                modified_recipes.append(recipe)
+        return modified_recipes
+
+    def get_recipes_missing_ingredients_rec(self, number, ingredients, skill=None, max_time=None, restrictions=[]):
+        col = self.db["Recipes"]
+        updated_ingredients = self.add_default_ingredients(ingredients)
+
+        if skill and max_time is not None:
+            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
+            col = col.find(query)
+        elif skill:
+            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}}
+            col = col.find(query)
+        elif max_time:
+            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
+            col = col.find(query)
+        elif restrictions: 
+            query = {"restrictions": {"$all": restrictions}}
+            col = col.find(query)
+        query = [{"$addFields": 
+                  {"missing_count": 
+                   {"$size": 
+                    {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}
+                     }}}},
+                     {"$match": {"missing_count": number}}]
+
+        return list(col.aggregate(query))
+    
+    def return_page_recipes_rec(self, ingredients, skill=None, max_time=None, restrictions=[]):
+        recipes = []
+        modified_recipes = []
+        updated_ingredients = self.add_default_ingredients(ingredients)
+
+        for i in range(10):
+            given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=None, max_time=None, restrictions=[])
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
         for recipe in recipes:

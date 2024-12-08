@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, session, jsonify, request
+from flask import Flask, render_template, session, jsonify, request, make_response 
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -68,13 +68,14 @@ def save_pantry_items():
 def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
+    skill = flask.request.args.get('skill', type = str)
+    max_time = flask.request.args.get('time', type = str)
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
     user_data = db.get_user(username)
-    recipes = db.return_page_recipes(pantry_items)
-
     restrictions = user_data['restrictions']
+    recipes = db.return_page_recipes_rec(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions)
 
     # add paging
     per_page = 20
@@ -86,7 +87,10 @@ def results_page():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions)
+    resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
+                                         user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
+                                         prev_skill=skill, prev_max_time=max_time))
+    return resp
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
