@@ -48,6 +48,15 @@ class NLP:
                 if word in self.known_ingredients:
                     return word
         return ingredient_phrase if ingredient_phrase else text_cleaned
+    
+    def handle_corner_cases(self, text):
+        if text == "butternut":
+            return "butternut squash"
+        elif text == "parmigianoreggiano":
+            return "parmigiano reggiano"
+        else:
+            return text
+        
 
 
     
