@@ -363,7 +363,9 @@ if __name__ == "__main__":
             extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
             extracted_ingredient = nlp_model.handle_corner_cases(extracted_ingredient)
             if extracted_ingredient != '':
-                singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+                # singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+                singular_ingredient = " ".join(word for word in extracted_ingredient.split())
+                # print(singular_ingredient)
                 if singular_ingredient not in unique_ingredients:
                     unique_ingredients.add(singular_ingredient)
                     standardized_ingredients.append(singular_ingredient)
@@ -389,4 +391,4 @@ if __name__ == "__main__":
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], standardized_ingredients, row[1]["picture_url"], 
                          converted_standardized_ingredients_dict, converted_ingredients, methods, 
                          row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
-    db.add_user_reviews()
+    # db.add_user_reviews()
