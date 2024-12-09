@@ -132,7 +132,7 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination, restrictions=restrictions)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination, restrictions=restrictions, query=query)
 
 
 @app.route('/recipe_page', methods=['GET'])
@@ -349,6 +349,10 @@ def add_review():
     
     full_completed = db.get_user_completed(username)
     return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
+
+
+
+
     
 
 

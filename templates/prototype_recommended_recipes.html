@@ -45,8 +45,9 @@
     {% if not recommended %}
         <div class="search-box">
             <form action=/all_recipes>
-                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
+                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title..." value="{{query}}">
                 <button onclick="searchRecipes()" class="search-button">Search</button>
+                <button class="submit-button" onclick="document.getElementById('search-input').value = ''">Clear Search</button>
             </form>
         </div>
     {% endif %}

@@ -1,3 +1,7 @@
+textarea:focus::placeholder {
+    color: transparent;
+}
+
 .inline-box {
     display: inline-block;
     width: 300px;

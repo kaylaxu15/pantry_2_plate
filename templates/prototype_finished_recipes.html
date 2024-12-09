@@ -19,6 +19,7 @@
     <div class="search-box">
         <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title">
         <button onclick="searchRecipes()" class="search-button">Search</button>
+        <button class="submit-button" onclick="document.getElementById('search-input').value = ''; searchRecipes()">Clear Search</button>
     </div>
 
     <div class="completed-container">
@@ -63,15 +64,17 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-                Additional Notes:
+
+                Additional Notes (any comments to your future self on making this!)
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event)" method="post" onclick="event.stopPropagation();">
                         {% set recipeID = recipe._id | string %}
-                        <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" style="overflow:scroll;"></textarea>
-                        <input type="hidden" name="recipe_id" value="{{recipeID}}">
-                        <button class="submit-button" id="review_button">Save Changes</button>
+                        <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" name="{{recipe._id}}" onclick="openBox(name)" style="overflow:scroll;" placeholder="{{reviews[recipeID]}}"></textarea required>
+                        <input type="hidden" name="recipe_id" value="{{recipe._id}}">
+                        <button class="submit-button" id="{{recipe._id}}review_button" name="{{recipe._id}}" onclick="deleteBox(name)">Save Changes</button>
                     </form>
                 </div>  
+                
 
                 <form id="favoritesForm" onsubmit="addToFavorites(event)" method="post" onclick="event.stopPropagation();">
                     <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
@@ -143,21 +146,27 @@
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
-        const textBox = document.getElementById("reviewText");
+        // const textBox = document.getElementById("reviewText");
 
-        const button = document.getElementById("review_button");
+        // const button = document.getElementById("review_button");
 
-        textBox.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevents click event from bubbling up to parent container
-            button.style.display = "block"; 
+        // textBox.addEventListener('click', (event) => {
+        //     event.stopPropagation(); // Prevents click event from bubbling up to parent container
+        //     button.style.display = "block"; 
 
-        });
+        // });
  
-        button.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevents click event from bubbling up to parent container
-            button.style.display = "none"; 
+        // button.addEventListener('click', (event) => {
+        //     event.stopPropagation(); // Prevents click event from bubbling up to parent container
+        //     button.style.display = "none"; 
 
-        });
+        // });
+
+        // button.addEventListener('click', (event) => {
+        //         event.stopPropagation(); // Prevents click event from bubbling up to parent container
+        //         button.style.display = "none"; 
+
+        //     });
  
 
         window.onclick = function(event) {
@@ -217,12 +226,7 @@
             request.send(formData);
         }
 
-        function convertToHtml(review) {
-            let template = `{{review}}`
-            let map = {review: review};
-            let html = Mustache.render(template, map);
-            return html;
-        }
+        
 
         function addReview(event) {
            event.preventDefault();
@@ -255,32 +259,20 @@
            request.send(formData);
        }
 
-        // function getReviews() {
-    
-        //     let review = $('#review').val() || '';
-        //     review = encodeURIComponent(review);
+        function deleteBox(recipeID) {
+            const button = document.getElementById("{{recipeID}}review_button");
+            button.style.display = "none"; 
+            console.log("Now it's gone")
 
-        //     let recipe_id = $('#recipe_id').val();
-        //     recipe_id = encodeURIComponent(recipe_id);
-            
-        //     let requestData = {
-        //         type: 'GET',
-        //         url: '/add_review',
-        //         success: handleResponse,
-        //         error: handleError
-        //     };
+        }
 
-        //     request = $.ajax(requestData);
-        // }
+        function openButton(recipeID) {
+            const button = document.getElementById("{{recipeID}}review_button");
+            button.style.display = "block"; 
+            console.log("Should be visible now")
 
-        // function handleResponse(review) {
-        //     $('#reviewbox').html(convertToHtml(review));
-        // }
+        }
 
-        // function handleError(request) {
-        //     if (request.statusText !== 'abort')
-        //         alert('Error: Failed to fetch data from server');
-        // }
 
         function searchRecipes() {
             var searchRequest = null;
