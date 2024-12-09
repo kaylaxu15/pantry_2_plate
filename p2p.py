@@ -238,7 +238,7 @@ def remove_from_groceries():
 def profile_page():
     username = auth.authenticate()
     upload_result = None
-    pic_url = None
+    error = ""
 
     if request.method == 'POST':
         if 'file' in request.files:  
@@ -247,8 +247,8 @@ def profile_page():
                 upload_result = upload(file_to_upload)
                 url, options = cloudinary_url(upload_result['public_id'], format='jpg', crop='fill', width=100, height=100)
                 db.update_user_pic(username, url)
-            except: 
-                print("error") #FIXME
+            except Exception as ex: 
+                error = ex
            
         else: 
             updated_restrictions = request.form.getlist('restriction')
@@ -256,7 +256,7 @@ def profile_page():
             db.update_user_restrictions(username, updated_restrictions)
 
     user_data = db.get_user(username)
-    return render_template('profile_page.html', user_data=user_data)
+    return render_template('profile_page.html', user_data=user_data, error=error)
 
 @app.route('/add_to_completed', methods=['GET', 'POST'])
 def add_to_completed():

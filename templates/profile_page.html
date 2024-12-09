@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="static/styles.css">
 </head>
 
+
 <body>
+
     {% include 'header.html' %}
     <div class="profile-container">
         <h1>Profile</h1>
@@ -21,6 +23,10 @@
             <form class="upload-form" action="" method="POST" enctype="multipart/form-data">
                 <input type="file" name="file" accept="image/*" required>
                 <button type="submit" class="submit-button">Upload</button>
+                <br></br>
+                {% if error %}
+                    Error: {{error}}
+                {% endif %}
                 
             </form>
         </div>
@@ -78,7 +84,12 @@
 </body>
 
 
+
 <script>
+    function errorMsg(error) {
+      alert(error);
+    }
+
      window.onclick = function(event) {
             if (!event.target.matches('.drop-button')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -110,6 +121,9 @@
         alert("Saved changes!")
 
     });
+
+
+
 
 </script>
 
