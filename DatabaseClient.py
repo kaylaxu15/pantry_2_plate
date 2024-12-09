@@ -161,7 +161,7 @@ class DatabaseClient:
             return None
         return col.find_one({"_id": ObjectId(recipe_id)})
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
+    def insert_recipe(self, title, difficulty, vegetarian, vegan, dairy_free, keto, gluten_free, ingredients, picture_url, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
         
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
@@ -177,7 +177,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "difficulty": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time, "makes":makes, "servings":servings}
+        dict = {"title": title, "difficulty": difficulty, "restrictions": restrictions, "ingredients": ingredients, "picture_url": picture_url, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time, "makes":makes, "servings":servings}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -292,25 +292,25 @@ class DatabaseClient:
     def get_recipes_missing_ingredients_rec(self, number, ingredients, skill=None, max_time=None, restrictions=[]):
         col = self.db["Recipes"]
         updated_ingredients = self.add_default_ingredients(ingredients)
-
-        if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif skill:
-            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif max_time:
-            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif restrictions: 
-            query = {"restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        query = [{"$addFields": 
-                  {"missing_count": 
-                   {"$size": 
-                    {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}
-                     }}}},
-                     {"$match": {"missing_count": number}},{"$limit":100}]
+        
+        query = []
+        
+        filter = {}
+        
+        if skill is not None:
+            filter["difficulty"] = {"$eq": skill}
+        if max_time is not None:
+            filter["total_time"] = {"$lte": max_time}
+        if restrictions:
+            filter["restrictions"] = {"$in": restrictions}
+            
+        # print(filter)
+            
+        if filter:
+            query.append({"$match":filter})
+        query.append({"$addFields":{"missing_count":{"$size":{"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}}}}})
+        query.append({"$match":{"missing_count":number}})
+        query.append({"$limit":100})
 
         return list(col.aggregate(query))
     
@@ -320,7 +320,7 @@ class DatabaseClient:
         updated_ingredients = self.add_default_ingredients(ingredients)
 
         for i in range(3):
-            given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=None, max_time=None, restrictions=[])
+            given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=skill, max_time=max_time, restrictions=restrictions)
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
         for recipe in recipes:
@@ -391,9 +391,7 @@ if __name__ == "__main__":
   
         methods = ast.literal_eval(methods)
 
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], standardized_ingredients, row[1]["picture_url"], 
-                         converted_standardized_ingredients_dict, converted_ingredients, methods, 
-                         row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], standardized_ingredients, row[1]["picture_url"], converted_ingredients, methods, row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
     # print("Database Population Complete")
     # col = db.db["Recipes"]
     # col.create_index("title")
