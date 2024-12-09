@@ -74,8 +74,10 @@ def results_page():
         skill = "Easy"
     elif skill == "Intermediate":
         skill = "More effort"
-    else:
+    elif skill == "Advanced":
         skill = "A challenge"
+    else:
+        skill = None
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     recipes = db.return_page_recipes_rec(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions)
@@ -110,12 +112,10 @@ def all_recipes():
         skill = "Easy"
     elif skill == "Intermediate":
         skill = "More effort"
-    else:
+    elif skill == "Advanced":
         skill = "A challenge"
-    print("Restrictions:", restrictions)
-    print("Query:", query)
-    print("Skill:", skill)
-    print("Max Time:", max_time)
+    else:
+        skill = None
     recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     # print(recipes)
     # add paging
