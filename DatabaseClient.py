@@ -391,4 +391,4 @@ if __name__ == "__main__":
         methods = ast.literal_eval(methods)
 
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], standardized_ingredients, row[1]["picture_url"], 
-                         methods, row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
+                         converted_ingredients, methods, row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
