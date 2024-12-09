@@ -4,16 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pantry</title>
     
+    
 </head>
 <body style="display:none">
+    {% include 'header.html' %}
+    <link rel="stylesheet" href="static/styles.css">
     <div class="header">
-
-        <img class="logo" src="static/logo.png" alt="logo">
-
-      {% include 'header.html' %}
-      <button onclick="history.back()" class="back-button">Go Back</button>
-      <link rel="stylesheet" href="static/styles.css">
-      <h1>Pantry</h1>
+        
+        <h1>Pantry</h1>
     </div>
 
     <style>
@@ -211,17 +209,7 @@
         .header {
             position: relative; 
             text-align: center;
-            padding: 20px 0;
             color: #315E26;
-        }
-
-        .logo {
-            position: absolute; 
-            left: 0px; 
-            top: 0px;
-            width: 140px; 
-            height: auto;
-            margin: 20px; 
         }
 
         .header h1 {

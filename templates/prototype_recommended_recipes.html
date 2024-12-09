@@ -4,12 +4,12 @@
 <head>
     <link rel="stylesheet" href="static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <img class="logo" src="static/logo.png" alt="logo">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
+    {% include 'header.html' %}
     {% if recommended %}
         <h1>Recommended Recipes</h1> 
     {% else %}
@@ -53,8 +53,6 @@
     {% endif %}
 
     <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
-    {% include 'header.html' %}
-    <button onclick="history.back()" class="back-button">Go Back</button>
 
     {{ pagination.info }}
     <div class="pagination">
