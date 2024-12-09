@@ -157,6 +157,8 @@ class DatabaseClient:
     
     def return_recipe(self, recipe_id):
         col = self.db["Recipes"]
+        if not ObjectId.is_valid(recipe_id):
+            return None
         return col.find_one({"_id": ObjectId(recipe_id)})
     
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
