@@ -549,11 +549,10 @@ button {
     display: flex;
     justify-content: space-between; 
     align-items: flex-start;
-    padding: 30px 20px;
-    background-color: #f4f2dd;
+    padding: 20px 20px;
     overflow-x: auto;
     z-index: 1;
-    position: sticky;
+    position: relative;
     top: 0;
 }
 
@@ -573,11 +572,11 @@ button {
 .back-button {
     background-color: #315E26;
     color: white;
-    padding: 10px 15px;
+    padding: 5px 7.5px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: "Times New Roman", Times, serif;
     text-align: center;
 }
@@ -595,6 +594,7 @@ button {
 
 .navigation-item {
     position: relative; 
+
 }
 
 .drop-button, .drop-profile-button, .pantry-button, .all-recipes-button {
@@ -608,10 +608,12 @@ button {
     text-align: center;
     font-size: 16px;
     font-family: "Times New Roman", Times, serif;
+    text-decoration: none;
 }
 
 .drop-button:hover, .drop-profile-button:hover, .pantry-button:hover, .all-recipes-button:hover {
     background-color: #45a049;
+    text-decoration: none;
 }
 
 .dropdown-content, .dropdown-profile-content {
