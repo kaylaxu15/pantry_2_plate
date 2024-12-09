@@ -9,67 +9,70 @@ def correct_url(df):
     for idx, row in df.iterrows():
         url = row['recipe_urls']
         url = url[url.rfind("https://"):]   # FIXME (deals with some http issues)
-        recipe_title = row['title']
+        recipe_title = row['title'].lower()
         html = requests.get(url)
         soup = BeautifulSoup(html.text, 'html.parser')
 
         #print(recipe_title)  # debugging
 
         try: 
-            print("INDEX: ", idx)
             images = soup.find_all('img', {'class':'image__img'})
             
             found = False
             for img in images:
-                title = img['title']
-                words = title.split(' ')
+                title = img['title'].lower()
+                print(title)
+
                 actual_words = recipe_title.split(' ')
                 itemname = img['data-item-name']
 
                 image_url = img['src']
+                print(title, image_url)
                 
                 if title == recipe_title:
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found=True
+                    print(idx, ": ", image_url)
                     break
                 elif title == recipe_title + "s":
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
                 elif title == recipe_title.replace("&", "and"):
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
                 elif title == recipe_title.replace("Air fryer", "Air-fryer"):
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
-                    break
-                elif words[:2] == actual_words[:2]:
-                    picture_urls.append(img['src'])
-                    found= True
+                    print(idx, ": ", image_url)
                     break
                 elif re.search(actual_words[-1], title, re.IGNORECASE):
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
                 elif re.search(actual_words[0], title, re.IGNORECASE):
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
                 elif re.search(actual_words[1], title, re.IGNORECASE): 
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
                 elif re.search(actual_words[0], itemname, re.IGNORECASE) or re.search(actual_words[-1], itemname, re.IGNORECASE):
-                    picture_urls.append(img['src'])
+                    picture_urls.append(image_url)
                     found= True
+                    print(idx, ": ", image_url)
                     break
 
 
             if not found:
                 print(idx, ": ", recipe_title)
-                
-
             
         except:
             picture_urls.append(np.nan)
