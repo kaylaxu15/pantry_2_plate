@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="static/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Your Finished Recipes</title>
-    {% include 'header.html' %}
-    <img class="logo" src="static/logo.png" alt="logo">
+    
 
     
 </head>
 <body>
+    {% include 'header.html' %}
     <h1>Your Finished Recipes</h1>
-    <button onclick="history.back()" class="back-button">Go Back</button>
     <div class="search-box">
         <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title">
         <button onclick="searchRecipes()" class="search-button">Search</button>

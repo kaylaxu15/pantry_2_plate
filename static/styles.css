@@ -269,7 +269,6 @@ th, td {
 }
 
 
-
 button {
     background-color: #FBDFC9; 
     border: none;
@@ -285,14 +284,6 @@ button {
     border-radius: 30px;
 }
 
-.logo {
-    width: 140px;
-    height: auto;
-    margin: 20px;
-    left: 10px;
-    top: 12px;
-
-  }
 
 .modal {
     display: none;
@@ -352,175 +343,10 @@ button {
     font-family: "Times New Roman", Times, serif;
 }
 
-.pantry-button {
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
-  }
-.pantry-button:hover, .pantry-button:focus {
-    background-color: #45a049;
-}
-
-.all-recipes-button {
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
-  }
-.all-recipes-button:hover, .all-recipes-button:focus {
-    background-color: #45a049;
-}
-
-.back-button {
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
-  }
-
 .filter-button:hover {
     outline: 3px solid #824A1A;
 }
-
-
-.back-button:hover {
-    background-color: #45a049;
-}
-
-.navigationbar {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-    gap: 10px; 
-    padding: 10px;
-    background-color: #f4f2dd; 
-    align-items: flex-end;
-}
-
-.drop-profile-button {
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
-  }
   
-.drop-profile-button:hover, .drop-profile-button:focus {
-    background-color: #45a049;
-}
-.dropdown-profile-content {
-    display: none;
-    position: absolute;
-    top: 71px;
-    right:30px;
-    background-color: #f1f1f1;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-  
-.dropdown-profile-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-profile-content a:hover {outline: 3px solid #824A1A;}
-  
-.add_wishlist-button {
-    position: absolute;
-    top: 12px;
-    right: 260px;
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  .drop-button {
-    background-color: #315E26;
-    color: white;
-    padding: 10px 0;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    display: inline-block; 
-    text-decoration: none; 
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
-  }
-
-.drop-button:hover, .drop-button:focus {
-    background-color: #45a049;
-}
-  
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 71px;
-    right:280px;
-    background-color: #f1f1f1;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-  
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {outline: 3px solid #824A1A;}
   
 .show {display:block;}
 
@@ -717,5 +543,110 @@ button {
 .unchecked
 {
     color:#f3d9c6;
+}
+
+.navigationbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    padding: 30px 20px;
+    background-color: #f4f2dd;
+    overflow-x: auto;
+    z-index: 1;
+    position: sticky;
+    top: 0;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px;
+    flex-shrink: 0; 
+}
+
+.logo {
+    max-width: 150px; 
+    height: auto; 
+}
+
+.back-button {
+    background-color: #315E26;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+
+.navigation-items {
+    display: flex;
+    flex-wrap: nowrap; 
+    gap: 10px; 
+    margin:0;
+}
+
+.navigation-item {
+    position: relative; 
+}
+
+.drop-button, .drop-profile-button, .pantry-button, .all-recipes-button {
+    background-color: #315E26;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 120px; 
+    text-align: center;
+    font-size: 16px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.drop-button:hover, .drop-profile-button:hover, .pantry-button:hover, .all-recipes-button:hover {
+    background-color: #45a049;
+}
+
+.dropdown-content, .dropdown-profile-content {
+    display: none;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background-color: #f1f1f1;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    overflow: visible;
+    z-index: 1000;
+}
+
+.dropdown-content a, .dropdown-profile-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover, .dropdown-profile-content a:hover {
+    outline: 3px solid #824A1A;
+}
+
+.show {
+    display: block;
+}
+
+
+.all-recipes-button:hover, .all-recipes-button:focus {
+    background-color: #45a049;
+}
+
+.pantry-button:hover, .pantry-button:focus {
+    background-color: #45a049;
 }
 
