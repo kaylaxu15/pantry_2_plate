@@ -159,7 +159,7 @@ class DatabaseClient:
         col = self.db["Recipes"]
         return col.find_one({"_id": ObjectId(recipe_id)})
     
-    def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
+    def insert_recipe(self, title, difficulty, vegetarian, vegan, dairy_free, keto, gluten_free, ingredients, picture_url, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
         
         col = self.db["Recipes"]
         if self.check_recipe_taken(title):
@@ -175,7 +175,7 @@ class DatabaseClient:
             restrictions.append("keto")
         if gluten_free:
             restrictions.append("gluten-free")
-        dict = {"title": title, "difficulty": difficulty, "servings": serves, "restrictions": restrictions, "prep_time": prep_time, "cook_time": cook_time, "ingredients": ingredients, "picture_url": picture_url, "ingredients_dict": ingredients_dict, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time, "makes":makes, "servings":servings}
+        dict = {"title": title, "difficulty": difficulty, "restrictions": restrictions, "ingredients": ingredients, "picture_url": picture_url, "actual_ingredients":actual_ingredients, "methods":methods, "recipe_urls":recipe_urls, "total_time":total_time, "makes":makes, "servings": servings}
         col.insert_one(dict)
         for ingredient in ingredients:
             self.insert_ingredient(ingredient)
@@ -345,6 +345,10 @@ if __name__ == "__main__":
 
     # missing_recipes = db.return_page_recipes(['egg', 'butter'])
     
+    # print("hi")
+    # print(db.get_all_recipes())
+    # print("hello")
+    
     db.delete_all_recipes()
     # inserting the recipes into the database
     df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
@@ -386,7 +390,5 @@ if __name__ == "__main__":
   
         methods = ast.literal_eval(methods)
 
-        db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], standardized_ingredients, row[1]["picture_url"], 
-                         converted_standardized_ingredients_dict, converted_ingredients, methods, 
-                         row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
-    # db.add_user_reviews()
+        db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], standardized_ingredients, row[1]["picture_url"], 
+                         converted_ingredients, methods, row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
