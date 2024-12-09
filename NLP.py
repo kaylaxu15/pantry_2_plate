@@ -30,7 +30,7 @@ class NLP:
         text_cleaned = re.sub(r'[^\w\s]', '', text_cleaned)
         text_cleaned = re.sub(r'\s+', ' ', text_cleaned).strip()
         
-        print(text_cleaned)
+        # print(text_cleaned)
 
         doc = self.nlp(text_cleaned)
 
