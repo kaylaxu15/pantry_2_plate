@@ -362,10 +362,11 @@ if __name__ == "__main__":
         for ingredient in converted_ingredients:
             extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
             extracted_ingredient = nlp_model.handle_corner_cases(extracted_ingredient)
-            singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
-            if singular_ingredient not in unique_ingredients:
-                unique_ingredients.add(singular_ingredient)
-                standardized_ingredients.append(singular_ingredient)
+            if extracted_ingredient != '':
+                singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+                if singular_ingredient not in unique_ingredients:
+                    unique_ingredients.add(singular_ingredient)
+                    standardized_ingredients.append(singular_ingredient)
         #converted_methods = ast.literal_eval(row[1]["methods"])
         converted_standardized_ingredients_dict = ast.literal_eval(row[1]["standardized_ingredients_dict"])
         converted_servings_dict = ast.literal_eval(row[1]["serves_dict"])
