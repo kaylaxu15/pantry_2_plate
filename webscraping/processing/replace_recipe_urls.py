@@ -2,10 +2,11 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
+import re
 
 def correct_url(df):
     picture_urls = []
-    for _, row in df.iterrows():
+    for idx, row in df.iterrows():
         url = row['recipe_urls']
         url = url[url.rfind("https://"):]   # FIXME (deals with some http issues)
         recipe_title = row['title']
@@ -15,6 +16,7 @@ def correct_url(df):
         #print(recipe_title)  # debugging
 
         try: 
+            print("INDEX: ", idx)
             images = soup.find_all('img', {'class':'image__img'})
             
             found = False
@@ -22,6 +24,7 @@ def correct_url(df):
                 title = img['title']
                 words = title.split(' ')
                 actual_words = recipe_title.split(' ')
+                itemname = img['data-item-name']
 
                 image_url = img['src']
                 
@@ -41,14 +44,31 @@ def correct_url(df):
                     picture_urls.append(img['src'])
                     found= True
                     break
-                elif title.index(words[:2]) == actual_words[:2]:
+                elif words[:2] == actual_words[:2]:
+                    picture_urls.append(img['src'])
+                    found= True
+                    break
+                elif re.search(actual_words[-1], title, re.IGNORECASE):
+                    picture_urls.append(img['src'])
+                    found= True
+                    break
+                elif re.search(actual_words[0], title, re.IGNORECASE):
+                    picture_urls.append(img['src'])
+                    found= True
+                    break
+                elif re.search(actual_words[1], title, re.IGNORECASE): 
+                    picture_urls.append(img['src'])
+                    found= True
+                    break
+                elif re.search(actual_words[0], itemname, re.IGNORECASE) or re.search(actual_words[-1], itemname, re.IGNORECASE):
                     picture_urls.append(img['src'])
                     found= True
                     break
 
 
             if not found:
-                print(recipe_title)
+                print(idx, ": ", recipe_title)
+                
 
             
         except:
