@@ -39,21 +39,18 @@ class NLP:
         # print("Cleaned Text:", text_cleaned)
         # print("Multi-Word Phrases:", multi_word_phrases)
 
-        # Step 1: Match exact multi-word phrases first
         for phrase in multi_word_phrases:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
                 if ingredient.lower() == phrase:
                     # print("Exact Multi-Word Match:", ingredient)
                     return ingredient
 
-        # Step 2: Match partial multi-word phrases (longer matches first)
         for phrase in multi_word_phrases:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
                 if ingredient.lower() in phrase:
                     # print("Partial Multi-Word Match:", ingredient)
                     return ingredient
 
-        # Step 3: Match single words only if no phrase matches
         single_words = [token.text.lower() for token in doc if token.pos_ in {"NOUN", "PROPN"}]
         for word in single_words:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
@@ -61,7 +58,6 @@ class NLP:
                     # print("Single-Word Match:", ingredient)
                     return ingredient
 
-        # Step 4: Fallback to cleaned text
         # print("No Match Found. Fallback to Text Cleaned:", text_cleaned)
         return text_cleaned
         
