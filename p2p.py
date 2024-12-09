@@ -68,6 +68,8 @@ def save_pantry_items():
 def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
+    pantry_items.append("salt")
+    pantry_items.append("black pepper")
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = int)
     if skill == "Beginner":
