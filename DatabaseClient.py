@@ -246,7 +246,7 @@ class DatabaseClient:
         if max_time is not None:
             query["total_time"] = {"$lte": max_time}
         if restrictions:
-            query["restrictions"] = {"$in": restrictions}
+            query["restrictions"] = {"$all": restrictions}
         if search:
             query["title"] = {"$regex": search, "$options": "i"}
         results = col.find(query).limit(200)
@@ -302,7 +302,7 @@ class DatabaseClient:
         if max_time is not None:
             filter["total_time"] = {"$lte": max_time}
         if restrictions:
-            filter["restrictions"] = {"$in": restrictions}
+            filter["restrictions"] = {"$all": restrictions}
             
         # print(filter)
             
