@@ -144,7 +144,7 @@
             {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
             <h2 style = "text-align: left;">Makes: {{ recipe.makes }}</h2>
             {% endif %}
-            <h2 style = "text-align: left;">Time needed: {{recipe.prep_time[5:]}}</h2>
+            <h2 style = "text-align: left;">Time needed: {{recipe.total_time[5:]}}</h2>
             {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
                 {% if recipe.difficulty == 'Easy' %}
                     <h2 style = "text-align: left;">Skill level: Beginner</h2>
