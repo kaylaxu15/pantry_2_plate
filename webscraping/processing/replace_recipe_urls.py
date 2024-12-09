@@ -68,7 +68,6 @@ def correct_url(df):
                     print(idx, recipe_title, ": ", image_url)
                     break
 
-
             if not found:
                 print(idx, "NOT FOUND ", recipe_title, ": ", image_url)
             

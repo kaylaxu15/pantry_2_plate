@@ -69,7 +69,7 @@ def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = str)
+    max_time = flask.request.args.get('time', type = int)
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
@@ -89,6 +89,7 @@ def results_page():
 
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
+                                         max_time=max_time, skill=skill,
                                          prev_skill=skill, prev_max_time=max_time))
     return resp
 
@@ -99,28 +100,11 @@ def all_recipes():
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    query = flask.request.args.get('search', type = str) or ''  
+    query = flask.request.args.get('search', type = str, default='') 
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = str)
-    #flask.request.args(ingredient_list)
-    if max_time:
-        try:
-            max_time = int(max_time)
-        except ValueError:
-            max_time = None
-    else:
-        max_time = None
-    if skill and max_time is not None:
-        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions)
-    elif skill:
-        recipes = db.filter_recipes(skill=skill, restrictions=restrictions)
-    elif max_time is not None:
-        recipes = db.filter_recipes(max_time=max_time, restrictions=restrictions)
-    elif query:
-        recipes = db.filter_recipes(restrictions=restrictions, search=query)
-    else:
-        recipes = db.filter_recipes(restrictions=restrictions)
-
+    max_time = flask.request.args.get('time', type = int)
+    recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    # print(recipes)
     # add paging
 
     per_page = 20
@@ -132,7 +116,10 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination, restrictions=restrictions, query=query)
+    resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
+                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
+                           prev_skill=skill, prev_max_time=max_time))
+    return resp
 
 
 @app.route('/recipe_page', methods=['GET'])

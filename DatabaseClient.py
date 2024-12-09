@@ -157,6 +157,8 @@ class DatabaseClient:
     
     def return_recipe(self, recipe_id):
         col = self.db["Recipes"]
+        if not ObjectId.is_valid(recipe_id):
+            return None
         return col.find_one({"_id": ObjectId(recipe_id)})
     
     def insert_recipe(self, title, difficulty, serves, vegetarian, vegan, dairy_free, keto, gluten_free, prep_time, cook_time, ingredients, picture_url, ingredients_dict, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
@@ -239,19 +241,16 @@ class DatabaseClient:
         query = {}
         search = "/*" + search + "/*"
 
-        if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif skill:
-            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif max_time:
-            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif restrictions: 
-            query = {"restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif len(search) > 0:
-            query = {"title":{'$regex': search, '$options': 'i'}}
-
-        results = col.find(query)
-        return list(results) 
+        if skill is not None:
+            query["difficulty"] = {"$eq": skill}
+        if max_time is not None:
+            query["total_time"] = {"$lte": max_time}
+        if restrictions:
+            query["restrictions"] = {"$in": restrictions}
+        if search:
+            query["title"] = {"$regex": search, "$options": "i"}
+        results = col.find(query).limit(200)
+        return list(results)
     
         
     def add_default_ingredients(self, ingredients):
@@ -281,7 +280,7 @@ class DatabaseClient:
         modified_recipes = []
         updated_ingredients = self.add_default_ingredients(ingredients)
 
-        for i in range(10):
+        for i in range(5):
             given_recipes = self.get_recipes_missing_ingredients(i, updated_ingredients)
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
@@ -311,7 +310,7 @@ class DatabaseClient:
                    {"$size": 
                     {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}
                      }}}},
-                     {"$match": {"missing_count": number}}]
+                     {"$match": {"missing_count": number}},{"$limit":100}]
 
         return list(col.aggregate(query))
     
@@ -320,7 +319,7 @@ class DatabaseClient:
         modified_recipes = []
         updated_ingredients = self.add_default_ingredients(ingredients)
 
-        for i in range(10):
+        for i in range(3):
             given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=None, max_time=None, restrictions=[])
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
@@ -347,6 +346,10 @@ if __name__ == "__main__":
 
     # missing_recipes = db.return_page_recipes(['egg', 'butter'])
     
+    # print("hi")
+    # print(db.get_all_recipes())
+    # print("hello")
+    
     db.delete_all_recipes()
     # inserting the recipes into the database
     df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
@@ -363,7 +366,9 @@ if __name__ == "__main__":
             extracted_ingredient = nlp_model.extract_ingredient(ingredient).lower()
             extracted_ingredient = nlp_model.handle_corner_cases(extracted_ingredient)
             if extracted_ingredient != '':
-                singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+                # singular_ingredient = " ".join(p.singular_noun(word) or word for word in extracted_ingredient.split())
+                singular_ingredient = " ".join(word for word in extracted_ingredient.split())
+                # print(singular_ingredient)
                 if singular_ingredient not in unique_ingredients:
                     unique_ingredients.add(singular_ingredient)
                     standardized_ingredients.append(singular_ingredient)
@@ -389,4 +394,17 @@ if __name__ == "__main__":
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], servings, row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], row[1]["prep_time"], row[1]["cook_time"], standardized_ingredients, row[1]["picture_url"], 
                          converted_standardized_ingredients_dict, converted_ingredients, methods, 
                          row[1]["recipe_urls"], row[1]["total_time"], row[1]["makes"], row[1]["servings"])
-    db.add_user_reviews()
+    # print("Database Population Complete")
+    # col = db.db["Recipes"]
+    # col.create_index("title")
+    # col.create_index("total_time")
+    # col.create_index("difficulty")
+    # col.create_index("restrictions")
+    # col.create_index([("difficulty", 1), ("title", "text")])
+    # col.create_index([("total_time", 1), ("title", "text")])
+    # col.create_index([("restrictions", 1), ("title", "text")])
+    # col.create_index([("difficulty", 1), ("total_time", 1), ("title", "text")])
+    # col.create_index([("difficulty", 1), ("restrictions", 1), ("title", "text")])
+    # col.create_index([("total_time", 1), ("restrictions", 1), ("title", "text")])
+    # col.create_index([("difficulty", 1), ("total_time", 1), ("restrictions", 1), ("title", "text")])
+    # print("Database Indexing Complete")

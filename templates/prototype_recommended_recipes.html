@@ -22,7 +22,7 @@
                     {{ restrictions|join(', ') }}
                 </p>
             {% else %}
-                <p style="font-size: 20px;">No dietary restrictions.</p>
+                <p style="font-size: 20px; text-align: center;">No dietary restrictions.</p>
             {% endif %}
     </div>
 
@@ -45,7 +45,11 @@
     {% if not recommended %}
         <div class="search-box">
             <form action=/all_recipes>
-                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title..." value="{{query}}">
+                {% if query %}
+                <input type="text" id="search-input" name="search" placeholder="{{ query }}">
+                {% else %}
+                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
+                {% endif %}
                 <button onclick="searchRecipes()" class="search-button">Search</button>
                 <button class="submit-button" onclick="document.getElementById('search-input').value = ''">Clear Search</button>
             </form>
@@ -64,8 +68,11 @@
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
             <h2>Filter Options</h2>
-            
+            {% if recommended %}
             <form action="/recommended_recipes" method="get">
+            {% else %}
+            <form action="/all_recipes" method="get">
+            {% endif %}
                 <label for="skill">Skill Level:</label>
                 <select name="skill" id="skill">
                     <option value="">--Select--</option>
@@ -88,7 +95,7 @@
                 <br></br>
                 <label for="time">Time (minutes):</label>
                 {% if prev_max_time %}
-                <input type="number" id="time" name="time" min="0" placeholder="{{ prev_max_time }}">
+                <input type="number" id="time" name="time" min="0" value="{{ prev_max_time }}">
                 {% else %}
                 <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
                 {% endif %}
@@ -109,7 +116,6 @@
                     <i class="fa fa-star unchecked" id="wishlistStar"></i>
 
                     <img src="{{recipe.picture_url}}" width="150" height="150">
-                    
                 
                     <br></br>
                     Time needed: {{recipe.total_time}}
