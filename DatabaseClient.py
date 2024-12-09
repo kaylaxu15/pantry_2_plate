@@ -292,25 +292,23 @@ class DatabaseClient:
     def get_recipes_missing_ingredients_rec(self, number, ingredients, skill=None, max_time=None, restrictions=[]):
         col = self.db["Recipes"]
         updated_ingredients = self.add_default_ingredients(ingredients)
-
-        if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif skill:
-            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif max_time:
-            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        elif restrictions: 
-            query = {"restrictions": {"$all": restrictions}}
-            col = col.find(query)
-        query = [{"$addFields": 
-                  {"missing_count": 
-                   {"$size": 
-                    {"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}
-                     }}}},
-                     {"$match": {"missing_count": number}},{"$limit":100}]
+        
+        query = []
+        
+        filter = {}
+        
+        if skill is not None:
+            filter["difficulty"] = {"$eq": skill}
+        if max_time is not None:
+            filter["total_time"] = {"$lte": max_time}
+        if restrictions:
+            filter["restrictions"] = {"$in": restrictions}
+            
+        if filter:
+            query.append({"$match":filter})
+        query.append({"$addFields":{"missing_count":{"$size":{"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}}}}})
+        query.append({"$match":{"missing_count":number}})
+        query.append({"$limit":100})
 
         return list(col.aggregate(query))
     
