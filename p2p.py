@@ -70,9 +70,12 @@ def results_page():
     pantry_items = db.get_user_inventory(username)
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = int)
-    #if skill or max_time is not None:
-        #recipes = db.filter_recipes(skill = skill, max_time = max_time)
-    #else:
+    if skill == "Beginner":
+        skill = "Easy"
+    elif skill == "Intermediate":
+        skill = "More effort"
+    else:
+        skill = "A challenge"
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     recipes = db.return_page_recipes_rec(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions)
@@ -103,6 +106,16 @@ def all_recipes():
     query = flask.request.args.get('search', type = str, default='') 
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = int)
+    if skill == "Beginner":
+        skill = "Easy"
+    elif skill == "Intermediate":
+        skill = "More effort"
+    else:
+        skill = "A challenge"
+    print("Restrictions:", restrictions)
+    print("Query:", query)
+    print("Skill:", skill)
+    print("Max Time:", max_time)
     recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     # print(recipes)
     # add paging
