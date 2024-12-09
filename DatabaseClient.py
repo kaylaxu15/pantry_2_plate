@@ -247,7 +247,7 @@ class DatabaseClient:
             query["restrictions"] = {"$in": restrictions}
         if search:
             query["title"] = {"$regex": search, "$options": "i"}
-        results = col.find(query).limit(250)
+        results = col.find(query).limit(200)
         return list(results)
     
         
