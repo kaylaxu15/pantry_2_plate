@@ -37,11 +37,11 @@ def index():
 
 @app.route('/welcome_page', methods=['GET', 'POST'])
 def welcome_page():
-    if 'username' not in session:
-        session['username'] = auth.authenticate()
-    username = session['username']
+    username = auth.authenticate()
+    # if 'username' not in session:
+    #     session['username'] = auth.authenticate()
+    # username = session['username']
     name = session['name']
-    print(name)
 
     return render_template('welcome_page.html', username=username, name=name)
 
