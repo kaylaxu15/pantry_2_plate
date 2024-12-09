@@ -66,7 +66,7 @@
 
                 Additional Notes (any comments to your future self on making this!)
                 <div class="reviewbox">
-                    <form id="reviewForm" onsubmit="addReview(event); saveBtn.disabled = true;" method="post" onclick="event.stopPropagation();">
+                    <form id="reviewForm" onsubmit="addReview(event);" method="post" onclick="event.stopPropagation();">
                         {% set recipeID = recipe._id | string %}
                         <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" name="{{recipe._id}}" style="overflow:scroll;" placeholder="{{reviews[recipeID]}}"  required></textarea>
                         <input type="hidden" name="recipe_id" value="{{recipe._id}}">

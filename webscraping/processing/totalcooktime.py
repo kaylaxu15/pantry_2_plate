@@ -6,7 +6,6 @@ import re
 def total_time(row):
     prep_time = row['prep_time']
     cook_time = row['cook_time']
-
     
     # Convert to string and handle NaN values
     prep_time = str(prep_time) if not pd.isna(prep_time) else ""

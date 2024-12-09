@@ -235,7 +235,7 @@ def profile_page():
                 url, options = cloudinary_url(upload_result['public_id'], format='jpg', crop='fill', width=100, height=100)
                 db.update_user_pic(username, url)
             except: 
-                print("error")
+                print("error") #FIXME
            
         else: 
             updated_restrictions = request.form.getlist('restriction')
