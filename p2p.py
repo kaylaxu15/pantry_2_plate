@@ -106,7 +106,7 @@ def all_recipes():
         recipes = db.get_all_recipes()
     else:
         recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
-
+    # print(recipes)
     # add paging
 
     per_page = 20
