@@ -304,6 +304,8 @@ class DatabaseClient:
         if restrictions:
             filter["restrictions"] = {"$in": restrictions}
             
+        # print(filter)
+            
         if filter:
             query.append({"$match":filter})
         query.append({"$addFields":{"missing_count":{"$size":{"$filter": {"input": "$ingredients","as": "ingredient","cond": {"$not": {"$in": ["$$ingredient",list(updated_ingredients)]}}}}}}})
@@ -318,7 +320,7 @@ class DatabaseClient:
         updated_ingredients = self.add_default_ingredients(ingredients)
 
         for i in range(3):
-            given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=None, max_time=None, restrictions=[])
+            given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=skill, max_time=max_time, restrictions=restrictions)
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
         for recipe in recipes:
