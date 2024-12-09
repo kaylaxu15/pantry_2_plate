@@ -353,9 +353,6 @@ button {
 }
 
 .pantry-button {
-    position: absolute;
-    top: 12px;
-    right: 385px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -368,15 +365,13 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
-}
+    font-family: "Times New Roman", Times, serif;
+  }
 .pantry-button:hover, .pantry-button:focus {
     background-color: #45a049;
 }
 
 .all-recipes-button {
-    position: absolute;
-    top: 12px;
-    right: 135px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -389,16 +384,13 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
-
-}
+    font-family: "Times New Roman", Times, serif;
+  }
 .all-recipes-button:hover, .all-recipes-button:focus {
     background-color: #45a049;
 }
 
 .back-button {
-    position: absolute;
-    top: 120px;
-    left: 17px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -411,8 +403,8 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;
-}
+    font-family: "Times New Roman", Times, serif;
+  }
 
 .filter-button:hover {
     outline: 3px solid #824A1A;
@@ -423,10 +415,17 @@ button {
     background-color: #45a049;
 }
 
+.navigationbar {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+    gap: 10px; 
+    padding: 10px;
+    background-color: #f4f2dd; 
+    align-items: flex-end;
+}
+
 .drop-profile-button {
-    position: absolute;
-    top: 12px;
-    right: 10px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
@@ -484,9 +483,6 @@ button {
   }
   
   .drop-button {
-    position: absolute;
-    top: 12px;
-    right: 260px;
     background-color: #315E26;
     color: white;
     padding: 10px 0;
