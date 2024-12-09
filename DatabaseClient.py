@@ -320,7 +320,7 @@ class DatabaseClient:
         modified_recipes = []
         updated_ingredients = self.add_default_ingredients(ingredients)
 
-        for i in range(10):
+        for i in range(3):
             given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=None, max_time=None, restrictions=[])
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
             recipes.extend(sorted_recipes)
