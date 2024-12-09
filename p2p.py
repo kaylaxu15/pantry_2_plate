@@ -70,6 +70,8 @@ def results_page():
     pantry_items = db.get_user_inventory(username)
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
+    prev_skill = flask.request.cookies.get('prev_skill')
+    prev_max_time = flask.request.cookies.get('prev_max_time')
     #if skill or max_time is not None:
         #recipes = db.filter_recipes(skill = skill, max_time = max_time)
     #else:
@@ -89,7 +91,12 @@ def results_page():
 
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
+                                         max_time=max_time, skill=skill,
                                          prev_skill=skill, prev_max_time=max_time))
+    if skill: resp.set_cookie('prev_skill', skill)
+    else: resp.delete_cookie('prev_skill')
+    if max_time: resp.set_cookie('prev_max_time', max_time)
+    else: resp.delete_cookie('prev_max_time')
     return resp
 
 @app.route('/all_recipes', methods=['GET'])
@@ -118,7 +125,9 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, user_data=user_data, pagination=pagination, restrictions=restrictions, query=query)
+    return render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
+                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
+                           prev_skill=skill, prev_max_time=max_time)
 
 
 @app.route('/recipe_page', methods=['GET'])
