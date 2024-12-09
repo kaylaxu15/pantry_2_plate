@@ -99,27 +99,13 @@ def all_recipes():
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    query = flask.request.args.get('search', type = str) or ''  
+    query = flask.request.args.get('search', type = str, default='') 
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = str)
-    #flask.request.args(ingredient_list)
-    if max_time:
-        try:
-            max_time = int(max_time)
-        except ValueError:
-            max_time = None
+    max_time = flask.request.args.get('time', type = int)
+    if query == '' and skill is None and max_time is None and restrictions==[]:
+        recipes = db.get_all_recipes()
     else:
-        max_time = None
-    if skill and max_time is not None:
-        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions)
-    elif skill:
-        recipes = db.filter_recipes(skill=skill, restrictions=restrictions)
-    elif max_time is not None:
-        recipes = db.filter_recipes(max_time=max_time, restrictions=restrictions)
-    elif query:
-        recipes = db.filter_recipes(restrictions=restrictions, search=query)
-    else:
-        recipes = db.filter_recipes(restrictions=restrictions)
+        recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
 
     # add paging
 

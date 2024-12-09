@@ -239,19 +239,17 @@ class DatabaseClient:
         query = {}
         search = "/*" + search + "/*"
 
-        if skill and max_time is not None:
-            query = {"difficulty": {"$eq": skill}, "total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif skill:
-            query = {"difficulty": {"$eq": skill}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif max_time:
-            query = {"total_time": {"$lte": max_time}, "restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif restrictions: 
-            query = {"restrictions": {"$all": restrictions}, "title":{'$regex': search, '$options': 'i'}}
-        elif len(search) > 0:
-            query = {"title":{'$regex': search, '$options': 'i'}}
+        if skill is not None:
+            query["difficulty"] = {"$eq": skill}
+        if max_time is not None:
+            query["total_time"] = {"$lte": max_time}
+        if restrictions:
+            query["restrictions"] = {"$in": restrictions}
+        if search:
+            query["title"] = {"$regex": search, "$options": "i"}
 
         results = col.find(query)
-        return list(results) 
+        return list(results)
     
         
     def add_default_ingredients(self, ingredients):
