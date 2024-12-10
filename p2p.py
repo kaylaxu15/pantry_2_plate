@@ -68,6 +68,8 @@ def save_pantry_items():
 def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
+    pantry_items.append("salt")
+    pantry_items.append("black pepper")
     pantry_items = [ingredient.lower() for ingredient in pantry_items]
     skill = flask.request.args.get('skill', type = str)
     if not skill: skill = flask.request.cookies.get('prev_skill')
