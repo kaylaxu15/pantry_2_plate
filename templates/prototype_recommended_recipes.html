@@ -158,7 +158,7 @@
                     <br></br>
                     <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();" class = "wishlist-form">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                        <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist </button>
+                        <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'">Add to Wishlist </button>
                     </form>
                     
                 </span>
@@ -238,12 +238,12 @@
                         {% endif %}
                         </div>
                         <div class="modal-footer">
-                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
                             <form id="wishlistForm{{ loop.index }}" onsubmit="addToWishlist(event)" method="post">
                                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                                <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist</button>
+                                <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'">Add to Wishlist</button>
                             </form>
-                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
                         </div>
                     </div>
                 </div>

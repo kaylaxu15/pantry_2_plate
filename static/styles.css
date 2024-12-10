@@ -274,8 +274,8 @@ th, td {
 .tight-wrap-button {
 
     padding: 5px 10px;
-    background-color: #f19e5e; 
-    color: #ffffff;
+    background-color: #f5c39a; 
+    color: #261414;
     width: fit-content; 
     font-size: 16px;
     border: 1px solid rgba(255, 255, 255, 0);
@@ -293,8 +293,8 @@ th, td {
 
 
 button {
-    background-color: #f19e5e; 
-    color: #ffffff;
+    background-color: #f5c39a; 
+    color: #261414;
     border: none;
     padding: 15px 32px;
     /*margin-left: 30px;
