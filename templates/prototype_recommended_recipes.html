@@ -77,17 +77,17 @@
                 <label for="skill">Skill Level:</label>
                 <select name="skill" id="skill">
                     <option value="">--Select--</option>
-                    {% if prev_skill == 'Easy' %}
+                    {% if prev_skill == 'Beginner' %}
                     <option value="Beginner" selected="selected">Beginner</option>
                     {% else %}
                     <option value="Beginner">Beginner</option>
                     {% endif %}
-                    {% if prev_skill == 'More effort' %}
+                    {% if prev_skill == 'Intermediate' %}
                     <option value="Intermediate" selected="selected">Intermediate</option>
                     {% else %}
                     <option value="Intermediate">Intermediate</option>
                     {% endif %}
-                    {% if prev_skill == 'A challenge' %}
+                    {% if prev_skill == 'Advanced' %}
                     <option value="Advanced" selected="selected">Advanced</option>
                     {% else %}
                     <option value="Advanced">Advanced</option>
