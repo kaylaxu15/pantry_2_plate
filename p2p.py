@@ -316,12 +316,19 @@ def add_to_completed():
 
     if recipe_id not in completed:
         completed.append(recipe_id)
-        db.update_user_completed(username, completed)
+        # print(completed)
+        print(db.update_user_completed(username, completed))
+
+    # print(db.get_user_completed(username))
+    # for i, x in enumerate(completed):
+    #     print(i, ": ", x)  # PRINT HERE
 
     full_completed = []
     for r_id in completed:
         recipe = db.return_recipe(r_id)
+    
         if recipe:
+            # print(recipe)  # PRINT HERE
             full_completed.append(recipe)
 
     reviews = db.get_user_reviews(username)
