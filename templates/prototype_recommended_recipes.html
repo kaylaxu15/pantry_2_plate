@@ -165,6 +165,7 @@
 
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
+                        <div class="modal-body">
                         <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                         <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
                     
@@ -235,14 +236,14 @@
                                 </ul>
                             {% endif %}
                         {% endif %}
-                    
+                        </div>
                         <div class="modal-footer">
-                            <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
                             <form id="wishlistForm{{ loop.index }}" onsubmit="addToWishlist(event)" method="post">
                                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-                                <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist</button>
+                                <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist</button>
                             </form>
-                            <button style="font-size: 14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                            <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
                         </div>
                     </div>
                 </div>
