@@ -78,6 +78,7 @@
                 </span>
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
+                        <div class="modal-body">
                         <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                         <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
                         <a href="/recipe_page?recipe={{recipe._id}}">
@@ -123,6 +124,7 @@
                                 <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
+                    </div>
                     </div>
                 </div>
             {% endfor %}
