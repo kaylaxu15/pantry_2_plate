@@ -116,16 +116,16 @@ def results_page():
     else: resp.delete_cookie('prev_max_time')
     return resp
 
-@app.route('/all_recipes', methods=['GET'])
+@app.route('/all_recipes', methods=['GET', 'POST'])
 def all_recipes():
     username = auth.authenticate()
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    clear_search = flask.request.args.get('clear-search')
+    clear = flask.request.args.get('clear', type=str)
     query = flask.request.args.get('search', type = str)
-    if clear_search == 'clicked':
+    if clear == 'True':
         query = None
     else:
         if not query: query = flask.request.cookies.get('prev_query')
@@ -150,7 +150,10 @@ def all_recipes():
         skill = "A challenge"
     else:
         skill = None
-    recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    extended_results = False
+    if indicator == 1:
+        extended_results = True
     # print(recipes)
     # add paging
 
@@ -165,7 +168,7 @@ def all_recipes():
 
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
                            user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
-                           prev_skill=skill, prev_max_time=max_time))
+                           prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
     if max_time: resp.set_cookie('prev_max_time', str(max_time))
@@ -405,8 +408,13 @@ def add_review():
     full_completed = db.get_user_completed(username)
     return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html'), 404
 
-
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('internal_error.html'), 500
 
     
 

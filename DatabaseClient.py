@@ -235,24 +235,45 @@ class DatabaseClient:
         ingredient_dict = self.get_all_ingredients()
         return [item['ingredient'] for item in ingredient_dict]
     
-    def filter_recipes(self, skills=None, max_time=None, restrictions=[], search=''):
+    def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 
 
         if not search:
             search = ''
         query = {}
         search = "/*" + search + "/*"
-
-        if skills is not None:
-            query["difficulty"] = {"$in": skills}
+        
+        if skill is not None:
+            query["difficulty"] = {"$eq": skill}
         if max_time is not None:
             query["total_time"] = {"$lte": max_time}
         if restrictions:
             query["restrictions"] = {"$all": restrictions}
         if search:
             query["title"] = {"$regex": search, "$options": "i"}
-        results = col.find(query)
-        return list(results)
+        
+        count = col.count_documents(query)
+        if count > 0:
+            results = col.find(query)
+            return list(results), 0
+        else:
+            if skill == 'Easy':
+                skill = ['Easy']
+            elif skill == 'More effort':
+                skill = ['Easy', 'More effort']
+            elif skill == 'A challenge':
+                skill = ['Easy', 'More effort', 'A challenge']
+
+            if skill is not None:
+                query["difficulty"] = {"$in": skill}
+            if max_time is not None:
+                query["total_time"] = {"$lte": max_time}
+            if restrictions:
+                query["restrictions"] = {"$all": restrictions}
+            if search:
+                query["title"] = {"$regex": search, "$options": "i"}
+            results = col.find(query)
+            return list(results), 1
     
         
     def add_default_ingredients(self, ingredients):

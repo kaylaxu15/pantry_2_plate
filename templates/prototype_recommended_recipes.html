@@ -51,12 +51,14 @@
                 <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
                 {% endif %}
                 <button type='submit' onclick="searchRecipes()" class="search-button">Search</button>
-                <button class="submit-button" name="clear-search" value="clicked">Clear Search</button>
+            </form>
+            <form action="/all_recipes" method="get">
+                <button class="submit-button" name="clear" value="True">Clear Search</button>
             </form>
         </div>
     {% endif %}
 
-    <button class="filter-button" onclick="openFilterModal();">Filter</button>
+    <button class="filter-button" onclick="openFilterModal()">Filter</button>
 
     {{ pagination.info }}
     <div class="pagination">
@@ -104,6 +106,10 @@
             </form>
         </div>
     </div>
+    
+    {% if extended_results %}
+    <h3>No results for selected difficult level. Including easier recipes.</h3>
+    {% endif %}
     
     <div class="recipes-container">
         <br></br>
