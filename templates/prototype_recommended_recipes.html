@@ -211,12 +211,21 @@
                             {% endfor %}
                         </ul>
 
-                        <h3>Processed Ingredients</h3>
+                        <h3>Matched Ingredients</h3>
                         <ul>
-                            {% for ingredient in recipe.ingredients %}
+                            {% for ingredient in recipe.matching_ingredients %}
                                 <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
+
+                        {% if recipe.unmatching_ingredients %}
+                            <h3>Unmatched Ingredients</h3>
+                            <ul>
+                                {% for ingredient in recipe.unmatching_ingredients %}
+                                    <li>{{ ingredient }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     
                         <div class="modal-footer">
                             <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>

@@ -325,6 +325,16 @@ class DatabaseClient:
             recipes.extend(sorted_recipes)
         for recipe in recipes:
             if int(recipe["missing_count"]) != len(recipe["ingredients"]):
+                matching_ingredients = []
+                unmatching_ingredients = []
+                for ingredient in recipe["ingredients"]:
+                    if ingredient in ingredients:
+                        matching_ingredients.append(ingredient)
+                    else:
+                        unmatching_ingredients.append(ingredient)
+                recipe["matching_ingredients"] = matching_ingredients
+                recipe["unmatching_ingredients"] = unmatching_ingredients
+                print(recipe)
                 modified_recipes.append(recipe)
         return modified_recipes
     
