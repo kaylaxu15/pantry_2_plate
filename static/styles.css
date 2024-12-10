@@ -17,7 +17,7 @@ textarea:focus::placeholder {
     resize: none; 
     overflow: hidden; 
     text-align: left; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
     font-size: 16px; 
     color: #A15B20; 
     transition: transform 0.3s, box-shadow 0.3s; 
@@ -65,7 +65,7 @@ textarea:focus::placeholder {
     border-radius: 30px;
     cursor: pointer;
     align-self: flex-end; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .submit-button:hover {
     outline: 3px solid #824A1A;
@@ -81,7 +81,7 @@ button[type="started"] {
     cursor: pointer;
     margin: 0 auto; 
     display: block; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 button[type="recipe"] {
     background-color: #f3d9c6;
@@ -93,7 +93,7 @@ button[type="recipe"] {
     cursor: pointer;
     margin: 0 auto; 
     display: block; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 
@@ -112,7 +112,7 @@ h1 {
     color: #315E26;
     margin: 20px;
     text-align: center;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 h2 {
@@ -120,7 +120,7 @@ h2 {
     color: #315E26;
     /*margin: 20px;*/
     text-align: center;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 h3 {
@@ -128,7 +128,7 @@ h3 {
     color: #315E26;
     /*margin: 20px;*/
     text-align: left;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .recipe-name {
@@ -136,7 +136,7 @@ h3 {
     color: #A15B20;
     /*margin: 20px;*/
     text-align: center;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .recipe-name:hover {
     background-color: #824A1A;
@@ -146,7 +146,7 @@ p {
     font-size: 25px;
     color: #315E26;
     margin: 20px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 #SearchBox {
@@ -156,7 +156,7 @@ p {
     border: 3px solid black;
     margin-bottom: 20px;
     border-radius: 30px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .pantry-list button {
@@ -165,13 +165,13 @@ p {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 #Ingredients {
     list-style-type: none;
     font-size: 20px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
     padding: 0;
 }
 
@@ -188,7 +188,7 @@ p {
     gap: 20px; 
     padding: 20px;
     flex:1;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .left-container {
@@ -203,14 +203,14 @@ p {
     max-height: 500px;
     overflow-y: auto;
     border: 1px solid black;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .pantry-summary {
     margin: 20px auto;
     text-align: center;
     color: #315E26;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 table {
@@ -218,7 +218,7 @@ table {
     border-collapse: collapse;
     font-size: 18px;
     color: #315E26;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 table, th, td {
@@ -247,7 +247,7 @@ th, td {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .bottom-buttons-container {
     display: flex; 
@@ -257,7 +257,7 @@ th, td {
     position: relative; 
     padding-top: 10px;
     border-top: 1px solid #ccc; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .col1 {
@@ -268,7 +268,7 @@ th, td {
     text-align: center;
     font-size: 16px;
     margin: 30px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
     }
 
 .tight-wrap-button {
@@ -287,7 +287,7 @@ th, td {
     flex-flow: row wrap;
     align-items: stretch;
     cursor: default;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 
@@ -304,7 +304,7 @@ button {
     cursor: pointer;
     font-size: 16px;
     border-radius: 30px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 
@@ -319,7 +319,7 @@ button {
     background-color: rgba(0, 0, 0, 0.3);
     padding-top: 40px;
     z-index: 1000;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .modal-content {
     background-color: #f9f4f4;
@@ -332,7 +332,7 @@ button {
     overflow-y: auto; 
     box-sizing: border-box; 
     position: relative;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .modal-content img {
     border-radius: 10px; 
@@ -342,7 +342,7 @@ button {
 }
 .modal-content h2 {
     text-align: center; 
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .modal-content h2 a {
     font-size: 40px; 
@@ -366,7 +366,7 @@ button {
     display: flex; 
     justify-content: center; 
     gap: 20px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .wishlist-form {
@@ -375,7 +375,7 @@ button {
     right: 20px; 
     text-align: right;
     margin: 0;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .close {
@@ -383,7 +383,7 @@ button {
     float: right;
     font-size: 28px;
     cursor: pointer;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .filter-button {
@@ -399,7 +399,7 @@ button {
     text-decoration: none; 
     text-align: center;
     font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .filter-button:hover {
@@ -417,7 +417,7 @@ button {
     display: flex;
     gap: 10px;
     justify-content: center;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .search-box input[type="text"] {
@@ -427,7 +427,7 @@ button {
     border-radius: 4px;
     font-size: 14px;
     min-width: 200px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .search-box select {
@@ -436,7 +436,7 @@ button {
     border-radius: 4px;
     font-size: 14px;
     background-color: white;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .search-box .search-button {
@@ -447,7 +447,7 @@ button {
     color: white;
     cursor: pointer;
     font-size: 14px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .search-box .search-button:hover {
@@ -465,14 +465,14 @@ button {
     font-size: 20px;
     color: #824A1A;
     width: 100%;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 .pagination-page-info b {
     color: #824A1A;
     background: #f3d9c6;
     padding: 10px 0;
     font-size: 100%;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
      
 }
 
@@ -524,14 +524,14 @@ button {
     justify-content: flex-start;
     box-sizing: border-box;
     overflow: hidden;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .page-title {
     font-size: 36px;
     color: #315E26;
     margin-bottom: 20px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .profile-section {
@@ -552,7 +552,7 @@ button {
     padding: 10px;
     font-size: 14px;
     margin: 10px 0;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .upload-form .submit-button {
@@ -562,7 +562,7 @@ button {
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .upload-form .submit-button:hover {
@@ -573,7 +573,7 @@ button {
     font-size: 24px;
     color: #315E26;
     margin-bottom: 15px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .checkbox-group {
@@ -587,7 +587,7 @@ button {
 .checkbox-group label {
     font-size: 18px;
     color: #315E26;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -601,7 +601,7 @@ button {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .preferences-form .submit-button:hover {
@@ -626,7 +626,7 @@ button {
     z-index:100;
     position: relative;
     top: 0;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
 }
 
 .logo-container {
@@ -653,7 +653,7 @@ button {
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
     text-align: center;
     z-index: 1000; 
 }
@@ -684,7 +684,7 @@ button {
     min-width: 120px; 
     text-align: center;
     font-size: 16px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Optima", sans-serif;
     text-decoration: none;
 }
 
