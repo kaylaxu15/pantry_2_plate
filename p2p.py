@@ -181,6 +181,9 @@ def recipe_page():
     recipe_id = flask.request.args.get("recipe")
     
     recipe = db.return_recipe(recipe_id)
+
+    if recipe is None:
+        return render_template('error.html')
     
     return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
 
@@ -311,9 +314,9 @@ def add_to_completed():
     completed = db.get_user_completed(username)
     recipe_id = flask.request.form.get('recipe_id')
 
-
     if recipe_id not in completed:
         completed.append(recipe_id)
+        
         db.update_user_completed(username, completed)
 
     full_completed = []
@@ -387,8 +390,6 @@ def add_review():
 
     recipe_id = flask.request.form.get('recipe_id')
     review = flask.request.form.get('review')
-    print("REVIEW", review)
-    print("RECIPE_ID", recipe_id)
 
     reviews = db.get_user_reviews(username)
     reviews[recipe_id] = review
