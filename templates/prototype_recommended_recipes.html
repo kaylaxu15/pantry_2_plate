@@ -304,6 +304,7 @@
             for (let i = 0; i < modals.length; i++) {
                 if (event.target === modals[i]) {
                     modals[i].style.display = 'none'; // Close the modal
+                    $("body").css('overflow', "auto");
                 }
             }
             if (!event.target.matches('.drop-button')) {
