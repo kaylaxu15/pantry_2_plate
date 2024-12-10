@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .navigationbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f3d9c6;
+            padding: 10px;
+        }
+
+        .logo-container {
+            flex-shrink: 0;
+        }
+
+        .navigation-items {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navigation-items a, .navigation-item button {
+            text-decoration: none;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .dropdown-content, .dropdown-profile-content {
+            display: none;
+            position: absolute;
+            background-color: #f3d9c6;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .navigation-items {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                position: absolute;
+                top: 60px;
+                left: 10px;
+                background-color: #f3d9c6;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .navigation-items.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
     <div class="navigationbar">
         <div class="logo-container">
             <img class="logo" src="static/logo.png" alt="logo">
         </div>
-        <div class="navigation-items">
+        <button class="hamburger" id="hamburgerMenu">☰</button>
+        <div class="navigation-items" id="navItems">
             <a href="/pantry" class="pantry-button" id="navpantry">Pantry</a>
             <div class="navigation-item">
                 <button onclick="savedFunction()" class="drop-button" id="navsaved">Your Saves</button>
@@ -26,57 +102,51 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script>
         function savedFunction() {
             document.getElementById("savedDropdown").classList.toggle("show");
         }
+
         function profileFunction() {
             document.getElementById("profileDropdown").classList.toggle("show");
-
         }
 
-        $(document).ready(function(){
-    
+        document.getElementById("hamburgerMenu").addEventListener("click", function () {
+            document.getElementById("navItems").classList.toggle("show");
+        });
+
+        $(document).ready(function () {
             var browserUrl = window.location.href;
-            
-            console.log(browserUrl)
-            var myUrl = $(this).attr('href');
+            var parts = browserUrl.split("/");
+            browserUrl = parts[parts.length - 1];
 
-            parts = browserUrl.split("/")
-            browserUrl = parts[parts.length - 1]
-
-            if (browserUrl === 'add_to_completed' || browserUrl === '/add_to_favorites' || browserUrl == '/add_to_wishlist'){
+            if (browserUrl === 'add_to_completed' || browserUrl === '/add_to_favorites' || browserUrl == '/add_to_wishlist') {
                 const element = document.getElementById("navsaved");
                 element.style.backgroundColor = "#f3d9c6";
                 element.style.color = '#824A1A';
                 element.style.outline = '3px solid #824A1A';
-                element.style.transform = scale(1.85); 
+                element.style.transform = "scale(1.85)";
             } else if (browserUrl === 'profile_page') {
-    
                 const element = document.getElementById("navprofile");
                 element.style.backgroundColor = "#f3d9c6";
                 element.style.color = '#824A1A';
                 element.style.outline = '3px solid #824A1A';
-                element.style.transform = scale(1.85); 
+                element.style.transform = "scale(1.85)";
             } else if (browserUrl === 'all_recipes') {
-
                 const element = document.getElementById("navrecipes");
                 element.style.backgroundColor = "#f3d9c6";
                 element.style.color = '#824A1A';
                 element.style.outline = '3px solid #824A1A';
-                element.style.transform = scale(1.85); 
+                element.style.transform = "scale(1.85)";
             } else if (browserUrl === 'pantry') {
-    
                 const element = document.getElementById("navpantry");
                 element.style.backgroundColor = "#f3d9c6";
                 element.style.color = '#824A1A';
                 element.style.outline = '3px solid #824A1A';
-                element.style.transform = scale(1.85); 
+                element.style.transform = "scale(1.85)";
             }
-                
         });
-
-        
     </script>
+</body>
+
 </html>
