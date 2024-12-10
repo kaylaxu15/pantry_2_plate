@@ -42,7 +42,6 @@ def welcome_page():
     #     session['username'] = auth.authenticate()
     # username = session['username']
     name = session['name']
-
     return render_template('welcome_page.html', username=username, name=name)
 
 @app.route('/pantry', methods=['GET'])
@@ -125,31 +124,31 @@ def all_recipes():
         restrictions = []
     clear = flask.request.args.get('clear', type=str)
     query = flask.request.args.get('search', type = str)
+    skill = flask.request.args.get('skill', type = str)
+    max_time = flask.request.args.get('time', type = str)
     if clear == 'True':
         query = None
+        skill = None
+        max_time = None
     else:
         if not query: query = flask.request.cookies.get('prev_query')
-    skill = flask.request.args.get('skill', type = str)
-    if not skill: skill = flask.request.cookies.get('prev_skill')
-    max_time = flask.request.args.get('time', type = str)
-    if not max_time: max_time = flask.request.args.get('prev_max_time')
+        if not skill: skill = flask.request.cookies.get('prev_skill')
+        if not max_time: max_time = flask.request.args.get('prev_max_time')
 
     if max_time:
         try:
             max_time = int(max_time)
         except ValueError:
-            max_time = None
+            query = skill = max_time = None
+            return render_template('validparam.html')
     else:
         max_time = None
+    
+    if skill: 
+        if skill not in ['Beginner', 'Intermediate', 'Advanced']:
+            query = skill = max_time = None
+            return render_template('validparam.html')
 
-    if skill == "Beginner":
-        skill = "Easy"
-    elif skill == "Intermediate":
-        skill = "More effort"
-    elif skill == "Advanced":
-        skill = "A challenge"
-    else:
-        skill = None
     recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     extended_results = False
     if indicator == 1:

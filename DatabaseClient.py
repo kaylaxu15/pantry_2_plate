@@ -243,6 +243,15 @@ class DatabaseClient:
         query = {}
         search = "/*" + search + "/*"
         
+        if skill == "Beginner":
+            skill = "Easy"
+        elif skill == "Intermediate":
+            skill = "More effort"
+        elif skill == "Advanced":
+            skill = "A challenge"
+        else:
+            skill = None
+        
         if skill is not None:
             query["difficulty"] = {"$eq": skill}
         if max_time is not None:

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
+    {% include 'header.html' %}
+    <title>404 - Page Not Found</title>
+</head>
+<body>
+    <div class="blurb-container"></div>
+    <h1>Oops!</h1>
+        <p>Please enter valid parameters!</p>
+        <form action="/all_recipes" method="get">
+            <button class="submit-button" name="clear" value="True">Go back to the search page</button>
+        </form>
+    </div>
+</body>
+</html>
