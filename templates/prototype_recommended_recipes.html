@@ -44,14 +44,14 @@
 
     {% if not recommended %}
         <div class="search-box">
-            <form action=/all_recipes>
+            <form action="/all_recipes" method="get">
                 {% if query %}
-                <input type="text" id="search-input" name="search" placeholder="{{ query }}">
+                <input type="text" id="search-input" name="search" value="{{ query }}">
                 {% else %}
                 <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
                 {% endif %}
-                <button onclick="searchRecipes()" class="search-button">Search</button>
-                <button class="submit-button" onclick="document.getElementById('search-input').value = ''">Clear Search</button>
+                <button type='submit' onclick="searchRecipes()" class="search-button">Search</button>
+                <button class="submit-button" name="clear-search" value="clicked">Clear Search</button>
             </form>
         </div>
     {% endif %}
@@ -63,7 +63,6 @@
         {{ pagination.links }}
     </div>
 
-    
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
@@ -150,16 +149,18 @@
                         {% endif %}
                     <br></br>
                     {% endif %}
-
-                    {% for tag in recipe.restrictions %}
-                        <button class="tight-wrap-button" border>{{tag}}</button>
-                    {% endfor %}
+                    {% if recipe.restrictions %}
+                        {% for tag in recipe.restrictions %}
+                            <button class="tight-wrap-button">{{tag}}</button>
+                        {% endfor %}
+                        <br>
+                    {% endif %}
                     <br></br>
-                    <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();">
+                    <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();" class = "wishlist-form">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
                         <button onclick="event.stopPropagation();" style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist </button>
-
                     </form>
+                    
                 </span>
             
 
@@ -229,7 +230,7 @@
                     
                         <div class="modal-footer">
                             <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
-                            <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post">
+                            <form id="wishlistForm{{ loop.index }}" onsubmit="addToWishlist(event)" method="post">
                                 <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
                                 <button style="font-size:14px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#F2CBBE'" onMouseOut="this.style.backgroundColor='#f3d9c6'">Add to Wishlist</button>
                             </form>
@@ -284,7 +285,15 @@
 
             request.onload = function() {
                 if (request.status === 200) {
-                    alert("Recipe added to your wishlist!");
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(request.responseText, "text/html");
+                    const duplicate = doc.getElementById("already-in-wishlist");
+
+                    if (duplicate) {
+                        alert("This recipe is already in your wishlist!");
+                    } else {
+                        alert("Recipe added to your wishlist!");
+                    }
                 } else {
                     alert("Failed to add recipe to wishlist. Please try again.");
                 }
@@ -296,6 +305,7 @@
 
             request.send(formData);
         }
+
         
         window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');

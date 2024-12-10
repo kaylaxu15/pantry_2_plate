@@ -17,6 +17,10 @@
         <button class="submit-button" onclick="document.getElementById('search-input').value = ''; searchRecipes()">Clear Search</button>
     </div>
 
+    {% if already_in_wishlist %}
+    <div id="already-in-wishlist" style="display:none;"></div>
+    {% endif %}
+
     <div class="wishlist-container">
         {% if wishList %}
             {% for recipe in wishList %}
@@ -61,7 +65,7 @@
                     <button class="tight-wrap-button">{{tag}}</button>
                 {% endfor %}
                 <br></br>
-                <form action="/remove_from_wishlist" method="post" onclick="event.stopPropagation();">
+                <form action="/remove_from_wishlist" method="post" onclick="event.stopPropagation();" class = "wishlist-form">
                     <input type="hidden" name="recipe_id" value="{{recipe._id}}">
                     <button class="submit-button" onclick="event.stopPropagation();">Remove from Wishlist</button>
                 </form>

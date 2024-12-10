@@ -69,7 +69,18 @@ def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = int)
+    if not skill: skill = flask.request.cookies.get('prev_skill')
+    max_time = flask.request.args.get('time', type = str)
+    if not max_time: max_time = flask.request.args.get('prev_max_time')
+
+    if max_time:
+        try:
+            max_time = int(max_time)
+        except ValueError:
+            max_time = None
+    else:
+        max_time = None
+
     if skill == "Beginner":
         skill = "Easy"
     elif skill == "Intermediate":
@@ -96,6 +107,10 @@ def results_page():
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
                                          max_time=max_time, skill=skill,
                                          prev_skill=skill, prev_max_time=max_time))
+    if skill: resp.set_cookie('prev_skill', skill)
+    else: resp.delete_cookie('prev_skill')
+    if max_time: resp.set_cookie('prev_max_time', str(max_time))
+    else: resp.delete_cookie('prev_max_time')
     return resp
 
 @app.route('/all_recipes', methods=['GET'])
@@ -105,9 +120,25 @@ def all_recipes():
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    query = flask.request.args.get('search', type = str, default='') 
+    clear_search = flask.request.args.get('clear-search')
+    query = flask.request.args.get('search', type = str)
+    if clear_search == 'clicked':
+        query = None
+    else:
+        if not query: query = flask.request.cookies.get('prev_query')
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = int)
+    if not skill: skill = flask.request.cookies.get('prev_skill')
+    max_time = flask.request.args.get('time', type = str)
+    if not max_time: max_time = flask.request.args.get('prev_max_time')
+
+    if max_time:
+        try:
+            max_time = int(max_time)
+        except ValueError:
+            max_time = None
+    else:
+        max_time = None
+
     if skill == "Beginner":
         skill = "Easy"
     elif skill == "Intermediate":
@@ -132,6 +163,12 @@ def all_recipes():
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
                            user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
                            prev_skill=skill, prev_max_time=max_time))
+    if skill: resp.set_cookie('prev_skill', skill)
+    else: resp.delete_cookie('prev_skill')
+    if max_time: resp.set_cookie('prev_max_time', str(max_time))
+    else: resp.delete_cookie('prev_max_time')
+    if query: resp.set_cookie('prev_query', query)
+    else: resp.delete_cookie('prev_query')
     return resp
 
 
@@ -153,7 +190,10 @@ def add_to_wishlist():
     wishList = db.get_user_wishlist(username)
     recipe_id = flask.request.form.get('recipe_id')
 
-    if recipe_id not in wishList:
+    already_in_wishlist = False
+    if recipe_id in wishList:
+        already_in_wishlist = True
+    else:
         wishList.append(recipe_id)
         db.update_user_wishlist(username, wishList)
     
@@ -163,7 +203,8 @@ def add_to_wishlist():
         if recipe:  
             full_wishList.append(recipe)
     
-    return render_template('wishlist.html', wishList=full_wishList, username=username)
+    return render_template('wishlist.html', wishList=full_wishList, username=username, already_in_wishlist=already_in_wishlist)
+
 
 @app.route('/remove_from_wishlist', methods=['POST'])
 def remove_from_wishlist():
