@@ -156,7 +156,10 @@ def add_to_wishlist():
     wishList = db.get_user_wishlist(username)
     recipe_id = flask.request.form.get('recipe_id')
 
-    if recipe_id not in wishList:
+    already_in_wishlist = False
+    if recipe_id in wishList:
+        already_in_wishlist = True
+    else:
         wishList.append(recipe_id)
         db.update_user_wishlist(username, wishList)
     
@@ -166,7 +169,8 @@ def add_to_wishlist():
         if recipe:  
             full_wishList.append(recipe)
     
-    return render_template('wishlist.html', wishList=full_wishList, username=username)
+    return render_template('wishlist.html', wishList=full_wishList, username=username, already_in_wishlist=already_in_wishlist)
+
 
 @app.route('/remove_from_wishlist', methods=['POST'])
 def remove_from_wishlist():
