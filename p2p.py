@@ -316,7 +316,6 @@ def add_to_completed():
 
     if recipe_id not in completed:
         completed.append(recipe_id)
-        
         db.update_user_completed(username, completed)
 
     full_completed = []

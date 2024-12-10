@@ -23,40 +23,39 @@
                 <h4>{{ recipe.title | safe }}</h4>
                 <img src="{{recipe.picture_url}}" width="150" height="150">
                 <br></br>
-                {% if recipe.servings != "" and recipe.servings == recipe.servings %}
-                Number of Servings: {{ recipe.servings }}
-                <br></br>
-                {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
-                    Makes: {{ recipe.makes }}
+
+                {% if recipe.restrictions %}
+                    {% for tag in recipe.restrictions %}
+                        <button class="tight-wrap-button">{{tag}}</button>
+                    {% endfor %}
                     <br></br>
-                {% endif %}
-                {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
-                    {% if recipe.difficulty == 'Easy' %}
-                        Skill level: Beginner
-                    {% endif %}
-                    {% if recipe.difficulty == 'More effort' %}
-                        Skill level: Intermediate
-                    {% endif %}
-                    {% if recipe.difficulty == 'A challenge' %}
-                        Skill level: Advanced
-                    {% endif %}
-                    <br></br>
-                {% else %}
-                {% endif %}
-                Time needed: {{recipe.total_time}}
-                <br></br>
-                {% if recommended %}
-                    {% if recipe.missing_count == 0 %}
-                    All Good to Go!
-                    {% else %}
-                    # Missing Ingredients: {{recipe.missing_count}}
-                    {% endif %}
-                <br></br>
                 {% endif %}
 
-                {% for tag in recipe.restrictions %}
-                    <button class="tight-wrap-button">{{tag}}</button>
-                {% endfor %}
+                <strong>Time needed:</strong> {{recipe.total_time}} minutes
+                    <br></br>
+                {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                    <strong>Number of Servings:</strong> {{ recipe.servings }}
+                    <br></br>
+                {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                    <strong>Makes:</strong> {{ recipe.makes }}
+                    <br></br>
+                {% endif %}
+
+                {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                        {% if recipe.difficulty == 'Easy' %}
+                            <strong>Skill Level:</strong>  Beginner
+                        {% endif %}
+                        {% if recipe.difficulty == 'More effort' %}
+                            <strong>Skill Level:</strong> Intermediate
+                        {% endif %}
+                        {% if recipe.difficulty == 'A challenge' %}
+                            <strong>Skill Level:</strong>  Advanced
+                        {% endif %}
+                {% endif %}
+            {% else %}
+
+                <br></br>
+
                 <br></br>
                 <form action="/remove_from_favorites" method="post" onclick="event.stopPropagation();">
                     <input type="hidden" name="recipe_id" value="{{recipe._id}}">
@@ -70,6 +69,11 @@
                         <a href="/recipe_page?recipe={{recipe._id}}">
                             <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
                         </a>
+                        <div>
+                            {% for tag in recipe.restrictions %}
+                                <button class="tight-wrap-button">{{ tag }}</button>
+                            {% endfor %}
+                        </div>
                         <h3>Time needed: {{ recipe.total_time }}</h3>
         
                         {% if recipe.servings != "" and recipe.servings == recipe.servings %}
@@ -78,14 +82,6 @@
                         <h3>Makes: {{ recipe.makes }}</h3>
                         {% endif %}
                         
-        
-                        {% if recommended %}
-                            {% if recipe.missing_count == 0 %}
-                                <h3>All Good to Go!</h3>
-                            {% else %}
-                                <h3># Missing Ingredients: {{recipe.missing_count}}</h3>
-                            {% endif %}
-                        {% endif %}
         
                         {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
                             {% if recipe.difficulty == 'Easy' %}
@@ -98,12 +94,8 @@
                                 <h3>Skill level: Advanced</h3>
                             {% endif %}
                         {% endif %}
-        
-                        <div>
-                            {% for tag in recipe.restrictions %}
-                                <button class="tight-wrap-button">{{ tag }}</button>
-                            {% endfor %}
-                        </div>
+    
+
                         <h3>Ingredient List</h3>
                         <ul>
                             {% for ingredient in recipe.actual_ingredients %}
