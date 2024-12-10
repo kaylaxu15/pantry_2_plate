@@ -42,7 +42,6 @@ def welcome_page():
     #     session['username'] = auth.authenticate()
     # username = session['username']
     name = session['name']
-
     return render_template('welcome_page.html', username=username, name=name)
 
 @app.route('/pantry', methods=['GET'])
@@ -116,41 +115,44 @@ def results_page():
     else: resp.delete_cookie('prev_max_time')
     return resp
 
-@app.route('/all_recipes', methods=['GET'])
+@app.route('/all_recipes', methods=['GET', 'POST'])
 def all_recipes():
     username = auth.authenticate()
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    clear_search = flask.request.args.get('clear-search')
+    clear = flask.request.args.get('clear', type=str)
     query = flask.request.args.get('search', type = str)
-    if clear_search == 'clicked':
+    skill = flask.request.args.get('skill', type = str)
+    max_time = flask.request.args.get('time', type = str)
+    if clear == 'True':
         query = None
+        skill = None
+        max_time = None
     else:
         if not query: query = flask.request.cookies.get('prev_query')
-    skill = flask.request.args.get('skill', type = str)
-    if not skill: skill = flask.request.cookies.get('prev_skill')
-    max_time = flask.request.args.get('time', type = str)
-    if not max_time: max_time = flask.request.args.get('prev_max_time')
+        if not skill: skill = flask.request.cookies.get('prev_skill')
+        if not max_time: max_time = flask.request.args.get('prev_max_time')
 
     if max_time:
         try:
             max_time = int(max_time)
         except ValueError:
-            max_time = None
+            query = skill = max_time = None
+            return render_template('validparam.html')
     else:
         max_time = None
+    
+    if skill: 
+        if skill not in ['Beginner', 'Intermediate', 'Advanced']:
+            query = skill = max_time = None
+            return render_template('validparam.html')
 
-    if skill == "Beginner":
-        skill = "Easy"
-    elif skill == "Intermediate":
-        skill = "More effort"
-    elif skill == "Advanced":
-        skill = "A challenge"
-    else:
-        skill = None
-    recipes = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    extended_results = False
+    if indicator == 1:
+        extended_results = True
     # print(recipes)
     # add paging
 
@@ -165,7 +167,7 @@ def all_recipes():
 
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
                            user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
-                           prev_skill=skill, prev_max_time=max_time))
+                           prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
     if max_time: resp.set_cookie('prev_max_time', str(max_time))
@@ -405,8 +407,13 @@ def add_review():
     full_completed = db.get_user_completed(username)
     return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html'), 404
 
-
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('internal_error.html'), 500
 
     
 
