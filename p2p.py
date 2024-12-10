@@ -70,6 +70,7 @@ def results_page():
     pantry_items = db.get_user_inventory(username)
     pantry_items.append("salt")
     pantry_items.append("black pepper")
+    pantry_items = [ingredient.lower() for ingredient in pantry_items]
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = int)
     if skill == "Beginner":

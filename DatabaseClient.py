@@ -334,7 +334,8 @@ class DatabaseClient:
                         unmatching_ingredients.append(ingredient)
                 recipe["matching_ingredients"] = matching_ingredients
                 recipe["unmatching_ingredients"] = unmatching_ingredients
-                print(recipe)
+                print("Pantry:", ingredients)
+                print("Ingredients:", recipe["ingredients"])
                 modified_recipes.append(recipe)
         return modified_recipes
     

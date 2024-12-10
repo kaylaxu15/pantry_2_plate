@@ -23,7 +23,7 @@ class NLP:
             r'\b(finely|roughly|thinly|coarsely|juiced|cut|into|wedges|rings|chopped|diced|minced|sliced|grated|peeled|halved|quartered|zested|seeds removed|to serve|shredded|ground|drained|torn|broken|snapped|stalk|stalks|florets|whole|works well|quantity|sprig|sprigs|similar-sized)\b',
             '', text_cleaned, flags=re.IGNORECASE)
         text_cleaned = re.sub(
-            r'\b(pack|packs|box|boxes|bottle|bottles|jar|jars|tin|tins|can|cans|container|containers|carton|cartons|litres|garnish|pickled)\b',
+            r'\b(pack|packs|box|boxes|bottle|bottles|jar|jars|tin|tins|can|cans|container|containers|carton|cartons|litres|garnish|pickled|sprinkling|sheets)\b',
             '', text_cleaned, flags=re.IGNORECASE)
         text_cleaned = re.sub(r'\b(of|and|a|mix|any|such as|shop-bought|or)\b', '', text_cleaned, flags=re.IGNORECASE)  # Remove additional filler words
         text_cleaned = re.sub(r'\(.*?\)', '', text_cleaned, flags=re.IGNORECASE)
