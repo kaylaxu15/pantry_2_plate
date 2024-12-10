@@ -342,7 +342,7 @@ class DatabaseClient:
 if __name__ == "__main__":
     db = DatabaseClient()
     
-    # db.delete_all_users()
+    db.delete_all_users()
     
     db.delete_all_recipes()
     # inserting the recipes into the database
