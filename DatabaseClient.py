@@ -340,25 +340,8 @@ class DatabaseClient:
     
 if __name__ == "__main__":
     db = DatabaseClient()
-    # db.delete_all_ingredients()
-    # db.delete_all_recipes()
-    # recipes = db.get_recipes_ingredients(['cocoa powder'])
-    # for recipe in recipes:
-    #    print(db.return_recipe(recipe["_id"]))
-    # for recipe in missing_recipes:
-    #    print(recipe)
-    #    print()
     
-    #db.insert_user("Niru", "Basketball", "pic", ["vegan", "gluten-free"], ["apple", "banana"], ["recipe1", "recipe2"])
-    # db.update_user_password("Niru", "Mahaniru1234")
-    # print(db.get_user("Niru"))
-    # db.delete_user("Niru")
-
-    # missing_recipes = db.return_page_recipes(['egg', 'butter'])
-    
-    # print("hi")
-    # print(db.get_all_recipes())
-    # print("hello")
+    # db.delete_all_users()
     
     db.delete_all_recipes()
     # inserting the recipes into the database
@@ -391,7 +374,6 @@ if __name__ == "__main__":
         except:
             servings = ''
 
-
         methods = str(row[1]["methods"])
         # print(row[1]["title"])
         # print(methods)
@@ -402,17 +384,3 @@ if __name__ == "__main__":
         methods = ast.literal_eval(methods)
 
         db.insert_recipe(row[1]["title"], row[1]["difficulty"], row[1]["vegetarian"], row[1]["vegan"], row[1]["dairy_free"], row[1]["keto"], row[1]["gluten_free"], standardized_ingredients, row[1]["picture_url"], converted_ingredients, methods, row[1]["recipe_urls"], int(row[1]["total_time"]), row[1]["makes"], row[1]["servings"])
-    # print("Database Population Complete")
-    # col = db.db["Recipes"]
-    # col.create_index("title")
-    # col.create_index("total_time")
-    # col.create_index("difficulty")
-    # col.create_index("restrictions")
-    # col.create_index([("difficulty", 1), ("title", "text")])
-    # col.create_index([("total_time", 1), ("title", "text")])
-    # col.create_index([("restrictions", 1), ("title", "text")])
-    # col.create_index([("difficulty", 1), ("total_time", 1), ("title", "text")])
-    # col.create_index([("difficulty", 1), ("restrictions", 1), ("title", "text")])
-    # col.create_index([("total_time", 1), ("restrictions", 1), ("title", "text")])
-    # col.create_index([("difficulty", 1), ("total_time", 1), ("restrictions", 1), ("title", "text")])
-    # print("Database Indexing Complete")
