@@ -235,7 +235,7 @@ class DatabaseClient:
         ingredient_dict = self.get_all_ingredients()
         return [item['ingredient'] for item in ingredient_dict]
     
-    def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
+    def filter_recipes(self, skills=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 
 
         if not search:
@@ -243,8 +243,8 @@ class DatabaseClient:
         query = {}
         search = "/*" + search + "/*"
 
-        if skill is not None:
-            query["difficulty"] = {"$eq": skill}
+        if skills is not None:
+            query["difficulty"] = {"$in": skills}
         if max_time is not None:
             query["total_time"] = {"$lte": max_time}
         if restrictions:
