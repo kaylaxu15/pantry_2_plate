@@ -49,9 +49,9 @@ def welcome_page():
 def pantry_page():
     username = auth.authenticate()
     db.insert_user(emailId=username, password='')
-    ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
-    ingredients = ingredients.values.tolist()
-    # ingredients = db.get_pantry_ingredients()
+    # ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
+    # ingredients = ingredients.values.tolist()
+    ingredients = db.get_pantry_ingredients()
     ingredients = np.squeeze(ingredients)
     pantry_items = db.get_user_inventory(username)
     return render_template('prototype_pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
@@ -68,9 +68,6 @@ def save_pantry_items():
 def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
-    pantry_items.append("salt")
-    pantry_items.append("black pepper")
-    pantry_items = [ingredient.lower() for ingredient in pantry_items]
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = int)
     if skill == "Beginner":
