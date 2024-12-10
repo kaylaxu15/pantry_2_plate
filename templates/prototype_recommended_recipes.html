@@ -56,7 +56,7 @@
         </div>
     {% endif %}
 
-    <button class="filter-button" onclick="document.getElementById('filterModal').style.display='block'">Filter</button>
+    <button class="filter-button" onclick="openFilterModal();">Filter</button>
 
     {{ pagination.info }}
     <div class="pagination">
@@ -65,7 +65,7 @@
 
     <div id="filterModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>
+            <span class="close" onclick="closeFilterModal()">&times;</span>
             <h2>Filter Options</h2>
             {% if recommended %}
             <form action="/recommended_recipes" method="get">
@@ -99,7 +99,8 @@
                 <input type="number" id="time" name="time" min="0" placeholder="Enter max time">
                 {% endif %}
                 <br></br>
-                <button type="submit">Apply Filters</button>
+                <button class="submit-button">Apply Filters</button>
+                <br></br>
             </form>
         </div>
     </div>
@@ -117,7 +118,7 @@
 
                     {% if recipe.restrictions %}
                         {% for tag in recipe.restrictions %}
-                            <button class="tight-wrap-button">{{tag}}</button>
+                            <button class="tight-wrap-button" align="left">{{tag}}</button>
                         {% endfor %}
                         <br></br>
                     {% endif %}
@@ -257,6 +258,16 @@
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
             $("body").css('overflow', "hidden");
+        }
+        
+        function openFilterModal() {
+            document.getElementById('filterModal').style.display='block';
+            $("body").css('overflow', "hidden");
+        }
+
+        function closeFilterModal() {
+            document.getElementById('filterModal').style.display='none';
+            $("body").css('overflow', "auto");
         }
 
         function closeModal(modalId) {

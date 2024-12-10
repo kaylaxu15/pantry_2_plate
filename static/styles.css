@@ -319,10 +319,12 @@ button {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.3);
     padding-top: 40px;
+    padding-left: 20px;
     z-index: 1000;
     font-family: "Optima", sans-serif;
 }
 .modal-content {
+    text-align: center; 
     background-color: #f9f4f4;
     border: 2px solid #dca9a9;
     width: 90%;
@@ -332,6 +334,17 @@ button {
     border-radius: 10px;
     overflow-y: auto; 
     box-sizing: border-box; 
+    position: relative;
+    font-family: "Optima", sans-serif;
+}
+.modal-content li {
+    text-align: left; 
+    width: 90%;
+    margin: auto;
+    max-width: 600px;
+    max-height: 90vh; 
+    border-radius: 10px;
+    overflow-y: auto;  
     position: relative;
     font-family: "Optima", sans-serif;
 }
