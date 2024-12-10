@@ -125,6 +125,10 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    <div class="modal-footer">
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                    </div>
                     </div>
                 </div>
             {% endfor %}
