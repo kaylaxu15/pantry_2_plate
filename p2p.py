@@ -72,7 +72,18 @@ def results_page():
     pantry_items.append("black pepper")
     pantry_items = [ingredient.lower() for ingredient in pantry_items]
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = int)
+    if not skill: skill = flask.request.cookies.get('prev_skill')
+    max_time = flask.request.args.get('time', type = str)
+    if not max_time: max_time = flask.request.args.get('prev_max_time')
+
+    if max_time:
+        try:
+            max_time = int(max_time)
+        except ValueError:
+            max_time = None
+    else:
+        max_time = None
+
     if skill == "Beginner":
         skill = "Easy"
     elif skill == "Intermediate":
@@ -99,6 +110,10 @@ def results_page():
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
                                          max_time=max_time, skill=skill,
                                          prev_skill=skill, prev_max_time=max_time))
+    if skill: resp.set_cookie('prev_skill', skill)
+    else: resp.delete_cookie('prev_skill')
+    if max_time: resp.set_cookie('prev_max_time', str(max_time))
+    else: resp.delete_cookie('prev_max_time')
     return resp
 
 @app.route('/all_recipes', methods=['GET'])
@@ -108,9 +123,25 @@ def all_recipes():
     restrictions = user_data['restrictions']
     if restrictions is None:
         restrictions = []
-    query = flask.request.args.get('search', type = str, default='') 
+    clear_search = flask.request.args.get('clear-search')
+    query = flask.request.args.get('search', type = str)
+    if clear_search == 'clicked':
+        query = None
+    else:
+        if not query: query = flask.request.cookies.get('prev_query')
     skill = flask.request.args.get('skill', type = str)
-    max_time = flask.request.args.get('time', type = int)
+    if not skill: skill = flask.request.cookies.get('prev_skill')
+    max_time = flask.request.args.get('time', type = str)
+    if not max_time: max_time = flask.request.args.get('prev_max_time')
+
+    if max_time:
+        try:
+            max_time = int(max_time)
+        except ValueError:
+            max_time = None
+    else:
+        max_time = None
+
     if skill == "Beginner":
         skill = "Easy"
     elif skill == "Intermediate":
@@ -135,6 +166,12 @@ def all_recipes():
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
                            user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
                            prev_skill=skill, prev_max_time=max_time))
+    if skill: resp.set_cookie('prev_skill', skill)
+    else: resp.delete_cookie('prev_skill')
+    if max_time: resp.set_cookie('prev_max_time', str(max_time))
+    else: resp.delete_cookie('prev_max_time')
+    if query: resp.set_cookie('prev_query', query)
+    else: resp.delete_cookie('prev_query')
     return resp
 
 

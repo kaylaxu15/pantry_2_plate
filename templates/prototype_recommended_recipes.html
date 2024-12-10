@@ -44,14 +44,14 @@
 
     {% if not recommended %}
         <div class="search-box">
-            <form action=/all_recipes>
+            <form action="/all_recipes" method="get">
                 {% if query %}
-                <input type="text" id="search-input" name="search" placeholder="{{ query }}">
+                <input type="text" id="search-input" name="search" value="{{ query }}">
                 {% else %}
                 <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
                 {% endif %}
-                <button onclick="searchRecipes()" class="search-button">Search</button>
-                <button class="submit-button" onclick="document.getElementById('search-input').value = ''">Clear Search</button>
+                <button type='submit' onclick="searchRecipes()" class="search-button">Search</button>
+                <button class="submit-button" name="clear-search" value="clicked">Clear Search</button>
             </form>
         </div>
     {% endif %}
@@ -63,7 +63,6 @@
         {{ pagination.links }}
     </div>
 
-    
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('filterModal').style.display='none'">&times;</span>

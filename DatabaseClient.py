@@ -238,6 +238,8 @@ class DatabaseClient:
     def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 
 
+        if not search:
+            search = ''
         query = {}
         search = "/*" + search + "/*"
 
