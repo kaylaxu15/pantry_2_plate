@@ -107,8 +107,8 @@ class DatabaseClient:
         return 0
     
     def update_user_completed(self, emailId, completed):
-        if self.check_emailId_taken(emailId) == False:
-            return 1
+        # if self.check_emailId_taken(emailId) == False:
+        #     return 1
         col = self.db["Users"]
         col.update_one({"emailId": emailId}, {"$set": {"completed": completed}})
         return 0
