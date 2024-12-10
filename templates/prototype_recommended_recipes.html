@@ -119,9 +119,9 @@
                         {% for tag in recipe.restrictions %}
                             <button class="tight-wrap-button">{{tag}}</button>
                         {% endfor %}
+                        <br></br>
                     {% endif %}
                     
-                    <br></br>
                     {% if recommended %}
                         {% if recipe.missing_count == 0 %}
                         <strong>All Good to Go!</strong>
@@ -155,8 +155,6 @@
                     {% else %}
                     {% endif %}
 
-                    
-
                     <br></br>
                     <form id="wishlistForm" onsubmit="addToWishlist(event)" method="post" onclick="event.stopPropagation();" class = "wishlist-form">
                         <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
@@ -164,23 +162,24 @@
                     </form>
                     
                 </span>
-            
 
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                         <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
-
                     
                         <a href="/recipe_page?recipe={{recipe._id}}">
                             <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
                         </a>
                         <br></br>
-                        <div>
+
+                        {% if recipe.restrictions %}
                             {% for tag in recipe.restrictions %}
                                 <button class="tight-wrap-button">{{ tag }}</button>
                             {% endfor %}
-                        </div>
+                            <br></br>
+                        {% endif %}
+
 
                         {% if recommended %}
                             {% if recipe.missing_count == 0 %}
@@ -254,32 +253,14 @@
     </div>
 
     <script>
-        document.getElementById("wishlistStar").addEventListener("click", function(event){
-            console.log("here")
-            
-            var cls=document.getElementById("wishlistStar").className;
-        if(cls.includes("unchecked"))
-        {
-            console.log("here")
-            document.getElementById("wishlistStar").classList.remove("unchecked");
-            document.getElementById("wishlistStar").classList.add("checked");
-            console.log("UNCHECKED")
-        }
-        else
-        {
-            document.getElementById("wishlistStar").classList.remove("checked"); 
-            document.getElementById("wishlistStar").classList.add("unchecked");
-            console.log("CHECKED")
-        }
-        });
-
-
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
+            $("body").css('overflow', "hidden");
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            $("body").css('overflow', "auto");
         }
 
         function addToWishlist(event) {
@@ -317,6 +298,8 @@
 
         
         window.onclick = function(event) {
+            console.log("ERE?");
+
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
                 if (event.target === modals[i]) {
