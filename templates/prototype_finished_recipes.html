@@ -59,11 +59,13 @@
                 <br></br>
 
                 Additional Notes (any comments to your future self on making this!)
+                <br></br>
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event);" method="post" onclick="event.stopPropagation();">
                         {% set recipeID = recipe._id | string %}
                         <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" name="{{recipe._id}}" class="review-textarea" style="overflow:scroll;" placeholder="{{reviews[recipeID]}}"  required></textarea>
                         <input type="hidden" name="recipe_id" value="{{recipe._id}}">
+                        <br></br>
                         <button class="submit-button" id="review_button" name="saveBtn" style = "font-size: 12px;">Save Changes</button>
                     </form>
                 </div>  
@@ -78,6 +80,7 @@
                 </span>
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
+                        <div class="modal-body">
                         <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                         <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
                         <a href="/recipe_page?recipe={{recipe._id}}">
@@ -123,6 +126,11 @@
                                 <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                    </div>
                     </div>
                 </div>
             {% endfor %}
