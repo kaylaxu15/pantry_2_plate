@@ -70,27 +70,29 @@ def results_page():
     pantry_items.append("salt")
     pantry_items.append("black pepper")
     pantry_items = [ingredient.lower() for ingredient in pantry_items]
+    clear = flask.request.args.get('clear', type=str)
     skill = flask.request.args.get('skill', type = str)
-    if not skill: skill = flask.request.cookies.get('prev_skill')
     max_time = flask.request.args.get('time', type = str)
-    if not max_time: max_time = flask.request.args.get('prev_max_time')
-
+    if clear == 'True':
+        skill = None
+        max_time = None
+    else:
+        if not skill: skill = flask.request.cookies.get('prev_skill')
+        if not max_time: max_time = flask.request.cookies.get('prev_max_time')
     if max_time:
         try:
             max_time = int(max_time)
         except ValueError:
-            max_time = None
+            skill = max_time = None
+            return render_template('validparam.html', redirect='recommended')
     else:
         max_time = None
+    
+    if skill: 
+        if skill not in ['Beginner', 'Intermediate', 'Advanced']:
+            skill = max_time = None
+            return render_template('validparam.html', redirect='recommended')
 
-    if skill == "Beginner":
-        skill = "Easy"
-    elif skill == "Intermediate":
-        skill = "More effort"
-    elif skill == "Advanced":
-        skill = "A challenge"
-    else:
-        skill = None
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     recipes = db.return_page_recipes_rec(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions)
@@ -107,7 +109,6 @@ def results_page():
 
     resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
-                                         max_time=max_time, skill=skill,
                                          prev_skill=skill, prev_max_time=max_time))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
@@ -126,7 +127,6 @@ def all_recipes():
     query = flask.request.args.get('search', type = str)
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
-    print(max_time)
     if clear == 'True':
         query = None
         skill = None
@@ -140,14 +140,14 @@ def all_recipes():
             max_time = int(max_time)
         except ValueError:
             query = skill = max_time = None
-            return render_template('validparam.html')
+            return render_template('validparam.html', redirect='all_recipes')
     else:
         max_time = None
     
     if skill: 
         if skill not in ['Beginner', 'Intermediate', 'Advanced']:
             query = skill = max_time = None
-            return render_template('validparam.html')
+            return render_template('validparam.html', redirect='all_recipes')
 
     recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     extended_results = False

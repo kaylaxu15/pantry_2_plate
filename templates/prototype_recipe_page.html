@@ -7,7 +7,7 @@
     {% include 'header.html' %}
     <button onclick="history.back()" class="back-button">Go Back</button>
 </head>
-<body>
+<body class="recipe-page">
     <h1>{{recipe.title}}</h1>
     <div class="content">
         <div class="image-container">
@@ -48,7 +48,7 @@
     <div class="bottom-recipe-buttons">
         <form id="completedForm" onsubmit="addToCompleted(event)" method="post">
             <input type="hidden" name="recipe_id" value="{{ recipe._id }}">
-            <button class="submit-button">Completed!!</button>
+            <button class="submit-button">Completed!</button>
         </form>
     </div>
 </body>

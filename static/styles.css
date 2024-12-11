@@ -801,3 +801,116 @@ button {
     resize: vertical; 
     box-sizing: border-box;
 }
+
+.recipe-page {
+    font-family: "Optima", sans-serif;
+    background-color: #F4F2DD; 
+    color: #315E26; 
+    margin: 0;
+    padding: 0;
+    display:block !important;
+}
+
+.recipe-page h1 {
+    text-align: center;
+    font-size: 3em; 
+    color: #315E26; 
+    margin: 20px 0;
+}
+
+.recipe-page .content {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; 
+    gap: 20px;
+    padding: 20px;
+}
+
+.recipe-page .image-container {
+    flex: 1 1 45%;
+    max-width: 500px;
+    height: auto; 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.recipe-page .image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: block;
+}
+
+.recipe-page .details-container {
+    flex: 1 1 45%; 
+    max-width: 500px;
+    background-color: #fdebd0; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden; 
+}
+
+.recipe-page .details-container h2 {
+    font-size: 1.2em;
+    color: #315E26;
+}
+
+.recipe-page .details-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.recipe-page .details-container ul li {
+    margin-bottom: 5px; 
+}
+
+.recipe-page .methods-section {
+    background-color: #F4F2DD; 
+    color: #315E26;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 1020px;
+    border: 3px solid #315E26; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-page .methods-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recipe-page .methods-section h3 {
+    margin-left: 20px;
+}
+
+.recipe-page .bottom-recipe-buttons {
+    text-align: center;
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.recipe-page .bottom-recipe-buttons button {
+    background-color: #315E26;
+    color: #F4F2DD;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family:"Optima", sans-serif;
+}
+
+.recipe-page .bottom-recipe-buttons button:hover {
+    background-color: #F4F2DD;
+    color: #315E26;
+    border: 2px solid #315E26;
+}

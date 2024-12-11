@@ -356,6 +356,15 @@ class DatabaseClient:
         modified_recipes = []
         updated_ingredients = self.add_default_ingredients(ingredients)
 
+        if skill == "Beginner":
+            skill = "Easy"
+        elif skill == "Intermediate":
+            skill = "More effort"
+        elif skill == "Advanced":
+            skill = "A challenge"
+        else:
+            skill = None
+
         for i in range(5):
             given_recipes = self.get_recipes_missing_ingredients_rec(i, updated_ingredients, skill=skill, max_time=max_time, restrictions=restrictions)
             sorted_recipes = sorted(given_recipes, key=lambda x: len(x["ingredients"]), reverse=True)
