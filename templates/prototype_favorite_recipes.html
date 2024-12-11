@@ -52,10 +52,7 @@
                             <strong>Skill Level:</strong>  Advanced
                         {% endif %}
                 {% endif %}
-            {% else %}
-
                 <br></br>
-
                 <br></br>
                 <form action="/remove_from_favorites" method="post" onclick="event.stopPropagation();">
                     <input type="hidden" name="recipe_id" value="{{recipe._id}}">
@@ -64,16 +61,13 @@
                 </span>
                 <div id="modal{{ loop.index }}" class="modal">
                     <div class="modal-content">
+                        <div class="modal-body">
                         <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
                         <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
                         <a href="/recipe_page?recipe={{recipe._id}}">
                             <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
                         </a>
-                        <div>
-                            {% for tag in recipe.restrictions %}
-                                <button class="tight-wrap-button">{{ tag }}</button>
-                            {% endfor %}
-                        </div>
+                        
                         <h3>Time needed: {{ recipe.total_time }}</h3>
         
                         {% if recipe.servings != "" and recipe.servings == recipe.servings %}
@@ -94,7 +88,12 @@
                                 <h3>Skill level: Advanced</h3>
                             {% endif %}
                         {% endif %}
-    
+
+                        <div>
+                            {% for tag in recipe.restrictions %}
+                                <button class="tight-wrap-button">{{ tag }}</button>
+                            {% endfor %}
+                        </div>
 
                         <h3>Ingredient List</h3>
                         <ul>
@@ -102,6 +101,11 @@
                                 <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                    </div>
                     </div>
                 </div>
             {% endfor %}

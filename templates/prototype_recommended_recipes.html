@@ -289,7 +289,7 @@
             const formData = new FormData(form);
 
             const request = new XMLHttpRequest();
-            request.open("POST", "/add_to_wishlist", true);
+            request.open("POST", "/wishlist", true);
 
             request.onload = function() {
                 if (request.status === 200) {
