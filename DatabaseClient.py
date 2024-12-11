@@ -242,7 +242,7 @@ class DatabaseClient:
             search = ''
         query = {}
         search = "/*" + search + "/*"
-        
+
         if skill == "Beginner":
             skill = "Easy"
         elif skill == "Intermediate":
@@ -281,8 +281,13 @@ class DatabaseClient:
                 query["restrictions"] = {"$all": restrictions}
             if search:
                 query["title"] = {"$regex": search, "$options": "i"}
-            results = col.find(query)
-            return list(results), 1
+            count = col.count_documents(query)
+            if count > 0:
+                results = col.find(query)
+                return list(results), 1
+            else:
+                results = col.find(query)
+                return list(results), 2
     
         
     def add_default_ingredients(self, ingredients):

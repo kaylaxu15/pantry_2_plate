@@ -126,6 +126,7 @@ def all_recipes():
     query = flask.request.args.get('search', type = str)
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
+    print(max_time)
     if clear == 'True':
         query = None
         skill = None
@@ -133,8 +134,7 @@ def all_recipes():
     else:
         if not query: query = flask.request.cookies.get('prev_query')
         if not skill: skill = flask.request.cookies.get('prev_skill')
-        if not max_time: max_time = flask.request.args.get('prev_max_time')
-
+        if not max_time: max_time = flask.request.cookies.get('prev_max_time')
     if max_time:
         try:
             max_time = int(max_time)
@@ -153,6 +153,7 @@ def all_recipes():
     extended_results = False
     if indicator == 1:
         extended_results = True
+    
     # print(recipes)
     # add paging
 
