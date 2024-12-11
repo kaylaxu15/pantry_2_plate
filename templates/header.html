@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -12,17 +12,19 @@
 <body>
     <div class="navigationbar">
         <div class="logo-container">
+            <a href="/welcome_page">
             <img class="logo" src="static/logo.png" alt="logo">
+            </a>
         </div>
-        <button class="hamburger" id="hamburgerMenu">☰</button>
-        <div class="navigation-items" id="navItems">
+        <button class="hamburger" id="hideButtons">☰</button>
+        <div class="navigation-items">
             <a href="/pantry" class="pantry-button" id="navpantry">Pantry</a>
             <div class="navigation-item">
                 <button onclick="savedFunction()" class="drop-button" id="navsaved">Your Saves</button>
                 <div id="savedDropdown" class="dropdown-content">
-                    <a href="/add_to_completed">Completed</a>
-                    <a href="/add_to_wishlist">Wishlist</a>
-                    <a href="/add_to_favorites">Favorites</a>
+                    <a href="/completed">Completed</a>
+                    <a href="/wishlist">Wishlist</a>
+                    <a href="/favorites">Favorites</a>
                 </div>
             </div>
             <a href="/all_recipes" class="all-recipes-button" id="navrecipes">All Recipes</a>
@@ -36,16 +38,17 @@
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script>
         function savedFunction() {
             document.getElementById("savedDropdown").classList.toggle("show");
         }
-
         function profileFunction() {
             document.getElementById("profileDropdown").classList.toggle("show");
+
         }
 
-        document.getElementById("hamburgerMenu").addEventListener("click", function () {
+        document.getElementById("hideButtons").addEventListener("click", function () {
             const navItems = document.getElementById("navItems");
             navItems.classList.toggle("show");
         });
