@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, session, jsonify, request, make_response 
+from flask import Flask, render_template, session, jsonify, request, make_response, redirect, url_for
 import DatabaseClient
 import pandas as pd
 import numpy as np
@@ -190,8 +190,8 @@ def recipe_page():
     
     return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
 
-@app.route('/add_to_wishlist', methods=['GET', 'POST'])
-def add_to_wishlist():
+@app.route('/wishlist', methods=['GET', 'POST'])
+def wishlist():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
@@ -235,7 +235,7 @@ def remove_from_wishlist():
         if recipe:
             full_wishList.append(recipe)
 
-    return render_template('wishlist.html', wishList=full_wishList, username=username)
+    return redirect(url_for('wishlist'))
 
 @app.route('/groceries', methods=['GET'])
 def groceries_display():
@@ -308,8 +308,8 @@ def profile_page():
     user_data = db.get_user(username)
     return render_template('profile_page.html', user_data=user_data, error=error)
 
-@app.route('/add_to_completed', methods=['GET', 'POST'])
-def add_to_completed():
+@app.route('/completed', methods=['GET', 'POST'])
+def completed():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
@@ -338,8 +338,8 @@ def add_to_completed():
 
     return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
-@app.route('/add_to_favorites', methods=['GET', 'POST'])
-def add_to_favorites():
+@app.route('/favorites', methods=['GET', 'POST'])
+def favorites():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
