@@ -59,6 +59,11 @@
     {% endif %}
 
     <button class="filter-button" onclick="openFilterModal()">Filter</button>
+    {% if recommended %}
+    <form action="/recommended_recipes" method="get">
+        <button class="clear-button" name="clear" value="True">Clear Filter</button>
+    </form>
+    {% endif %}
 
     {{ pagination.info }}
     <div class="pagination">
@@ -76,7 +81,11 @@
             {% endif %}
                 <label for="skill">Skill Level:</label>
                 <select name="skill" id="skill">
+                    {% if not prev_skill %}
+                    <option value="" selected="selected">--Select--</option>
+                    {% else %}
                     <option value="">--Select--</option>
+                    {% endif %}
                     {% if prev_skill == 'Beginner' %}
                     <option value="Beginner" selected="selected">Beginner</option>
                     {% else %}

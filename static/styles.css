@@ -435,6 +435,22 @@ button {
     font-family: "Optima", sans-serif;
 }
 
+.clear-button {
+    display: block; 
+    margin: 10px auto; 
+    background-color: #f3d9c6;
+    color: #A15B20;
+    border: none;
+    padding: 7px 0;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100px;
+    text-decoration: none; 
+    text-align: center;
+    font-size: 12px;
+    font-family: "Optima", sans-serif;
+}
+
 .filter-button:hover {
     outline: 3px solid #824A1A;
 }
