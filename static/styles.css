@@ -633,22 +633,16 @@ button {
 
 .navigationbar {
     display: flex;
-    justify-content: space-between; 
-    align-items: flex-start;
-    padding: 20px 20px;
-    overflow: visible;
-    z-index:100;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
     position: relative;
-    top: 0;
-    font-family: "Optima", sans-serif;
+    background-color: #F4F2DD; 
+    z-index: 10;
 }
 
 .logo-container {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    gap: 10px;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .logo {
@@ -656,41 +650,71 @@ button {
     height: auto; 
 }
 
-.back-button {
-    position: absolute; 
-    top: 140px; 
-    left: 55px; 
-    background-color: #315E26;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: "Optima", sans-serif;
-    text-align: center;
-    z-index: 1000; 
+.navigation-items {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.3s ease;
+    background-color: #F4F2DD; 
+    box-sizing: border-box;
 }
 
-.back-button:hover {
+.navigation-items a,
+.navigation-item button {
+    text-decoration: none;
+    padding: 10px 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.dropdown-content,
+.dropdown-profile-content {
+    display: none;
+    position: absolute;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #f1f1f1;
+    z-index: 100;
+    min-width: 120px;
+ 
+}
+
+.dropdown-content a, .dropdown-profile-content a {
+    color: #315E26;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover, .dropdown-profile-content a:hover {
     background-color: #45a049;
 }
 
-.navigation-items {
-    display: flex;
-    flex-wrap: nowrap; 
-    gap: 10px; 
-    margin:0;
+.show {
+    display: block;
 }
 
-.navigation-item {
-    position: relative; 
-
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    z-index: 10000;
+    color: #315E26;
+    background-color: #F4F2DD;
 }
 
-.drop-button, .drop-profile-button, .pantry-button, .all-recipes-button {
-    background-color: #315E26;
-    color: white;
+.hamburger:hover {
+    color: #45a049; 
+}
+
+.drop-button,
+.drop-profile-button,
+.pantry-button,
+.all-recipes-button {
+    background-color: #315E26 !important;
+    color:white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
@@ -702,43 +726,51 @@ button {
     text-decoration: none;
 }
 
-.drop-button:hover, .drop-profile-button:hover, .pantry-button:hover, .all-recipes-button:hover {
+.drop-button:hover,
+.drop-profile-button:hover,
+.pantry-button:hover,
+.all-recipes-button:hover {
     background-color: #45a049;
     text-decoration: none;
 }
 
-.dropdown-content, .dropdown-profile-content {
-    display: none;
-    position: absolute;
-    top: 100%; 
-    left: 0;
-    background-color: #f1f1f1;
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
 
-.dropdown-content a, .dropdown-profile-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+    .navigation-items {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%; 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: #315E26; 
+        gap: 0;
+    }
 
-.dropdown-content a:hover, .dropdown-profile-content a:hover {
-    outline: 3px solid #824A1A;
-}
+    .navigation-items.show {
+        display: flex;
+    }
 
-.show {
-    display: block;
-}
+    .navigation-items a,
+    .navigation-item button {
+        padding: 15px;
+        text-align: left;
+        width: 100%; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .navigation-items a:last-child,
+    .navigation-item button:last-child {
+        border-bottom: none; 
+    }
+    .dropdown-content,
+    .dropdown-profile-content {
+        width:100%
+    }
 
-
-.all-recipes-button:hover, .all-recipes-button:focus {
-    background-color: #45a049;
-}
-
-.pantry-button:hover, .pantry-button:focus {
-    background-color: #45a049;
 }
 
 .reviewbox {

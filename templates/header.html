@@ -5,80 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .navigationbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #f3d9c6;
-            padding: 10px;
-        }
 
-        .logo-container {
-            flex-shrink: 0;
-        }
-
-        .navigation-items {
-            display: flex;
-            gap: 15px;
-        }
-
-        .navigation-items a, .navigation-item button {
-            text-decoration: none;
-            padding: 10px 15px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .dropdown-content, .dropdown-profile-content {
-            display: none;
-            position: absolute;
-            background-color: #f3d9c6;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        .show {
-            display: block;
-        }
-
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .navigation-items {
-                display: none;
-                flex-direction: column;
-                gap: 10px;
-                position: absolute;
-                top: 60px;
-                left: 10px;
-                background-color: #f3d9c6;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                padding: 10px;
-            }
-
-            .navigation-items.show {
-                display: flex;
-            }
-
-            .hamburger {
-                display: block;
-            }
-        }
     </style>
 </head>
 
 <body>
     <div class="navigationbar">
         <div class="logo-container">
-            <a href='/welcome_page'><img class="logo" src="static/logo.png" alt="logo"></a>
+            <img class="logo" src="static/logo.png" alt="logo">
         </div>
         <button class="hamburger" id="hamburgerMenu">☰</button>
         <div class="navigation-items" id="navItems">
@@ -112,40 +46,16 @@
         }
 
         document.getElementById("hamburgerMenu").addEventListener("click", function () {
-            document.getElementById("navItems").classList.toggle("show");
+            const navItems = document.getElementById("navItems");
+            navItems.classList.toggle("show");
         });
 
-        $(document).ready(function () {
-            var browserUrl = window.location.href;
-            var parts = browserUrl.split("/");
-            browserUrl = parts[parts.length - 1];
-
-            if (browserUrl === 'add_to_completed' || browserUrl === '/add_to_favorites' || browserUrl == '/add_to_wishlist') {
-                const element = document.getElementById("navsaved");
-                element.style.backgroundColor = "#f3d9c6";
-                element.style.color = '#824A1A';
-                element.style.outline = '3px solid #824A1A';
-                element.style.transform = "scale(1.85)";
-            } else if (browserUrl === 'profile_page') {
-                const element = document.getElementById("navprofile");
-                element.style.backgroundColor = "#f3d9c6";
-                element.style.color = '#824A1A';
-                element.style.outline = '3px solid #824A1A';
-                element.style.transform = "scale(1.85)";
-            } else if (browserUrl === 'all_recipes') {
-                const element = document.getElementById("navrecipes");
-                element.style.backgroundColor = "#f3d9c6";
-                element.style.color = '#824A1A';
-                element.style.outline = '3px solid #824A1A';
-                element.style.transform = "scale(1.85)";
-            } else if (browserUrl === 'pantry') {
-                const element = document.getElementById("navpantry");
-                element.style.backgroundColor = "#f3d9c6";
-                element.style.color = '#824A1A';
-                element.style.outline = '3px solid #824A1A';
-                element.style.transform = "scale(1.85)";
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 768) {
+                document.getElementById("navItems").classList.remove("show");
             }
         });
+    
     </script>
 </body>
 
