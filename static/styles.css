@@ -707,7 +707,7 @@ button {
 }
 
 .dropdown-content a:hover, .dropdown-profile-content a:hover {
-    background-color: #45a049;
+    outline: 3px solid #315E26;
 }
 
 .show {
