@@ -68,6 +68,8 @@ def results_page():
     username = auth.authenticate()
     pantry_items = db.get_user_inventory(username)
     pantry_items.append("salt")
+    pantry_items.append("sea salt")
+    pantry_items.append("rock salt")
     pantry_items.append("black pepper")
     pantry_items = [ingredient.lower() for ingredient in pantry_items]
     clear = flask.request.args.get('clear', type=str)
