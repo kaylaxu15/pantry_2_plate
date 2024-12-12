@@ -22,8 +22,8 @@
     <div class="blurb-container"></div>
     <h1>Oops!</h1>
         <p>Please enter valid parameters!</p>
-        {% if redirect == 'all_recipes' %}
         <div class = "error-button">
+            {% if redirect == 'all_recipes' %}
             <form action="/all_recipes" method="get">
             {% elif redirect == 'recommended' %}
             <form action="/recommended_recipes" method="get">
