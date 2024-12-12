@@ -15,6 +15,7 @@
         <h1>Profile</h1>
         <!-- User Image Section -->
         <div class="profile-section">
+            <h2>Profile Picture</h2>
             <div class="user-image">
                 {% if user_data.picture %}
                 <img src="{{ user_data.picture }}" alt="User Profile Image">
@@ -49,8 +50,9 @@
         -->
 
         <!-- Dietary Preferences Section -->
+        <h2>Dietary Preferences</h2>
         <form class="preferences-form" action="/profile_page" method="POST">
-            <h2>Dietary Preferences</h2>
+
             <div class="checkbox-group">
                 <label>
                     <input type="checkbox" name="restriction" value="vegetarian" 
