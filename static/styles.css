@@ -410,6 +410,23 @@ button {
     margin: 0;
     font-family: "Optima", sans-serif;
 }
+.favorite-form {
+    position: absolute;
+    bottom: 15px; 
+    right: 20px; 
+    text-align: right;
+    margin: 0;
+    font-family: "Optima", sans-serif;
+}
+
+.completed-form {
+    position: absolute;
+    bottom: 15px; 
+    right: 20px; 
+    text-align: right;
+    margin: 0;
+    font-family: "Optima", sans-serif;
+}
 
 .close {
     color: #aaa;

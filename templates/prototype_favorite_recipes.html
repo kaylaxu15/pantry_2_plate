@@ -54,7 +54,7 @@
                 {% endif %}
                 <br></br>
                 <br></br>
-                <form action="/remove_from_favorites" method="post" onclick="event.stopPropagation();">
+                <form action="/remove_from_favorites" method="post" onclick="event.stopPropagation();" class = "favorite-form">
                     <input type="hidden" name="recipe_id" value="{{recipe._id}}">
                     <button class="submit-button" onclick="event.stopPropagation();">Remove from Favorites</button>
                 </form>
