@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
+    <title>Your Favorite Recipes</title>
+    {% include 'header.html' %}
+</head>
+<body>
+    <h1>Your Favorite Recipes</h1>
+    <div class="search-box">
+        <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title" autocomplete="off">
+        <button onclick="searchRecipes()" class="search-button">Search</button>
+        <button class="submit-button" onclick="document.getElementById('search-input').value = ''; searchRecipes()">Clear Search</button>
+    </div>
+
+    <div class="favorite-container">
+        {% if favRecipes %}
+            {% for recipe in favRecipes %}
+            <span class="inline-box" onclick="openModal('modal{{ loop.index }}')">
+                <h4>{{ recipe.title | safe }}</h4>
+                <img src="{{recipe.picture_url}}" width="150" height="150">
+                <br></br>
+
+                {% if recipe.restrictions %}
+                    {% for tag in recipe.restrictions %}
+                        <button class="tight-wrap-button">{{tag}}</button>
+                    {% endfor %}
+                    <br></br>
+                {% endif %}
+
+                <strong>Time needed:</strong> {{recipe.total_time}} minutes
+                    <br></br>
+                {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                    <strong>Number of Servings:</strong> {{ recipe.servings }}
+                    <br></br>
+                {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                    <strong>Makes:</strong> {{ recipe.makes }}
+                    <br></br>
+                {% endif %}
+
+                {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                        {% if recipe.difficulty == 'Easy' %}
+                            <strong>Skill Level:</strong>  Beginner
+                        {% endif %}
+                        {% if recipe.difficulty == 'More effort' %}
+                            <strong>Skill Level:</strong> Intermediate
+                        {% endif %}
+                        {% if recipe.difficulty == 'A challenge' %}
+                            <strong>Skill Level:</strong>  Advanced
+                        {% endif %}
+                {% endif %}
+                <br></br>
+                <br></br>
+                <form action="/remove_from_favorites" method="post" onclick="event.stopPropagation();" class = "favorite-form">
+                    <input type="hidden" name="recipe_id" value="{{recipe._id}}">
+                    <button class="submit-button" onclick="event.stopPropagation();">Remove from Favorites</button>
+                </form>
+                </span>
+                <div id="modal{{ loop.index }}" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        <span class="close" onclick="closeModal('modal{{ loop.index }}')">&times;</span>
+                        <h2><a href="/recipe_page?recipe={{recipe._id}}">{{recipe.title | safe}}</a></h2>
+                        <a href="/recipe_page?recipe={{recipe._id}}">
+                            <img src="{{ recipe.picture_url }}" width="500" height="400" style="display: block; margin: auto;">
+                        </a>
+                        
+                        <h3>Time needed: {{ recipe.total_time }}</h3>
+        
+                        {% if recipe.servings != "" and recipe.servings == recipe.servings %}
+                        <h3>Number of Servings: {{ recipe.servings }}</h3>
+                        {% elif recipe.makes != "" and recipe.makes == recipe.makes %}
+                        <h3>Makes: {{ recipe.makes }}</h3>
+                        {% endif %}
+                        
+        
+                        {% if recipe.difficulty in ['Easy', 'More effort', 'A challenge'] %}
+                            {% if recipe.difficulty == 'Easy' %}
+                                <h3>Skill level: Beginner</h3>
+                            {% endif %}
+                            {% if recipe.difficulty == 'More effort' %}
+                                <h3>Skill level: Intermediate</h3>
+                            {% endif %}
+                            {% if recipe.difficulty == 'A challenge' %}
+                                <h3>Skill level: Advanced</h3>
+                            {% endif %}
+                        {% endif %}
+
+                        <div>
+                            {% for tag in recipe.restrictions %}
+                                <button class="tight-wrap-button">{{ tag }}</button>
+                            {% endfor %}
+                        </div>
+
+                        <h3>Ingredient List</h3>
+                        <ul>
+                            {% for ingredient in recipe.actual_ingredients %}
+                                <li>{{ ingredient }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="closeModal('modal{{ loop.index }}')">Close</button>
+                        <button style="font-size:20px; padding: 8px 16px;" onMouseOver="this.style.backgroundColor='#ce8c56'" onMouseOut="this.style.backgroundColor='#f5c39a'" onclick="window.location.href='/recipe_page?recipe={{recipe._id}}'">Go to Recipe</button>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Your favorite recipe is empty.</p>
+        {% endif %}
+    </div>
+
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add enter key listener
+                document.getElementById('search-input').addEventListener('keypress', function(e) {
+                    if (e.key === "Enter") {
+                        searchRecipes();
+                    }
+                });
+            });
+            function openModal(modalId) {
+                document.getElementById(modalId).style.display = 'block';
+            }
+
+            function closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                const modals = document.getElementsByClassName('modal');
+                for (let i = 0; i < modals.length; i++) {
+                    if (event.target === modals[i]) {
+                        modals[i].style.display = 'none'; // Close the modal
+                    }
+                }
+                if (!event.target.matches('.drop-button')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+                if (!event.target.matches('.drop-profile-button')) {
+                    var profileDropdowns = document.getElementsByClassName("dropdown-profile-content");
+                    for (var i = 0; i < profileDropdowns.length; i++) {
+                        var openProfileDropdown = profileDropdowns[i];
+                        if (openProfileDropdown.classList.contains('show')) {
+                            openProfileDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+            
+            // search functionality
+            function searchRecipes() {
+                var searchRequest = null;
+                console.log("Search function called");
+                
+                
+                let searchTerm = $('#search-input').val().toLowerCase();
+                let searchType = $('#search-type').val();
+
+                console.log("Search term:", searchTerm);
+                console.log("Search type:", searchType);
+                console.log("Number of recipe boxes:", $('.inline-box').length);
+                
+                // Client-side filtering
+                $('.inline-box').each(function() {
+                    let $recipe = $(this);
+                    let match = false;
+                    
+                    let title = $recipe.find('h4').text().toLowerCase();
+                    let tags = $recipe.find('.tight-wrap-button').map(function() {
+                        return $(this).text().toLowerCase();
+                    }).get();
+                    let difficulty = $recipe.text().includes('Skill level:') ? 
+                        $recipe.text().split('Skill level:')[1].split('\n')[0].trim().toLowerCase() : '';
+                    
+                        console.log("Checking recipe:", {
+                            title: title,
+                            tags: tags,
+                            difficulty: difficulty
+                        });
+                    switch(searchType) {
+                        case 'title':
+                            match = title.includes(searchTerm);
+                            break;
+                        case 'tags':
+                            match = tags.some(tag => tag.includes(searchTerm));
+                            break;
+                        case 'difficulty':
+                            match = difficulty.includes(searchTerm);
+                            break;
+                        case 'all':
+                        default:
+                            match = title.includes(searchTerm) || 
+                                    tags.some(tag => tag.includes(searchTerm)) || 
+                                    difficulty.includes(searchTerm);
+                            break;
+                    }
+                    console.log("Match result:", match);
+                    $(this).toggleClass('hidden', !match);
+                });
+            }
+
+
+        </script>
+
+</body>
+</html>

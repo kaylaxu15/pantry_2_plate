@@ -59,11 +59,6 @@ def callback():
     # Get the authorization code that Google sent.
     code = flask.request.args.get('code')
 
-    #-------------------------------------------------------------------
-    # For learning:
-    # print('code:', code, file=sys.stderr)
-    #-------------------------------------------------------------------
-
     # Determine the URL to fetch tokens that allow the application to
     # ask for the user's profile data.
     google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
@@ -76,13 +71,6 @@ def callback():
         redirect_url=flask.request.base_url,
         code=code
     )
-
-    #-------------------------------------------------------------------
-    # For learning:
-    # print('token_url:', token_url, file=sys.stderr)
-    # print('headers:', headers, file=sys.stderr)
-    # print('body:', body, file=sys.stderr)
-    #-------------------------------------------------------------------
 
     # Fetch the tokens.
     token_response = requests.post(

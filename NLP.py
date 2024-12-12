@@ -36,29 +36,22 @@ class NLP:
             chunk.text.lower() for chunk in doc.noun_chunks
         ]
 
-        # print("Cleaned Text:", text_cleaned)
-        # print("Multi-Word Phrases:", multi_word_phrases)
-
         for phrase in multi_word_phrases:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
                 if ingredient.lower() == phrase:
-                    # print("Exact Multi-Word Match:", ingredient)
                     return ingredient
 
         for phrase in multi_word_phrases:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
                 if ingredient.lower() in phrase:
-                    # print("Partial Multi-Word Match:", ingredient)
                     return ingredient
 
         single_words = [token.text.lower() for token in doc if token.pos_ in {"NOUN", "PROPN"}]
         for word in single_words:
             for ingredient in sorted(self.known_ingredients, key=len, reverse=True):  # Sort by length
                 if ingredient.lower() == word:
-                    # print("Single-Word Match:", ingredient)
                     return ingredient
 
-        # print("No Match Found. Fallback to Text Cleaned:", text_cleaned)
         return text_cleaned
     
     def handle_corner_cases(self, text):
@@ -94,25 +87,6 @@ if __name__ == "__main__":
     print(nlp_model.extract_ingredient("160g edamame"))
     print(nlp_model.extract_ingredient("50g pickled jalapenos roughly chopped"))
     print(nlp_model.extract_ingredient("5 cloves"))
-    
-    # df1 = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
-    # recipe_list = df1["ingredients"].values.tolist()
-
-    # original_ingredient = []
-    # standardized_ingredient = []
-
-    # i = 0
-
-    # for recipe in recipe_list:
-    #     i += 1
-    #     # print(i/len(recipe_list))
-    #     list_recipe = ast.literal_eval(recipe)
-    #     for ingredient in list_recipe:
-    #         original_ingredient.append(ingredient)
-    #         print(ingredient)
-    #         main_ingredient = nlp_model.extract_ingredient(ingredient)
-    #         print(main_ingredient)
-    #         standardized_ingredient.append(main_ingredient)
     print(nlp_model.extract_ingredient("1 small butternut squash unpeeled and halved"))
     print(nlp_model.extract_ingredient("tsp white wine vinegar"))
     print(nlp_model.extract_ingredient("4 tbsp crème fraîche and grated chocolate, to serve"))
@@ -120,22 +94,4 @@ if __name__ == "__main__":
     print(nlp_model.extract_ingredient("160g edamame"))
     print(nlp_model.extract_ingredient("50g pickled jalapenos roughly chopped"))
     print(nlp_model.extract_ingredient("5 cloves"))
-    
-    # df1 = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
-    # recipe_list = df1["ingredients"].values.tolist()
 
-    # original_ingredient = []
-    # standardized_ingredient = []
-
-    # i = 0
-
-    # for recipe in recipe_list:
-    #     i += 1
-    #     # print(i/len(recipe_list))
-    #     list_recipe = ast.literal_eval(recipe)
-    #     for ingredient in list_recipe:
-    #         original_ingredient.append(ingredient)
-    #         print(ingredient)
-    #         main_ingredient = nlp_model.extract_ingredient(ingredient)
-    #         print(main_ingredient)
-    #         standardized_ingredient.append(main_ingredient)

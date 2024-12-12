@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pantry</title>
+    
+    
+</head>
+<body style="display:none">
+    {% include 'header.html' %}
+    <link rel="stylesheet" href="static/styles.css">
+    <div class="header">
+        
+        <h1>Pantry</h1>
+    </div>
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F4F2DD;
+            color: #315E26;
+            display:block !important;
+        }
+
+
+        p {
+            font-size: 20px;
+            margin-top: 20px;
+            text-align: center;
+            color: #315E26;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .search {
+            display: inline-block;
+            position: relative;
+            width: 50%;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #315E26;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            padding: 12px;
+            background: #f3d9c6;
+            border: 2px solid #315E26;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown ul li {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #315E26;
+            color: #315E26;
+            font-size: 1em;
+        }
+
+        .dropdown ul li:hover {
+            background-color: #F4F2DD;
+        }
+
+                .top-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .top-buttons .button-group {
+            display: inline-flex;
+            gap: 20px;
+        }
+
+        .top-buttons button {
+            background-color: #f3d9c6;
+            color: #824A1A;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .top-buttons button:hover {
+            background-color: #F2CBBE;
+            color: #824A1A;
+            transform: scale(1.05);
+            outline: 3px solid #824A1A;
+        }
+
+        .clear-all-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .clear-all-container button {
+            background-color: #f3d9c6;
+            color: #824A1A;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .clear-all-container button:hover {
+            background-color: #F2CBBE;
+            color: #824A1A;
+            transform: scale(1.05);
+            outline: 3px solid #824A1A;
+        }
+
+        .pantry-container {
+            text-align: center;
+            margin: 50px auto;
+            width: 40%;
+        }
+
+        .pantry-container h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #315E26;
+        }
+
+        .pantry-table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid #315E26;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #315E26;
+        }
+
+        th {
+            background-color: #315E26;
+            color: #f3d9c6;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            border-radius: 20px 20px 0 0;
+        }
+
+        td {
+            font-size: 1em;
+            color: #315E26;
+        }
+
+        button.remove-button {
+            background-color: #f3d9c6;
+            color: #824A1A;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 15px;
+            float: right;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button.remove-button:hover {
+            background-color: #F2CBBE;
+            color: #824A1A;
+            outline: 3px solid #824A1A;
+        }
+        .header {
+            position: relative; 
+            text-align: center;
+            color: #315E26;
+        }
+
+        .header h1 {
+            font-size: 50px;
+            margin: 30px;
+            color: #315E26;
+        }
+    </style>
+
+
+    <div class="search-container">
+        <p>Search for ingredients to add to your pantry (ie egg, butter, sugar), and select items from the dropdown!</p>
+        <h4>We will assume you already have salt and pepper on hand!</h4>
+        <div class="search">
+            <input type="text" id="SearchBox" oninput="filterOut()" placeholder="Search for ingredients (ie egg, sugar, butter)" autocomplete="off">
+            <div class="dropdown" id="dropdown">
+                <ul id="Ingredients">
+                    {% for ingredient in ingredients %}
+                        <li data-ingredient="{{ingredient}}">{{ingredient}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-buttons">
+        <div class="button-group">
+            <form action="/recommended_recipes">
+                <input type="hidden" id="ing" name="ingredients" value="">
+                <button id="recommend-button">Recommend Recipes</button>
+            </form>
+            <form action="/all_recipes">
+                <button id="all-recipes-button">View All Recipes</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="clear-all-container">
+        <button id="clear-all-button">Clear All Pantry</button>
+    </div>
+
+    <div class="pantry-container">
+        <h2>Your Pantry Items</h2>
+        <div class="pantry-table-container">
+            <table id="pantry-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pantry_items %}
+                        <tr>
+                            <td>
+                                {{ item }}
+                                <button class="remove-button">Remove</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const removeButtons = document.querySelectorAll(".remove-button");
+            removeButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const row = button.closest("tr");
+                    removeFromPantry(row);
+                });
+            });
+
+            document.getElementById("clear-all-button").addEventListener("click", clearAllPantry);
+
+            document.addEventListener("click", function (event) {
+                const dropdown = document.getElementById("dropdown");
+                const searchBox = document.getElementById("SearchBox");
+
+                if (!dropdown.contains(event.target) && event.target !== searchBox) {
+                    dropdown.style.display = "none";
+                }
+            });
+        });
+
+        document.getElementById("recommend-button").addEventListener("click", function () {
+            const pantryItems = getPantryItems();
+            document.getElementById("ing").value = JSON.stringify(pantryItems);
+        });
+
+        function filterOut() {
+            const filter = document.getElementById("SearchBox").value.toUpperCase();
+            const li = document.getElementById("Ingredients").getElementsByTagName("li");
+            const dropdown = document.getElementById("dropdown");
+            let hasVisibleItems = false;
+
+            for (let i = 0; i < li.length; i++) {
+                if (li[i].textContent.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                    hasVisibleItems = true;
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+
+            dropdown.style.display = hasVisibleItems ? "block" : "none";
+        }
+
+        document.getElementById("Ingredients").addEventListener("click", function (event) {
+            if (event.target.tagName === "LI") {
+                const item = event.target.getAttribute("data-ingredient");
+                addToPantry(item);
+                document.getElementById("SearchBox").value = "";
+                document.getElementById("dropdown").style.display = "none";
+            }
+        });
+
+        function addToPantry(item) {
+            const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+            const rows = pantryTable.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i].cells[0].textContent.trim().replace("Remove", "").trim() === item) {
+                    alert(`${item} is already in your pantry.`);
+                    return;
+                }
+            }
+
+            const row = document.createElement("tr");
+            const itemCell = document.createElement("td");
+            const itemText = document.createTextNode(item);
+            const removeButton = document.createElement("button");
+
+            removeButton.textContent = "Remove";
+            removeButton.className = "remove-button";
+            removeButton.addEventListener("click", function () {
+                removeFromPantry(row);
+            });
+
+            itemCell.appendChild(itemText);
+            itemCell.appendChild(removeButton);
+            row.appendChild(itemCell);
+            pantryTable.appendChild(row);
+
+            savePantryItems();
+        }
+
+        function removeFromPantry(row) {
+            const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+            pantryTable.removeChild(row);
+            savePantryItems();
+        }
+
+        function clearAllPantry() {
+            if (confirm("Are you sure you want to clear all pantry items?")) {
+                const pantryTable = document.getElementById("pantry-table").getElementsByTagName("tbody")[0];
+                pantryTable.innerHTML = "";
+                savePantryItems();
+            }
+        }
+
+        function savePantryItems() {
+            const pantryItems = getPantryItems();
+            fetch('/pantry/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'pantry_items': pantryItems })
+            });
+        }
+
+        function getPantryItems() {
+            const rows = document.querySelectorAll("#pantry-table tbody tr");
+            return Array.from(rows).map(row =>
+                row.cells[0].textContent.trim().replace("Remove", "").trim()
+            );
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.drop-button')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+            if (!event.target.matches('.drop-profile-button')) {
+                var profileDropdowns = document.getElementsByClassName("dropdown-profile-content");
+                for (var i = 0; i < profileDropdowns.length; i++) {
+                    var openProfileDropdown = profileDropdowns[i];
+                    if (openProfileDropdown.classList.contains('show')) {
+                        openProfileDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
