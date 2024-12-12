@@ -65,4 +65,4 @@ df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/FINA
 new_df = correct_url(df)
 new_df = correct_prep_cook(new_df)
 
-new_df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/corrected_recipes_servings_data.csv', index=False)
+new_df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/FINAL_recipes_servings_data.csv', index=False)

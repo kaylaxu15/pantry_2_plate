@@ -13,6 +13,7 @@ import cloudinary
 import cloudinary.uploader
 import re
 
+# add reviews field to database
 db = DatabaseClient.DatabaseClient()
 users_collection = db["Users"]
 users_collection.updateMany({}, {"$set":{"reviews": {}}}) 

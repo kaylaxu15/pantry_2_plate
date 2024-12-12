@@ -44,7 +44,6 @@ def pantry_page():
     username = auth.authenticate()
     ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     ingredients = ingredients.values.tolist()
-    # ingredients = db.get_pantry_ingredients()
     ingredients = np.squeeze(ingredients)
     pantry_items = db.get_user_inventory(username)
     return render_template('pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
@@ -266,7 +265,7 @@ def completed():
 
     if recipe_id not in completed:
         completed.append(recipe_id)
-        print(db.update_user_completed(username, completed))
+        db.update_user_completed(username, completed)
 
 
     full_completed = []

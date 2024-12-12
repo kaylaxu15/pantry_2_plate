@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify, render_template
-import html 
-import dotenv 
 import cloudinary 
 
 from p2p import app
