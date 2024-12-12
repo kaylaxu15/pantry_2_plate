@@ -38,6 +38,7 @@ def index():
 @app.route('/welcome_page', methods=['GET', 'POST'])
 def welcome_page():
     username = auth.authenticate()
+    db.insert_user(emailId=username, password='')
     # if 'username' not in session:
     #     session['username'] = auth.authenticate()
     # username = session['username']
@@ -47,7 +48,6 @@ def welcome_page():
 @app.route('/pantry', methods=['GET'])
 def pantry_page():
     username = auth.authenticate()
-    db.insert_user(emailId=username, password='')
     ingredients = pd.read_csv('webscraping/output/ingredients_list.csv')
     ingredients = ingredients.values.tolist()
     # ingredients = db.get_pantry_ingredients()

@@ -86,13 +86,18 @@ def extract(pages, sleep_timer):
             except:
                 number_of_review = np.nan
             try:
-                prep_time = soup.find('li', {'class': 'body-copy-small list-item'}).text
-            except:
-                prep_time = np.nan
-            try:
-                cook_time = soup.find_all('li', {'class': 'body-copy-small list-item'})[2].text
+                times = soup.find_all('li', {'class': 'body-copy-small list-item'})
+
+                if len(times) == 2:
+                    for idx, time in enumerate(times):
+                        t = time.find('time')
+                        if idx == 0:
+                            prep_time = t.text
+                        else:
+                            cook_time = t.text
             except:
                 cook_time = np.nan
+                prep_time = np.nan
                 
             try: 
                 images = soup.find_all('img', {'class':'image__img'})

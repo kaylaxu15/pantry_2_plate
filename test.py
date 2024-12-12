@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-url = "https://www.bbcgoodfood.com/recipes/chocolate-chip-muffins"
+url = "https://www.bbcgoodfood.com/recipes/cheats-banana-peanut-brittle-ice-cream"
 html = requests.get(url)
 soup = BeautifulSoup(html.text, 'html.parser')
 
@@ -37,7 +37,21 @@ for img in images:
     if title == 'Chocolate chip muffins':
         imageURL = img['src']
         print(imageURL)
-    
+
+times = soup.find_all('li', {'class': 'body-copy-small list-item'})
+
+if len(times) == 2:
+    for idx, time in enumerate(times):
+        t = time.find('time')
+        if idx == 0:
+            prep_time = t.text
+        else:
+            cook_time = t.text
+
+print(cook_time)
+print(prep_time)
+
+        
 
 
 
