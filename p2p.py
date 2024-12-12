@@ -1,9 +1,8 @@
 import flask
-from flask import Flask, render_template, session, jsonify, request, make_response, redirect, url_for
+from flask import render_template, session, jsonify, request, make_response, redirect, url_for
 import DatabaseClient
 import pandas as pd
 import numpy as np
-import json
 from urllib.parse import unquote
 import dotenv
 import auth
@@ -12,7 +11,6 @@ from top import app
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-import re
 from flask_paginate import Pagination, get_page_parameter
 
 db = DatabaseClient.DatabaseClient()
@@ -31,17 +29,13 @@ cloudinary.config(
 @app.route('/?', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    #username = auth.authenticate()
-    #db.insert_user(emailId=username, password='')
     return render_template('landing_page.html')
 
 @app.route('/welcome_page', methods=['GET', 'POST'])
 def welcome_page():
     username = auth.authenticate()
     db.insert_user(emailId=username, password='')
-    # if 'username' not in session:
-    #     session['username'] = auth.authenticate()
-    # username = session['username']
+
     name = session['name']
     return render_template('welcome_page.html', username=username, name=name)
 
@@ -53,7 +47,7 @@ def pantry_page():
     # ingredients = db.get_pantry_ingredients()
     ingredients = np.squeeze(ingredients)
     pantry_items = db.get_user_inventory(username)
-    return render_template('prototype_pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
+    return render_template('pantry.html', ingredients=ingredients, pantry_items = pantry_items, username=username)
 
 @app.route('/pantry/save', methods=['POST'])
 def save_pantry_items():
@@ -109,7 +103,7 @@ def results_page():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
+    resp = make_response(render_template('recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=True, 
                                          user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions,
                                          prev_skill=skill, prev_max_time=max_time))
     if skill: resp.set_cookie('prev_skill', skill)
@@ -155,10 +149,8 @@ def all_recipes():
     extended_results = False
     if indicator == 1:
         extended_results = True
-    
-    # print(recipes)
-    # add paging
 
+    # pagination
     per_page = 20
     try:
         page = int(request.args.get('page', 1))
@@ -168,7 +160,7 @@ def all_recipes():
     rpart = recipes[offset:offset+per_page]
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
-    resp = make_response(render_template('prototype_recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
+    resp = make_response(render_template('recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
                            user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
                            prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
@@ -190,7 +182,7 @@ def recipe_page():
     if recipe is None:
         return render_template('error.html')
     
-    return render_template('prototype_recipe_page.html', recipe=recipe, username=username)
+    return render_template('recipe_page.html', recipe=recipe, username=username)
 
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
@@ -239,53 +231,6 @@ def remove_from_wishlist():
 
     return redirect(url_for('wishlist'))
 
-@app.route('/groceries', methods=['GET'])
-def groceries_display():
-    username = auth.authenticate()
-    groceryList = session['groceryList']
-    return render_template('grocery_list.html', groceryList=groceryList, username=username)
-
-@app.route('/add_to_groceries', methods=['POST']) 
-def add_to_groceries():
-    groceries = flask.request.form['groceries']
-    
-    #print("GROCERIES", groceries)
-    groceries = groceries.replace("\'", "\"")
-    ing_list = json.loads(groceries)
-
-    if 'username' not in session:
-        session['username'] = auth.authenticate()
-    username = session['username']
-    if 'groceryList' not in session:
-        session['groceryList'] = db.get_user_grocerylist(username)
-    groceryList = session['groceryList']
-
-    for ingredient in ing_list:
-        if ingredient not in groceryList:
-            groceryList.append(ingredient)
-    db.update_user_grocerylist(username, groceryList)
-    session['groceryList'] = groceryList
-    
-    return render_template('grocery_list.html', groceryList=groceryList, username=username)
-
-# update grocery list in session
-@app.route('/remove_from_groceries', methods=['POST'])
-def remove_from_groceries():
-    if 'username' not in session:
-        session['username'] = auth.authenticate()
-    username = session['username']
-    
-    item = request.get_json()
-    if 'groceryList' not in session:
-        session['groceryList'] = db.get_user_grocerylist(username)
-    groceryList = session['groceryList']
-
-    if item in groceryList:
-        groceryList.remove(item)
-    db.update_user_grocerylist(username, groceryList)
-    session['groceryList'] = groceryList
-    
-
 @app.route('/profile_page', methods=['GET', 'POST'])
 def profile_page():
     username = auth.authenticate()
@@ -321,24 +266,19 @@ def completed():
 
     if recipe_id not in completed:
         completed.append(recipe_id)
-        # print(completed)
         print(db.update_user_completed(username, completed))
 
-    # print(db.get_user_completed(username))
-    # for i, x in enumerate(completed):
-    #     print(i, ": ", x)  # PRINT HERE
 
     full_completed = []
     for r_id in completed:
         recipe = db.return_recipe(r_id)
     
         if recipe:
-            # print(recipe)  # PRINT HERE
             full_completed.append(recipe)
 
     reviews = db.get_user_reviews(username)
 
-    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
+    return render_template('finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
 @app.route('/favorites', methods=['GET', 'POST'])
 def favorites():
@@ -355,21 +295,13 @@ def favorites():
             db.update_user_favRecipes(username, favRecipes)
             session['favRecipes'] = favRecipes
             
-    # recipe_id = flask.request.form.get('recipe_id')
-
-    # if recipe_id not in favRecipes:
-    #     favRecipes.append(recipe_id)
-    #     db.update_user_favRecipes(username, favRecipes)
-    #     session['favRecipes'] = favRecipes
-        
-    
     full_favRecipes = []
     for r_id in favRecipes:
         recipe = db.return_recipe(r_id)
         if recipe:
             full_favRecipes.append(recipe)
 
-    return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
+    return render_template('favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
 @app.route('/remove_from_favorites', methods=['POST'])
 def remove_from_favorites():
@@ -391,7 +323,7 @@ def remove_from_favorites():
         if recipe:
             full_favRecipes.append(recipe)
 
-    return render_template('prototype_favorite_recipes.html', favRecipes=full_favRecipes, username=username)
+    return render_template('favorite_recipes.html', favRecipes=full_favRecipes, username=username)
 
 @app.route('/add_review', methods=['POST'])
 def add_review():
@@ -408,7 +340,7 @@ def add_review():
 
     
     full_completed = db.get_user_completed(username)
-    return render_template('prototype_finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
+    return render_template('finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
 @app.errorhandler(404)
 def page_not_found(e):

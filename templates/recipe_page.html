@@ -53,18 +53,7 @@
     </div>
 </body>
 <script>
-    function rating(recipe) {
-        'use strict';
-        let html = "";
-        for (let i = 0; i < 5; i++) {
-            if (i < recipe['rating'][0]) {
-                html += '<span class="fa fa-star checked"></span>';
-            } else {
-                html += '<span class="fa fa-star"></span>';
-            }
-        }
-        document.getElementById('ratings').innerHTML = html;
-    }
+
     function addToCompleted(event) {
             event.preventDefault(); 
 

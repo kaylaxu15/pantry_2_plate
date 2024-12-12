@@ -148,29 +148,8 @@
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
-        // const textBox = document.getElementById("reviewText");
-
-        // const button = document.getElementById("review_button");
-
-        // textBox.addEventListener('click', (event) => {
-        //     event.stopPropagation(); // Prevents click event from bubbling up to parent container
-        //     button.style.display = "block"; 
-
-        // });
- 
-        // button.addEventListener('click', (event) => {
-        //     event.stopPropagation(); // Prevents click event from bubbling up to parent container
-        //     button.style.display = "none"; 
-
-        // });
-
-        // button.addEventListener('click', (event) => {
-        //         event.stopPropagation(); // Prevents click event from bubbling up to parent container
-        //         button.style.display = "none"; 
-
-        //     });
         
-
+        // close modal if you click anywhere outside of it
         window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
@@ -202,7 +181,7 @@
                 }
             }
         }
-
+        // add recipe to favorites
         function addToFavorites(event) {
             event.preventDefault();
             event.stopPropagation(); 
@@ -229,7 +208,7 @@
         }
 
         
-
+        // add user review to a recipe
         function addReview(event) {
            event.preventDefault();
 
@@ -260,21 +239,6 @@
 
            request.send(formData);
        }
-
-        function deleteBox(recipeID) {
-            const button = document.getElementById("{{recipeID}}review_button");
-            button.style.display = "none"; 
-            console.log("Now it's gone")
-
-        }
-
-        function openButton(recipeID) {
-            const button = document.getElementById("{{recipeID}}review_button");
-            button.style.display = "block"; 
-            console.log("Should be visible now")
-
-        }
-
 
         function searchRecipes() {
             var searchRequest = null;
