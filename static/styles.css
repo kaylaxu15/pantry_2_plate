@@ -21,6 +21,18 @@ textarea:focus::placeholder {
     background-color: #45a049;
 }
 
+.blurb-container {
+    width: 90%; 
+    max-width: 700px;
+    padding: 20px;
+    text-align: center;
+    z-index: 1000;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .inline-box {
     display: inline-block;
     position: relative; 
