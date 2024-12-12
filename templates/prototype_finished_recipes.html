@@ -63,7 +63,7 @@
                 <div class="reviewbox">
                     <form id="reviewForm" onsubmit="addReview(event);" method="post" onclick="event.stopPropagation();">
                         {% set recipeID = recipe._id | string %}
-                        <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" name="{{recipe._id}}" class="review-textarea" style="overflow:scroll;" placeholder="{{reviews[recipeID]}}" required ></textarea>
+                        <textarea id="reviewText" name="review" value="{{reviews[recipeID]}}" name="{{recipe._id}}" class="review-textarea" style="overflow:scroll;" placeholder="{{reviews[recipeID]}}"  required></textarea>
                         <input type="hidden" name="recipe_id" value="{{recipe._id}}">
                         <br></br>
                         <button class="submit-button" id="review_button" name="saveBtn" style = "font-size: 12px;">Save Changes</button>
