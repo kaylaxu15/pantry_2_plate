@@ -11,7 +11,7 @@
 <body>
     <h1>Your Favorite Recipes</h1>
     <div class="search-box">
-        <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title">
+        <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title" autocomplete="off">
         <button onclick="searchRecipes()" class="search-button">Search</button>
         <button class="submit-button" onclick="document.getElementById('search-input').value = ''; searchRecipes()">Clear Search</button>
     </div>

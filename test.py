@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import numpy as np
 
-url = "https://www.bbcgoodfood.com/recipes/cheats-banana-peanut-brittle-ice-cream"
+url = "https://www.bbcgoodfood.com/recipes/mustard-apple-glazed-ham"
 html = requests.get(url)
 soup = BeautifulSoup(html.text, 'html.parser')
 
@@ -30,13 +31,63 @@ for nested_soup in method_items:
             methods.append(str(p.text))
 
 images = soup.find_all('img', {'class':'image__img'})
-# print("THE LI_TAGS ARE", li_tags)
-for img in images:
-    title = img['title']
+recipe_title = "Mustard & apple glazed ham"
 
-    if title == 'Chocolate chip muffins':
-        imageURL = img['src']
-        print(imageURL)
+found = False
+picture_urls = []
+for i in images:
+    name = i['title']
+    actual_words = recipe_title.split(' ')
+    print("ACTUAL", actual_words[-1])
+    print("TITLE", name)
+    try: 
+        itemname = i['data-item-name']
+    except:
+        itemname = ''
+
+    image_url = i['src']
+    
+    if name == recipe_title:
+        picture_urls.append(image_url)
+        found=True
+        print(recipe_title, ": ", image_url)
+        break
+    elif name == recipe_title + "s":
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif re.search(actual_words[-1], name, re.IGNORECASE):
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif re.search(actual_words[0], name, re.IGNORECASE):
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif re.search(actual_words[1], name, re.IGNORECASE): 
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif re.search(actual_words[0], itemname, re.IGNORECASE) or re.search(actual_words[-1], itemname, re.IGNORECASE):
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif name == recipe_title.replace("&", "and"):
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+    elif name == recipe_title.replace("Air fryer", "Air-fryer"):
+        picture_urls.append(image_url)
+        found= True
+        print(recipe_title, ": ", image_url)
+        break
+
 
 times = soup.find_all('li', {'class': 'body-copy-small list-item'})
 

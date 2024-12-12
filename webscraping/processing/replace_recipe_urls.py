@@ -8,72 +8,80 @@ def correct_url(df):
     picture_urls = []
     for idx, row in df.iterrows():
         url = row['recipe_urls']
+        title = row['title']
         
-        url = url[url.rfind("https://"):]   # FIXME (deals with some http issues)
-        recipe_title = row['title'].lower()
+        #recipe_title = row['title'].lower()
         html = requests.get(url)
         soup = BeautifulSoup(html.text, 'html.parser')
 
+        images = soup.find_all('img', {'class':'image__img'})
+        pic_url = images[2]['src']
+        picture_urls.append(pic_url)
+        print(idx, title, pic_url)
+
         #print(recipe_title)  # debugging
 
-        try: 
-            images = soup.find_all('img', {'class':'image__img'})
+        # try: 
+        #     images = soup.find_all('img', {'class':'image__img'})
             
-            found = False
-            for img in images:
-                title = img['title'].lower()
+        #     found = False
+        #     for idx, i in enumerate(images):
+        #         name = i['title'].lower()
+        #         actual_words = recipe_title.split(' ')
 
-                actual_words = recipe_title.split(' ')
-                itemname = img['data-item-name']
+        #         try: 
+        #             itemname = i['data-item-name']
+        #         except:
+        #             itemname = ''
 
-                image_url = img['src']
+        #         image_url = i['src']
                 
-                if title == recipe_title:
-                    picture_urls.append(image_url)
-                    found=True
-                    print(idx,recipe_title, ": ", image_url)
-                    break
-                elif title == recipe_title + "s":
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif title == recipe_title.replace("&", "and"):
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif title == recipe_title.replace("Air fryer", "Air-fryer"):
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif re.search(actual_words[-1], title, re.IGNORECASE):
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif re.search(actual_words[0], title, re.IGNORECASE):
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif re.search(actual_words[1], title, re.IGNORECASE): 
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
-                elif re.search(actual_words[0], itemname, re.IGNORECASE) or re.search(actual_words[-1], itemname, re.IGNORECASE):
-                    picture_urls.append(image_url)
-                    found= True
-                    print(idx, recipe_title, ": ", image_url)
-                    break
+        #         if name == recipe_title:
+        #             picture_urls.append(image_url)
+        #             found=True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif name == recipe_title + "s":
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif re.search(actual_words[-1], name, re.IGNORECASE):
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif re.search(actual_words[0], name, re.IGNORECASE):
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif re.search(actual_words[1], name, re.IGNORECASE): 
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif re.search(actual_words[0], itemname, re.IGNORECASE) or re.search(actual_words[-1], itemname, re.IGNORECASE):
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif name == recipe_title.replace("&", "and"):
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
+        #         elif name == recipe_title.replace("Air fryer", "Air-fryer"):
+        #             picture_urls.append(image_url)
+        #             found= True
+        #             print(idx, recipe_title, ": ", image_url)
+        #             break
 
-            if not found:
-                print(idx, "NOT FOUND ", recipe_title, ": ", image_url)
+        #     if not found:
+        #         print(idx, "NOT FOUND ", recipe_title, ": ", image_url)
             
-        except:
-            picture_urls.append(np.nan)
+        # except:
+        #     picture_urls.append(np.nan)
 
     picture_urls = pd.Series(picture_urls)
     df['picture_url'] = picture_urls
@@ -119,9 +127,9 @@ def correct_prep_cook(df):
     df['prep_time'] = prep_times
     return df
 
-df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-11-27_final_recipes_servings_data.csv')
-new_df = correct_prep_cook(df)
-#new_df = correct_url(df)
+df = pd.read_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/FINAL_recipes_servings_data.csv')
+#new_df = correct_prep_cook(df)
+new_df = correct_url(df)
 #new_df = correct_prep_cook(new_df)
 
-new_df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/2024-12-11-final_recipes_servings_data.csv', index=False)
+new_df.to_csv('/Users/kaylaxu/princeton_plate_planner/webscraping/output/corrected_recipes_servings_data.csv', index=False)

@@ -224,7 +224,7 @@
         <p>Search for ingredients to add to your pantry (ie egg, butter, sugar), and select items from the dropdown!</p>
         <h4>We will assume you already have salt and pepper on hand!</h4>
         <div class="search">
-            <input type="text" id="SearchBox" oninput="filterOut()" placeholder="Search for ingredients (ie egg, sugar, butter)">
+            <input type="text" id="SearchBox" oninput="filterOut()" placeholder="Search for ingredients (ie egg, sugar, butter)" autocomplete="off">
             <div class="dropdown" id="dropdown">
                 <ul id="Ingredients">
                     {% for ingredient in ingredients %}

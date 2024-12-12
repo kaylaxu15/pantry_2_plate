@@ -48,7 +48,7 @@
                 {% if query %}
                 <input type="text" id="search-input" name="search" value="{{ query }}">
                 {% else %}
-                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title...">
+                <input type="text" id="search-input" name="search" placeholder="Search for recipes by title..." autocomplete="off">
                 {% endif %}
                 <button type='submit' onclick="searchRecipes()" class="search-button">Search</button>
             </form>

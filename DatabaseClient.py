@@ -390,7 +390,7 @@ if __name__ == "__main__":
     
     db.delete_all_recipes()
     # inserting the recipes into the database
-    df = pd.read_csv("webscraping/output/2024-11-27_final_recipes_servings_data.csv")
+    df = pd.read_csv("webscraping/output/FINAL_recipes_servings_data.csv")
     nlp_model = NLP.NLP()
     p = inflect.engine()
     i = 0
