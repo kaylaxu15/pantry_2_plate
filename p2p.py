@@ -3,7 +3,6 @@ from flask import render_template, session, jsonify, request, make_response, red
 import DatabaseClient
 import pandas as pd
 import numpy as np
-from urllib.parse import unquote
 import dotenv
 import auth
 import os
@@ -11,8 +10,9 @@ from top import app
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-from flask_paginate import Pagination, get_page_parameter
+from flask_paginate import Pagination
 import html
+import re
 
 db = DatabaseClient.DatabaseClient()
 
@@ -124,8 +124,11 @@ def all_recipes():
     clear = flask.request.args.get('clear', type=str)
     clearFilter = flask.request.args.get('clearFilter', type=str)
     query = flask.request.args.get('search', type = str)
+    original_query = query
+
     if query: 
         query = html.escape(query)  # escape to prevent XSS attacks
+        query = query.replace("$", "")  # strip $ to avoid SQL injection
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
     # if filters are cleared
@@ -140,7 +143,12 @@ def all_recipes():
     if clear == 'True':
         query = None
     else:
-        if not query: query = flask.request.cookies.get('prev_query')
+        if not query: 
+            query = flask.request.cookies.get('prev_query')
+            original_query = query
+            if query: 
+                query = html.escape(query)  # escape to prevent XSS attacks
+                query = query.replace("$", "")  # strip $ to avoid SQL injection
         
     if max_time:
         try:
@@ -177,13 +185,13 @@ def all_recipes():
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
     resp = make_response(render_template('recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
-                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=query,
+                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=original_query,
                            prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
     if max_time: resp.set_cookie('prev_max_time', str(max_time))
     else: resp.delete_cookie('prev_max_time')
-    if query: resp.set_cookie('prev_query', query)
+    if query: resp.set_cookie('prev_query', original_query)
     else: resp.delete_cookie('prev_query')
     return resp
 

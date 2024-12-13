@@ -239,7 +239,6 @@ class DatabaseClient:
         if not search:
             search = ''
         query = {}
-        search = "/*" + search + "/*"
 
         if skill == "Beginner":
             skill = "Easy"
