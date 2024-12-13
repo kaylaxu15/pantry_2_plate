@@ -27,17 +27,17 @@
             {% endif %}
     </div>
 
-    {% if recommended %}
-        <div class="pantry-summary" style="text-align: center;">
-            {% if pantry_items %}
-                <p style="font-size: 20px;"><strong>The pantry items you have added so far:</strong> 
-                    {{ pantry_items|join(', ') }}
-                </p>
-            {% else %}
-                <p style="font-size: 20px;">No pantry items available.</p>
-            {% endif %}
-        </div>
-    {% endif %}
+
+    <div class="pantry-summary" style="text-align: center;">
+        {% if pantry_items %}
+            <p style="font-size: 20px;"><strong>What you have in your pantry:</strong> 
+                {{ pantry_items|join(', ') }}
+            </p>
+        {% else %}
+            <p style="font-size: 20px;">No pantry items available.</p>
+        {% endif %}
+    </div>
+
     {% if not recommended %}
     <p style = "text-align: center; font-size: medium;">All recipes are displayed. To change your dietary restrictions, please visit your profile!</p>
     {% endif %}
@@ -147,16 +147,14 @@
                         {% endfor %}
                         <br></br>
                     {% endif %}
-                    
-                    {% if recommended %}
-                        {% if recipe.missing_count == 0 %}
-                        <strong>All Good to Go!</strong>
-                        {% else %}
-                        <strong># Missing Ingredients:</strong> {{recipe.missing_count}}
-                        {% endif %}
-                    <br></br>
-                    {% endif %}
 
+                    {% if recipe.missing_count == 0 %}
+                    <strong>All Good to Go!</strong>
+                    {% else %}
+                    <strong># Missing Ingredients:</strong> {{recipe.missing_count}}
+                    {% endif %}
+                    <br></br>
+                    
                     <strong>Time needed:</strong> {{recipe.total_time}} minutes
                     <br></br>
                     {% if recipe.servings != "" and recipe.servings == recipe.servings %}
@@ -207,13 +205,10 @@
                             <br></br>
                         {% endif %}
 
-
-                        {% if recommended %}
-                            {% if recipe.missing_count == 0 %}
-                                <h3><strong>All Good to Go!</strong></h3>
-                            {% else %}
-                                <h3><strong># Missing Ingredients: </strong>{{recipe.missing_count}}</h3>
-                            {% endif %}
+                        {% if recipe.missing_count == 0 %}
+                            <h3><strong>All Good to Go!</strong></h3>
+                        {% else %}
+                            <h3><strong># Missing Ingredients: </strong>{{recipe.missing_count}}</h3>
                         {% endif %}
 
                         <h3><strong>Time needed:</strong> {{ recipe.total_time }} minutes</h3>
@@ -244,23 +239,20 @@
                                 <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
-                        
-                        {% if recommended %}
-                            <h3>Matched Ingredients</h3>
+                        <h3>Matched Ingredients</h3>
+                        <ul>
+                            {% for ingredient in recipe.matching_ingredients %}
+                                <li>{{ ingredient }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        {% if recipe.unmatching_ingredients %}
+                            <h3>Unmatched Ingredients</h3>
                             <ul>
-                                {% for ingredient in recipe.matching_ingredients %}
+                                {% for ingredient in recipe.unmatching_ingredients %}
                                     <li>{{ ingredient }}</li>
                                 {% endfor %}
                             </ul>
-
-                            {% if recipe.unmatching_ingredients %}
-                                <h3>Unmatched Ingredients</h3>
-                                <ul>
-                                    {% for ingredient in recipe.unmatching_ingredients %}
-                                        <li>{{ ingredient }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
                         {% endif %}
                         </div>
                         <div class="modal-footer">

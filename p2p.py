@@ -117,6 +117,12 @@ def results_page():
 @app.route('/all_recipes', methods=['GET', 'POST'])
 def all_recipes():
     username = auth.authenticate()
+    pantry_items = db.get_user_inventory(username)
+    pantry_items.append("salt")
+    pantry_items.append("sea salt")
+    pantry_items.append("rock salt")
+    pantry_items.append("black pepper")
+    pantry_items = [ingredient.lower() for ingredient in pantry_items]
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     if restrictions is None:
@@ -167,7 +173,7 @@ def all_recipes():
     if query:
         query = html.unescape(query)  # to show the user actual input
 
-    recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    recipes, indicator = db.filter_recipes(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     extended_results = False
     if indicator == 1:
         extended_results = True
@@ -185,7 +191,7 @@ def all_recipes():
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
     resp = make_response(render_template('recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
-                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=original_query,
+                           user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions, query=original_query,
                            prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
