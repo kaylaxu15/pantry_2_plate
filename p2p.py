@@ -12,6 +12,7 @@ import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from flask_paginate import Pagination, get_page_parameter
+import html
 
 db = DatabaseClient.DatabaseClient()
 
@@ -123,6 +124,8 @@ def all_recipes():
     clear = flask.request.args.get('clear', type=str)
     clearFilter = flask.request.args.get('clearFilter', type=str)
     query = flask.request.args.get('search', type = str)
+    if query: 
+        query = html.escape(query)  # escape to prevent XSS attacks
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
     # if filters are cleared
@@ -152,6 +155,9 @@ def all_recipes():
         if skill not in ['Beginner', 'Intermediate', 'Advanced']:
             query = skill = max_time = None
             return render_template('validparam.html', redirect='all_recipes')
+        
+    if query:
+        query = html.unescape(query)  # to show the user actual input
 
     recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     extended_results = False
@@ -348,7 +354,6 @@ def add_review():
     reviews[recipe_id] = review
     db.update_user_reviews(username, reviews)
 
-    
     full_completed = db.get_user_completed(username)
     return render_template('finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
 
