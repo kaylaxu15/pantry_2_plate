@@ -233,8 +233,9 @@ class DatabaseClient:
         ingredient_dict = self.get_all_ingredients()
         return [item['ingredient'] for item in ingredient_dict]
     
-    def filter_recipes(self, skill=None, max_time=None, restrictions=[], search=''):
+    def filter_recipes(self, ingredients, skill=None, max_time=None, restrictions=[], search=''):
         col = self.db["Recipes"] 
+        indicator = None 
 
         if not search:
             search = ''
@@ -261,7 +262,7 @@ class DatabaseClient:
         count = col.count_documents(query)
         if count > 0:
             results = col.find(query)
-            return list(results), 0
+            indicator = 0
         else:
             if skill == 'Easy':
                 skill = ['Easy']
@@ -281,10 +282,25 @@ class DatabaseClient:
             count = col.count_documents(query)
             if count > 0:
                 results = col.find(query)
-                return list(results), 1
+                indicator = 1
             else:
                 results = col.find(query)
-                return list(results), 2
+                indicator = 2
+        results = list(results)
+        modified_results = []
+        for recipe in results:
+            matching_ingredients = []
+            unmatching_ingredients = []
+            for ingredient in recipe["ingredients"]:
+                if ingredient in ingredients:
+                    matching_ingredients.append(ingredient)
+                else:
+                    unmatching_ingredients.append(ingredient)
+            recipe["matching_ingredients"] = matching_ingredients
+            recipe["unmatching_ingredients"] = unmatching_ingredients
+            recipe['missing_count'] = len(unmatching_ingredients)
+            modified_results.append(recipe)
+        return modified_results, indicator 
     
         
     def add_default_ingredients(self, ingredients):

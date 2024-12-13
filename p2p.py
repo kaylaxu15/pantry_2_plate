@@ -117,6 +117,12 @@ def results_page():
 @app.route('/all_recipes', methods=['GET', 'POST'])
 def all_recipes():
     username = auth.authenticate()
+    pantry_items = db.get_user_inventory(username)
+    pantry_items.append("salt")
+    pantry_items.append("sea salt")
+    pantry_items.append("rock salt")
+    pantry_items.append("black pepper")
+    pantry_items = [ingredient.lower() for ingredient in pantry_items]
     user_data = db.get_user(username)
     restrictions = user_data['restrictions']
     if restrictions is None:
@@ -167,7 +173,7 @@ def all_recipes():
     if query:
         query = html.unescape(query)  # to show the user actual input
 
-    recipes, indicator = db.filter_recipes(skill=skill, max_time=max_time, restrictions=restrictions, search=query)
+    recipes, indicator = db.filter_recipes(pantry_items, skill=skill, max_time=max_time, restrictions=restrictions, search=query)
     extended_results = False
     if indicator == 1:
         extended_results = True
