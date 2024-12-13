@@ -121,17 +121,24 @@ def all_recipes():
     if restrictions is None:
         restrictions = []
     clear = flask.request.args.get('clear', type=str)
+    clearFilter = flask.request.args.get('clearFilter', type=str)
     query = flask.request.args.get('search', type = str)
     skill = flask.request.args.get('skill', type = str)
     max_time = flask.request.args.get('time', type = str)
-    if clear == 'True':
-        query = None
+    # if filters are cleared
+    if clearFilter == 'True':
         skill = None
         max_time = None
     else:
-        if not query: query = flask.request.cookies.get('prev_query')
         if not skill: skill = flask.request.cookies.get('prev_skill')
         if not max_time: max_time = flask.request.cookies.get('prev_max_time')
+
+    # if search is cleared
+    if clear == 'True':
+        query = None
+    else:
+        if not query: query = flask.request.cookies.get('prev_query')
+        
     if max_time:
         try:
             max_time = int(max_time)

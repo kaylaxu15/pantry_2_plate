@@ -63,6 +63,11 @@
     <form action="/recommended_recipes" method="get">
         <button class="clear-button" name="clear" value="True">Clear Filter</button>
     </form>
+    {% else %}
+    <form action="/all_recipes" method="get">
+        <button class="clear-button" name="clearFilter" value="True">Clear Filter</button>
+    </form>
+
     {% endif %}
 
     {{ pagination.info }}
