@@ -16,6 +16,7 @@
         <h1>All Recipes</h1> 
     {% endif %}
 
+
     <div class="pantry-summary" style="text-align: center;"></div>
             {% if restrictions %}
                 <p style="font-size: 20px; text-align: center;"><strong>Your current dietary restrictions:</strong> 
@@ -57,7 +58,7 @@
             </form>
         </div>
     {% endif %}
-
+    
     <button class="filter-button" onclick="openFilterModal()">Filter</button>
     {% if recommended %}
     <form action="/recommended_recipes" method="get">
@@ -69,6 +70,10 @@
     </form>
 
     {% endif %}
+
+    <div class="pantry-summary">
+        <p style="font-size: 15px; text-align: center;">Current Filters: {{prev_skill if prev_skill is not none else 'No specified'}} skill level, {{prev_max_time if prev_max_time is not none else 'No specified'}} minutes of availability.</p>
+    </div>
 
     {{ pagination.info }}
     <div class="pagination">
