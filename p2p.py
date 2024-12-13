@@ -96,6 +96,8 @@ def results_page():
     per_page = 20
     try:
         page = int(request.args.get('page', 1))
+        if page > len(recipes)/20 + 1:
+            page = 1
     except ValueError:
         page = 1
     offset = (page-1)*per_page
@@ -153,6 +155,8 @@ def all_recipes():
     per_page = 20
     try:
         page = int(request.args.get('page', 1))
+        if page > len(recipes)/20 + 1:
+            page = 1
     except ValueError:
         page = 1
     offset = (page-1)*per_page
