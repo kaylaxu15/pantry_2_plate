@@ -16,6 +16,10 @@
         <button class="submit-button" onclick="document.getElementById('search-input').value = ''; searchRecipes()">Clear Search</button>
     </div>
 
+    {% if already_in_favorites %}
+    <div id="already-in-favorites" style="display:none;"></div>
+    {% endif %}
+
     <div class="favorite-container">
         {% if favRecipes %}
             {% for recipe in favRecipes %}

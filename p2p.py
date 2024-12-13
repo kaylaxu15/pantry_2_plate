@@ -317,15 +317,15 @@ def favorites():
     if 'username' not in session:
         session['username'] = auth.authenticate()
     username = session['username']
+
     favRecipes = db.get_user_favRecipes(username)
-    
-    # Only try to get recipe_id and update favorites if it's a POST request
-    if flask.request.method == 'POST':
-        recipe_id = flask.request.form.get('recipe_id')
-        if recipe_id and recipe_id not in favRecipes:
-            favRecipes.append(recipe_id)
-            db.update_user_favRecipes(username, favRecipes)
-            session['favRecipes'] = favRecipes
+    recipe_id = flask.request.form.get('recipe_id')
+    already_in_favorites = False
+    if recipe_id in favRecipes:
+        already_in_favorites = True
+    else:
+        favRecipes.append(recipe_id)
+        db.update_user_favRecipes(username, favRecipes)
             
     full_favRecipes = []
     for r_id in favRecipes:
@@ -333,7 +333,7 @@ def favorites():
         if recipe:
             full_favRecipes.append(recipe)
 
-    return render_template('favorite_recipes.html', favRecipes=full_favRecipes, username=username)
+    return render_template('favorite_recipes.html', favRecipes=full_favRecipes, username=username, already_in_favorites = already_in_favorites)
 
 @app.route('/remove_from_favorites', methods=['POST'])
 def remove_from_favorites():
