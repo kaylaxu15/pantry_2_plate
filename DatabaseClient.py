@@ -159,6 +159,23 @@ class DatabaseClient:
             return None
         return col.find_one({"_id": ObjectId(recipe_id)})
     
+    def return_recipe_wishlist(self, ingredients, recipe_id):
+        col = self.db["Recipes"]
+        if not ObjectId.is_valid(recipe_id):
+            return None
+        recipe = col.find_one({"_id": ObjectId(recipe_id)})
+        matching_ingredients = []
+        unmatching_ingredients = []
+        for ingredient in recipe["ingredients"]:
+            if ingredient in ingredients:
+                matching_ingredients.append(ingredient)
+            else:
+                unmatching_ingredients.append(ingredient)
+        recipe["matching_ingredients"] = matching_ingredients
+        recipe["unmatching_ingredients"] = unmatching_ingredients
+        recipe['missing_count'] = len(unmatching_ingredients)
+        return recipe 
+    
     def insert_recipe(self, title, difficulty, vegetarian, vegan, dairy_free, keto, gluten_free, ingredients, picture_url, actual_ingredients, methods, recipe_urls, total_time, makes, servings):
         
         col = self.db["Recipes"]

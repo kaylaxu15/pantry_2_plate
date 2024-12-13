@@ -222,6 +222,12 @@ def wishlist():
     
     wishList = db.get_user_wishlist(username)
     recipe_id = flask.request.form.get('recipe_id')
+    pantry_items = db.get_user_inventory(username)
+    pantry_items.append("salt")
+    pantry_items.append("sea salt")
+    pantry_items.append("rock salt")
+    pantry_items.append("black pepper")
+    pantry_items = [ingredient.lower() for ingredient in pantry_items]
 
     already_in_wishlist = False
     if recipe_id in wishList:
@@ -232,7 +238,7 @@ def wishlist():
     
     full_wishList = []
     for r_id in wishList:
-        recipe = db.return_recipe(r_id)
+        recipe = db.return_recipe_wishlist(pantry_items, r_id)
         if recipe:  
             full_wishList.append(recipe)
     
