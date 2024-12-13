@@ -27,17 +27,17 @@
             {% endif %}
     </div>
 
-    {% if recommended %}
-        <div class="pantry-summary" style="text-align: center;">
-            {% if pantry_items %}
-                <p style="font-size: 20px;"><strong>The pantry items you have added so far:</strong> 
-                    {{ pantry_items|join(', ') }}
-                </p>
-            {% else %}
-                <p style="font-size: 20px;">No pantry items available.</p>
-            {% endif %}
-        </div>
-    {% endif %}
+
+    <div class="pantry-summary" style="text-align: center;">
+        {% if pantry_items %}
+            <p style="font-size: 20px;"><strong>What you have in your pantry:</strong> 
+                {{ pantry_items|join(', ') }}
+            </p>
+        {% else %}
+            <p style="font-size: 20px;">No pantry items available.</p>
+        {% endif %}
+    </div>
+
     {% if not recommended %}
     <p style = "text-align: center; font-size: medium;">All recipes are displayed. To change your dietary restrictions, please visit your profile!</p>
     {% endif %}

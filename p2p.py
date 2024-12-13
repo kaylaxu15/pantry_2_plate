@@ -191,7 +191,7 @@ def all_recipes():
     pagination = Pagination(page=page,per_page=per_page, offset=offset, total=len(recipes), record_name='recipes')
 
     resp = make_response(render_template('recommended_recipes.html', recipes=recipes, rpart=rpart, username=username, recommended=False, 
-                           user_data=user_data, pagination=pagination, restrictions=restrictions, query=original_query,
+                           user_data=user_data, pagination=pagination, pantry_items = pantry_items, restrictions=restrictions, query=original_query,
                            prev_skill=skill, prev_max_time=max_time, extended_results=extended_results))
     if skill: resp.set_cookie('prev_skill', skill)
     else: resp.delete_cookie('prev_skill')
