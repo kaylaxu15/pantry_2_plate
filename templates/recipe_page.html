@@ -65,9 +65,17 @@
 
             request.onload = function() {
                 if (request.status === 200) {
-                    alert("Recipe has been completed!");
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(request.responseText, "text/html");
+                    const duplicate = doc.getElementById("already-in-completed");
+
+                    if (duplicate) {
+                        alert("This recipe is already in your completed!");
+                    } else {
+                        alert("Recipe added to your completed recipes!");
+                    }
                 } else {
-                    alert("Failed to add recipe to completed list. Please try again.");
+                    alert("Failed to add recipe to completed. Please try again.");
                 }
             };
 

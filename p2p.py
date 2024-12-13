@@ -288,10 +288,12 @@ def completed():
     completed = db.get_user_completed(username)
     recipe_id = flask.request.form.get('recipe_id')
 
-    if recipe_id not in completed:
+    already_in_completed = False
+    if recipe_id in completed:
+        already_in_completed = True
+    else:
         completed.append(recipe_id)
         db.update_user_completed(username, completed)
-
 
     full_completed = []
     for r_id in completed:
@@ -302,7 +304,7 @@ def completed():
 
     reviews = db.get_user_reviews(username)
 
-    return render_template('finished_recipes.html', completed=full_completed, username=username, reviews=reviews)
+    return render_template('finished_recipes.html', completed=full_completed, username=username, already_in_completed = already_in_completed, reviews=reviews)
 
 @app.route('/favorites', methods=['GET', 'POST'])
 def favorites():
@@ -334,7 +336,6 @@ def remove_from_favorites():
     username = session['username']
     
     favRecipes = db.get_user_favRecipes(username)
-    
     recipe_id = flask.request.form.get('recipe_id')
 
     if recipe_id in favRecipes:
