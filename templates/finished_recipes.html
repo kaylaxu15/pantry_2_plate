@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Your Finished Recipes</title>
+    <title>Your Completed Recipes</title>
     
 
     
 </head>
 <body>
     {% include 'header.html' %}
-    <h1>Your Finished Recipes</h1>
+    <h1>Your Completed Recipes</h1>
     <div class="search-box">
         <input type="text" id="search-input" name="search" placeholder="Search recipes by tag, skill or title" autocomplete="off">
         <button onclick="searchRecipes()" class="search-button">Search</button>
@@ -140,7 +140,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>Your finished recipes list is empty.</p>
+            <p>Your completed recipes list is empty.</p>
         {% endif %}
 
         
